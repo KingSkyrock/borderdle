@@ -60,9 +60,9 @@ export default class Country extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="flex justify-center">
         <button onClick={()=>this.advance()}>test</button>
-        <svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="1024.000000pt" height="1024.000000pt" viewBox="0 0 1024.000000 1024.000000" preserveAspectRatio="xMidYMid meet">
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="324px" height="324px" viewBox="0 0 1024.000000 1024.000000" preserveAspectRatio="xMidYMid meet">
           <g id="border" transform="translate(0.000000,1024.000000) scale(0.100000,-0.100000)" fill="none" stroke="black" strokeWidth="50px">
           <path d="M4742 10224 c-31 -21 -14 -50 38 -65 35 -11 42 -10 60 6 25 22 25 37 2 58 -23 21 -71 22 -100 1z"/>
 <path d="M4606 10044 c-7 -28 9 -64 28 -64 16 0 26 32 19 59 -8 30 -40 33 -47 5z"/>
