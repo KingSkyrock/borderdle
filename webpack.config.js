@@ -6,6 +6,7 @@ const htmlPlugin = new HtmlWebPackPlugin({
   filename: "./index.html"
 });
 module.exports = {
+  // watch: true,
   entry: "./src/App.js",
   output: {
     path: path.join(__dirname, 'dist'),
