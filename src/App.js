@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import TopBar from './components/TopBar';
+import TopBar from './components/TopBar/TopBar.js';
+import Country from './components/Country/Country.js';
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -15,6 +16,9 @@ class App extends React.Component {
     return (
       <div className="w-screen h-screen bg-cover bg-[#1d8543]">
         <TopBar/>
+        <Country
+          name="placeholder"
+        />
       </div>
     )
   }
