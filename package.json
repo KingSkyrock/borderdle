@@ -5,12 +5,8 @@
   "main": "App.js",
   "scripts": {
     "start": "node server/index.js",
-<<<<<<< HEAD
     "dev": "webpack --mode development && node server/index.js --watch",
-=======
-    "dev": "webpack --mode development && node server/index.js",
     "code": "webpack --watch --mode development",
->>>>>>> 7d582e89f0c5b5ce31fd2854d3068f36495a59f1
     "build": "webpack --mode production",
     "test": "echo \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" && exit 1"
   },
