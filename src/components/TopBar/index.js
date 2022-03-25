@@ -1,9 +1,11 @@
 import React from "React";
+import { BsQuestionSquare } from "react-icons/bs";
 const TopBar = () => {
   return (
 	<div className="lgw flex justify-center">
-		<div className="flex flex-row w-fit border-b-[6px] border-[#195234] py-2">
-			<h3>Border<span className="lgc">dle</span></h3>
+		<div className="flex flex-row w-fit border-b-2 px-3 border-[#195234] ">
+			<BsQuestionSquare size="48"/>
+			<h3 className="tracking-wide">BORDER<span className="lgc">DLE</span></h3>
 		</div>
 	</div>
   );
