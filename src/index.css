@@ -20,7 +20,7 @@
 
 @layer components {
   .lgw {
-    @apply text-6xl font-semibold text-neutral-200 pt-2
+    @apply text-5xl font-semibold text-neutral-200 pt-2
   }
   .lgc {
     @apply font-bold text-[#195234]
