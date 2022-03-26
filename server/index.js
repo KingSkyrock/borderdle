@@ -31,16 +31,30 @@ app.post('/getCountryPath', (req, res) => {
 });
 
 app.post('/checkGuess', (req, res) => {
-  if (req.body.guess.toLowerCase() == countr.toLowerCase()y) {
+  if (req.body.guess.toLowerCase() == country.toLowerCase()) {
     res.send(JSON.stringify({
       result: "CORRECT"
     }));
     res.end();
   } else {
-    res.send(JSON.stringify({
-      result: "VALID" //all guesses going to be valid for now
-    }));
-    res.end();
+    var valid = false;
+    for (var i = 0; i < countries.length; i++) {
+      if (countries[i].name.toLowerCase() == req.body.guess.toLowerCase()) {
+        var valid = true;
+        break;
+      }
+    }
+    if (valid) {
+      res.send(JSON.stringify({
+        result: "VALID"
+      }));
+      res.end();
+    } else {
+      res.send(JSON.stringify({
+        result: "INVALID"
+      }));
+      res.end();
+    }
   }
 
 });
@@ -50,7 +64,9 @@ app.get('*', (req, res) => {
 });
 
 function randomCountry() {
-  console.log(countries[Math.floor(Math.random()*(countries.length-1))].name)
+  var randomCountry = countries[Math.floor(Math.random()*(countries.length-1))].name;
+  console.log(randomCountry);
+  return randomCountry;
 }
 
 app.listen(port, function () {

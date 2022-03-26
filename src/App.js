@@ -43,11 +43,15 @@ class App extends React.Component {
       var result = res.data.result;
       if (result == "VALID") {
         var input = this.state.input;
-        this.setState({input: ""})
+        this.setState({input: ""});
         this.country.current.advance((progress) => {
           var guesses = this.guesses.current.querySelectorAll('div');
-          guesses[Math.round(progress)-1].textContent = input
+          guesses[Math.round(progress)-1].textContent = input.toUpperCase();
         });
+      } else if (result == "CORRECT") {
+        alert(result);
+      } else {
+        alert("Not in country list");
       }
     })
     .catch((error) => {
