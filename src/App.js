@@ -29,6 +29,15 @@ class App extends React.Component {
     })
   }
 
+  testFunction() {
+    axios.post('/getCountryPath').then((res) => {
+      console.log(res.data.paths)
+    })
+    .catch((error) => {
+      alert(error)
+    })
+  }
+
   handleGuess() {
     axios.post('/checkGuess', {guess: this.state.input}, {}).then((res) => {
       var result = res.data.result;
@@ -72,6 +81,7 @@ class App extends React.Component {
               className="flex items-center justify-center pr-1"
             />Enter answer
           </button>
+          <button onClick={()=>this.testFunction()}>sawds</button>
         </div>
       </div>
     )
