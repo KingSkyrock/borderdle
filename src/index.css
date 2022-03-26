@@ -20,10 +20,7 @@
 
 @layer components {
   .lgw {
-    @apply text-5xl font-semibold text-neutral-200 pt-2
-  }
-  .lgc {
-    @apply font-bold text-[#195234]
+    @apply text-4xl font-bold text-neutral-200 pt-2 uppercase tracking-wide text-center
   }
 }
 
