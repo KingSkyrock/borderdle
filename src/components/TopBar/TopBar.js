@@ -1,5 +1,4 @@
 import React from "React";
-import { BiQuestionMark } from "react-icons/bi";
 import InfoBtn from "./InfoBtn.js";
 const TopBar = () => {
   return (
