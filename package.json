@@ -13,6 +13,7 @@
   "author": "me",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.26.1",
     "express": "^4.17.3",
     "gsap": "^3.9.1",
     "prop-types": "^15.8.1",
@@ -26,6 +27,7 @@
     "@teuteuf/react-emoji-render": "^1.2.6",
     "autoprefixer": "^10.4.4",
     "babel-loader": "^8.2.4",
+    "body-parser": "^1.19.2",
     "css-loader": "^5.2.7",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.5.0",
