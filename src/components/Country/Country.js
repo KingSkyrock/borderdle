@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { gsap } from 'gsap'
-import { Twemoji } from "@teuteuf/react-emoji-render";
 
 class Path {
   constructor(border, tl) {
@@ -43,7 +42,7 @@ export default class Country extends React.Component {
     }
   }
 
-  advance() {
+  advance(callback) {
     if (this.progress < 1 && this.timer == null) {
       for (var i = 0; i < this.pathArray.length; i++) {
         this.pathArray[i].tl.resume();
@@ -54,6 +53,7 @@ export default class Country extends React.Component {
         }
         this.progress += 1/6;
         this.timer = null;
+        callback(this.progress*6);
        }, this.duration/6)
      }
   }
@@ -195,27 +195,12 @@ c-131 -38 -143 -36 -164 35 -9 30 -14 35 -38 32 -29 -4 -32 0 -42 60 -5 33
 162 -11 0 -19 -1 -20 -2z"/>
           </g>
         </svg>
-        <div className="grid grid-cols-7 gap-1 text-center">
-          <div className='px-[228px] col-span-7 h-8 bg-[#85e4a8] dark:bg-slate-600 rounded'></div>
-          <div className='px-[228px] col-span-7 h-8 bg-[#85e4a8] dark:bg-slate-600 rounded'></div>
-          <div className='px-[228px] col-span-7 h-8 bg-[#85e4a8] dark:bg-slate-600 rounded'></div>
-          <div className='px-[228px] col-span-7 h-8 bg-[#85e4a8] dark:bg-slate-600 rounded'></div>
-          <div className='px-[228px] col-span-7 h-8 bg-[#85e4a8] dark:bg-slate-600 rounded'></div>
-          <div className='px-[228px] col-span-7 h-8 bg-[#85e4a8] dark:bg-slate-600 rounded'></div>
-        </div>
-        <input maxLength="56" minLength="2" type="text" className="outline-none border-2 border-neutral-100 focus:border-neutral-300 mt-3 w-[464px] h-8 bg-[#3fb66b] dark:bg-slate-600 rounded text-neutral-100 text-lg text-center	placeholder:text-center placeholder:text-green-100 placeholder:text-lg" placeholder="Enter Countries or Territories"></input>
-        <button className="px-[140px] text-neutral-200 rounded font-bold p-1 flex items-center justify-center border-2 uppercase my-0.5 bg-[#126130] hover:bg-[#0f5328] active:bg-[#147236] text-xl" onClick={()=>this.advance()}>
-        <Twemoji  
-          text="🌐"
-          options={{ className: "inline-block" }}
-          className="flex items-center justify-center pr-1"
-        />Enter answer
-        </button>
+
       </div>
     )
   }
 }
 
 Country.propTypes = {
-  name: PropTypes.string.isRequired,
+  paths: PropTypes.array.isRequired,
 };
