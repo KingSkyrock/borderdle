@@ -37,7 +37,6 @@ export default class Country extends React.Component {
 
   componentDidMount() {
     var borders = this.svg.current.querySelectorAll('path');
-    console.log(borders)
     for (var i = 0; i < borders.length; i++) {
       this.pathArray.push(new Path(borders[i], gsap.timeline()))
     }
