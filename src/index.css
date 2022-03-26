@@ -22,5 +22,8 @@
   .lgw {
     @apply text-4xl font-bold text-neutral-200 pt-2 uppercase tracking-wide text-center
   }
+  .modaltext {
+    @apply text-3xl font-semibold text-neutral-200 pt-1 uppercase tracking-normal text-center
+  }
 }
 
