@@ -58,7 +58,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="w-screen h-screen bg-cover bg-[#1d8543]">
+      <div className="w-full h-full bg-cover bg-[#1d8543]">
         <TopBar/>
         <Country
           ref={this.country}

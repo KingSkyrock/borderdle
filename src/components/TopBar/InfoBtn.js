@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactModal from 'react-modal';
 import { Twemoji } from "@teuteuf/react-emoji-render";
+import { BsQuestionSquare } from "react-icons/bs";
 
 export default class InfoBtn extends React.Component {
 	constructor () {
@@ -23,15 +24,16 @@ export default class InfoBtn extends React.Component {
 	
 	render () {
 	  return (
-		<div>
-		  <button onClick={this.handleOpenModal}><Twemoji text="❓"/></button>
+		<>
+		  <button onClick={this.handleOpenModal}><BsQuestionSquare/></button>{/*<Twemoji text="❓"/>*/}
 		  <ReactModal 
 			 isOpen={this.state.showModal}
 			 contentLabel="How to play"
+			 overlayElement="<div>HELLO</div>"
 		  >
 			<button onClick={this.handleCloseModal}>Close Modal</button>
 		  </ReactModal>
-		</div>
+		</>
 	  );
 	}
   }
