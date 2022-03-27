@@ -29,16 +29,29 @@ class App extends React.Component {
     })
   }
 
+  testFunction() {
+    axios.post('/getCountryPath').then((res) => {
+      console.log(res.data.paths)
+    })
+    .catch((error) => {
+      alert(error)
+    })
+  }
+
   handleGuess() {
     axios.post('/checkGuess', {guess: this.state.input}, {}).then((res) => {
       var result = res.data.result;
       if (result == "VALID") {
         var input = this.state.input;
-        this.setState({input: ""})
+        this.setState({input: ""});
         this.country.current.advance((progress) => {
           var guesses = this.guesses.current.querySelectorAll('div');
-          guesses[Math.round(progress)-1].textContent = input
+          guesses[Math.round(progress)-1].textContent = input.toUpperCase();
         });
+      } else if (result == "CORRECT") {
+        alert(result);
+      } else {
+        alert("Not in country list");
       }
     })
     .catch((error) => {
@@ -72,6 +85,7 @@ class App extends React.Component {
               className="flex items-center justify-center pr-1"
             />Enter answer
           </button>
+          <button onClick={()=>this.testFunction()}>sawds</button>
         </div>
       </div>
     )
