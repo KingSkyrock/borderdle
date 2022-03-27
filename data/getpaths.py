@@ -2,10 +2,8 @@ import json
 from urllib.request import urlopen
 import urllib
 xddd={}
-with open("data/cq copy 2.json", 'r+', encoding="utf-8") as svg: 
+with open("borders.json", 'r+', encoding="utf-8") as svg: 
     s=json.load(svg)
-with open("data/cq copy.json", 'r+', encoding="utf-8") as short: 
-    f=json.load(short)
 for x in range(len(s)):
     try:
         url=s[x]["flags"]
@@ -26,7 +24,7 @@ fill="#000000" stroke="none">''',"").replace("""</g>
 </svg>""","").replace("\n\n","").replace("\n"," ").replace('"',"'")
         xddd[f'{s[x]["name"].lower()}']=fg
     except urllib.error.HTTPError:
-        print(f[x]["short"])
+        print(s[x]["capital"])
 # print(xddd)
 with open("paths.json","r+",encoding="utf-8") as xdddddd:
     xdddddd.write(json.dumps(xddd))
