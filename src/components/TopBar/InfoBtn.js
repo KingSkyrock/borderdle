@@ -19,10 +19,10 @@ const modalSize ={
 		minWidth: '350px',
 		borderRadius: '25px',
 		boxShadow: '0px 10px 20px 5px rgba(0, 0, 0, 0.3)',
-		backgroundColor: '1d8543'
+		backgroundColor: '1d8543',
 	},
 	overlay: {
-	   background: 'rgba(0, 0, 0,  0.3)'
+	   background: 'rgba(0, 0, 0,  0.3)',
 	}
 }
 export default class InfoBtn extends React.Component {
@@ -47,15 +47,19 @@ export default class InfoBtn extends React.Component {
 	render () {
 	  return (
 		<>
-		  <button onClick={this.handleOpenModal}><BsQuestionSquare/></button>{/*<Twemoji text="❓"/>*/}
+		  <button className='text-xl' onClick={this.handleOpenModal}><BsQuestionSquare/></button>{/*<Twemoji text="❓"/>*/}
 		  <ReactModal 
 			 isOpen={this.state.showModal}
 			 onRequestClose={this.handleCloseModal}
            	 shouldCloseOnOverlayClick={true}
 			 style={modalSize}
+			//  className="backdrop-blur-lg "
 		  >
 			<div>
-				<h3 className='modaltext'>How to play <span className='tracking-wide text-bold'>BORDER<span className='text-[#195234]'>DLE</span></span></h3>
+				<h1 className='modalmaintext'>How to play</h1>
+				<h3 className='modaltext pt-2'>Guess the <span className='tracking-wide font-bold'>BORDER<span className='text-[#195234]'>DLE</span></span></h3>
+				<h3 className='modaltext'>Each guess must be a valid country name, hit the enter button to submit your answer</h3>
+				<h3 className='modaltext'>After each guess, more of the countries border will get revealed.</h3>
 			</div>
 		  </ReactModal>
 		</>
