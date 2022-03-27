@@ -1,5 +1,7 @@
 import React from "React";
 import InfoBtn from "./InfoBtn.js";
+import SettingsBtn from "./SettingsBtn";
+import StatsBtn from "./StatsBtn";
 const TopBar = () => {
   return (
 	<div className="flex justify-center">
@@ -8,6 +10,9 @@ const TopBar = () => {
 				<span className="text-3xl flex pt-2 items-center"><InfoBtn/></span>
 			</div>
 			<h3 className="lgw tracking-wide px-16">Border<span className="text-[#195234]">DLE</span></h3>
+			<div className="pl-12 flex flex-row content-center justify-center">
+				<span className="text-3xl flex pt-2 items-center"><SettingsBtn/></span>
+			</div>
 		</div>
 	</div>
   );

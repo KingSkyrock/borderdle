@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactModal from 'react-modal';
-import { FaQuestion } from "react-icons/fa";
+import { VscGraph } from "react-icons/vsc";
 
 const modalSize ={
 	content:{
@@ -46,7 +46,7 @@ export default class InfoBtn extends React.Component {
 	render () {
 	  return (
 		<>
-		  <button className='text-2xl text-neutral-200' onClick={this.handleOpenModal}><FaQuestion/></button>
+		  <button className='text-3xl text-neutral-200' onClick={this.handleOpenModal}><VscGraph/></button>
 		  <ReactModal 
 			 isOpen={this.state.showModal}
 			 onRequestClose={this.handleCloseModal}
