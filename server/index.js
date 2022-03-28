@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 
 const countries = require('../data/borders.json');
+const paths = require('../data/paths.json');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -25,7 +26,7 @@ app.get('/amogus', (req, res) => {
 
 app.post('/getCountryPath', (req, res) => {
   res.send(JSON.stringify({
-    paths: [1,2,3,4,5,6,7,8,9,10] //AN ARRAY OF PATHS WOULD GO HERE
+    paths: paths[country.toLowerCase()]
   }));
   res.end();
 });

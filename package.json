@@ -18,7 +18,8 @@
     "gsap": "^3.9.1",
     "prop-types": "^15.8.1",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "react-jsx-parser": "^1.29.0"
   },
   "devDependencies": {
     "@babel/core": "^7.17.8",
