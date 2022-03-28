@@ -56,22 +56,23 @@ export default class Country extends React.Component {
       for (var i = 0; i < this.pathArray.length; i++) {
         this.pathArray[i].tl.resume();
       }
+      callback((this.progress+1/6)*6);
       this.timer = setTimeout(()=> {
         for (var i = 0; i < this.pathArray.length; i++) {
           this.pathArray[i].tl.pause();
         }
         this.progress += 1/6;
         this.timer = null;
-        callback(this.progress*6);
        }, this.duration/6)
      }
   }
 
-  completeAnimation() {
+  completeAnimation(callback) {
     if (this.progress < 1 && this.timer == null) {
       for (var i = 0; i < this.pathArray.length; i++) {
         this.pathArray[i].tl.resume();
       }
+      callback((this.progress+1/6)*6);
       this.timer = setTimeout(()=> {
         for (var i = 0; i < this.pathArray.length; i++) {
           this.pathArray[i].tl.pause();

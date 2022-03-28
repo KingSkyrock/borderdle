@@ -31,7 +31,12 @@ class App extends React.Component {
         });
       } else if (result == "CORRECT") {
         alert(result);
-        this.country.current.completeAnimation();
+        var input = this.state.input;
+        this.setState({input: ""});
+        this.country.current.completeAnimation((progress) => {
+          var guesses = this.guesses.current.querySelectorAll('div');
+          guesses[Math.round(progress)-1].textContent = input.toUpperCase();
+        });
       } else {
         alert("Not in country list");
       }
