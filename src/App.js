@@ -15,28 +15,9 @@ class App extends React.Component {
     this.guesses = React.createRef();
 
     this.state = {
-      paths: [],
       input: "",
     }
   };
-
-  componentDidMount() {
-    axios.post('/getCountryPath').then((res) => {
-      console.log(res.data.paths)
-    })
-    .catch((error) => {
-      alert(error)
-    })
-  }
-
-  testFunction() {
-    axios.post('/getCountryPath').then((res) => {
-      console.log(res.data.paths)
-    })
-    .catch((error) => {
-      alert(error)
-    })
-  }
 
   handleGuess() {
     axios.post('/checkGuess', {guess: this.state.input}, {}).then((res) => {
@@ -50,6 +31,7 @@ class App extends React.Component {
         });
       } else if (result == "CORRECT") {
         alert(result);
+        this.country.current.completeAnimation();
       } else {
         alert("Not in country list");
       }
@@ -66,7 +48,6 @@ class App extends React.Component {
         <TopBar/>
         <Country
           ref={this.country}
-          paths={this.state.paths}
         />
         <div className="flex flex-col items-center pt-3">
           <div ref={this.guesses} className="grid grid-cols-7 gap-1 text-center">
@@ -85,7 +66,6 @@ class App extends React.Component {
               className="flex items-center justify-center pr-1"
             />Enter answer
           </button>
-          <button onClick={()=>this.testFunction()}>sawds</button>
         </div>
       </div>
     )
