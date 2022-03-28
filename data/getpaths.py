@@ -2,7 +2,7 @@ import json
 from urllib.request import urlopen
 import urllib
 xddd={}
-with open("borders.json", 'r+', encoding="utf-8") as svg: 
+with open("data/borders.json", 'r+', encoding="utf-8") as svg: 
     s=json.load(svg)
 for x in range(len(s)):
     try:
@@ -26,6 +26,6 @@ fill="#000000" stroke="none">''',"").replace("""</g>
     except urllib.error.HTTPError:
         print(s[x]["capital"])
 # print(xddd)
-with open("paths.json","r+",encoding="utf-8") as xdddddd:
+with open("data/paths.json","r+",encoding="utf-8") as xdddddd:
     xdddddd.write(json.dumps(xddd))
     xdddddd.close()
