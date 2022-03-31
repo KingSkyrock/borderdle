@@ -95,7 +95,6 @@ app.get('*', (req, res) => {
 function randomCountry() {
   var randomCountry = countries[Math.floor(Math.random()*(countries.length-1))].name;
   console.log(randomCountry)
-  return "bahamas"
   return randomCountry;
 }
 
