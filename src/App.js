@@ -46,10 +46,14 @@ class App extends React.Component {
     })
 
   }
-
+  handleKeyPress = (event) => {
+    if(event.key === 'Enter'){
+      this.handleGuess()
+    }
+  }
   render() {
     return (
-      <div className="w-full h-full bg-cover bg-[#1d8543]">
+      <div className="main">
         <TopBar/>
         <Country
           ref={this.country}
@@ -63,7 +67,7 @@ class App extends React.Component {
             <div className='guessdiv'></div>
             <div className='guessdiv'></div>
           </div>
-          <input value={this.state.input} onChange={(evt)=>this.setState({input: evt.target.value})} maxLength="56" minLength="2" type="text" className="outline-none border-2 border-neutral-100 focus:border-neutral-300 mt-3 w-[464px] h-8 bg-[#3fb66b] dark:bg-slate-600 rounded text-neutral-100 text-lg text-center	placeholder:text-center placeholder:text-green-100 placeholder:text-lg" placeholder="Enter Country"></input>
+          <input value={this.state.input} onChange={(evt)=>this.setState({input: evt.target.value})} maxLength="56" minLength="2" type="text" className="input" onKeyPress={this.handleKeyPress} placeholder="Enter Country"></input>
           <button onClick={()=>this.handleGuess()} type="submit" className="btnguess">
             <FaGlobe
               className="btnicon"
