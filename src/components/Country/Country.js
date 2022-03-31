@@ -88,7 +88,7 @@ export default class Country extends React.Component {
       <div className="flex flex-col items-center pt-3">
         <JsxParser
           className={'jsx-parser'}
-          jsx={"<svg ref={this.svg} className='pb-1' xmlns='http://www.w3.org/2000/svg' version='1.0' width='208px' height='208px' viewBox='0 0 1024.000000 1024.000000'><g id='border' transform='translate(0.000000,1024.000000) scale(0.100000,-0.100000)' fill='none' stroke='#1e293b' strokeWidth='100px'>"+this.state.paths+"</g></svg>"}
+          jsx={this.state.paths+"</g></svg>"}
           disableKeyGeneration={true}
         />
       </div>

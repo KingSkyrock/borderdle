@@ -2,7 +2,7 @@ import json
 from urllib.request import urlopen
 import urllib
 xddd={}
-with open("data/borders.json", 'r+', encoding="utf-8") as svg: 
+with open("data/borders.json", 'r+', encoding="utf-8") as svg:
     s=json.load(svg)
 for x in range(len(s)):
     try:
