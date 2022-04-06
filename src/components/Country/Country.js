@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import JsxParser from 'react-jsx-parser';
 import { gsap } from 'gsap'
 import axios from 'axios';
-
 class Path {
   constructor(border, tl) {
     this.border = border
@@ -49,6 +48,8 @@ export default class Country extends React.Component {
     .catch((error) => {
       alert(error)
     })
+
+    gsap.ticker.lagSmoothing(false)
   }
 
   advance(callback) {

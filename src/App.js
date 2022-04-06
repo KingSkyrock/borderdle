@@ -78,6 +78,7 @@ class App extends React.Component {
     return (
       <div className="main">
         <TopBar/>
+        <Toaster />
         <Country
           ref={this.country}
         />
@@ -98,9 +99,9 @@ class App extends React.Component {
             }}
           />
           <button onClick={()=>this.handleGuess()} type="submit" className="btnguess">
-            <FaGlobe
-              className="btnicon"
-            />Enter answer
+              <FaGlobe
+                className="btnicon"
+              />Enter answer
           </button>
         </div>
       </div>
