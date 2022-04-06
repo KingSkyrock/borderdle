@@ -59,7 +59,7 @@ app.post('/getCountryPath', (req, res) => {
   res.end();
 });
 
-app.post('/checkGuess', (req, res) => {
+app.post('/checkGuess', (req, res) => { //might move some of this to client side?
   if (req.body.guess.toLowerCase() == country.toLowerCase()) {
     res.send(JSON.stringify({
       result: "CORRECT"
