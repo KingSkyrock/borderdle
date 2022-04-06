@@ -69,11 +69,14 @@ class App extends React.Component {
     })
 
   }
-
+  handleKeyPress = (event) => {
+    if(event.key === 'Enter'){
+      this.handleGuess()
+    }
+  }
   render() {
     return (
-      <div className="w-full h-full bg-cover bg-[#1d8543]">
-        <Toaster/>
+      <div className="main">
         <TopBar/>
         <Country
           ref={this.country}
