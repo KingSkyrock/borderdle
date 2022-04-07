@@ -19,7 +19,9 @@ class App extends React.Component {
     this.guesses = React.createRef();
     this.countries= []
 
-    this.state = {}
+    this.state = {
+      input: ""
+    }
   };
 
   componentDidMount() {
@@ -69,11 +71,7 @@ class App extends React.Component {
     })
 
   }
-  handleKeyPress = (event) => {
-    if(event.key === 'Enter'){
-      this.handleGuess()
-    }
-  }
+
   render() {
     return (
       <div className="main">
@@ -97,11 +95,12 @@ class App extends React.Component {
             onChange={(value) => {
               this.setState({input: value})
             }}
+            onEnter={()=>this.handleGuess()}
           />
           <button onClick={()=>this.handleGuess()} type="submit" className="btnguess">
-              <FaGlobe
-                className="btnicon"
-              />Enter answer
+            <FaGlobe
+              className="btnicon"
+            />Enter answer
           </button>
         </div>
       </div>
