@@ -24,6 +24,13 @@ app.get('/amogus', (req, res) => {
   res.send("AMOGUS");
 });
 
+app.post('/getAnswer', (req, res) => {
+  res.send(JSON.stringify({
+    country: country
+  }));
+  res.end();
+});
+
 app.post('/getCountryPath', (req, res) => {
   var svg = "<svg ref={this.svg} className='pb-1' xmlns='http://www.w3.org/2000/svg' version='1.0' width='208px' height='208px' viewBox='0 0 1024.000000 1024.000000'><g id='border' transform='translate(0.000000,1024.000000) scale(0.100000,-0.100000)' fill='none' stroke='#1e293b' strokeWidth='100px'>";
   var rwanda = "<svg ref={this.svg} className='pb-1' xmlns='http://www.w3.org/2000/svg' version='1.0' width='208px' height='208px' viewBox='0 0 350.000000 308.000000'><g id='border' fill='none' stroke='#1e293b' strokeWidth='3px'>";

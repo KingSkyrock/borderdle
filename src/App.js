@@ -20,12 +20,15 @@ class App extends React.Component {
     this.countries= []
 
     this.state = {
-      input: ""
+      input: "",
+      gameStatus: 0,
     }
   };
 
   componentDidMount() {
     this.getCountries();
+    console.log(localStorage.getItem('progress'));
+    //this.country.current.advance(localStorage.getItem('progress'))
   }
 
   getCountries() {
@@ -36,40 +39,57 @@ class App extends React.Component {
   }
 
   handleGuess() {
-    axios.post('/checkGuess', {guess: this.state.input}, {}).then((res) => {
-      var result = res.data.result;
-      if (result == "VALID") {
-        var input = this.state.input;
-        this.countryInput.current.clearInput();
-        this.country.current.advance((progress) => {
-          var guesses = this.guesses.current.querySelectorAll('div');
-          guesses[Math.round(progress)-1].textContent = input.toUpperCase();
-        });
-      } else if (result == "CORRECT") {
-        toast('Correct!', {
-          duration: 2000,
-          position: 'top-center',
-          style: {},
-          icon: '✅',
-        });
-        var input = this.state.input;
-        this.countryInput.current.clearInput();
-        this.country.current.completeAnimation((progress) => {
-          var guesses = this.guesses.current.querySelectorAll('div');
-          guesses[Math.round(progress)-1].textContent = input.toUpperCase();
-        });
-      } else {
-        toast('Not in country list', {
-          duration: 1000,
-          position: 'top-center',
-          style: {},
-        });
-      }
-    })
-    .catch((error) => {
-      alert(error)
-    })
-
+    if (this.country.current.progress < 6) {
+      axios.post('/checkGuess', { guess: this.state.input }, {}).then((res) => {
+        var result = res.data.result;
+        if (result == "VALID") {
+          var input = this.state.input;
+          this.countryInput.current.clearInput();
+          this.country.current.advance(1, (progress) => {
+            var guesses = this.guesses.current.querySelectorAll('div');
+            guesses[progress - 1].textContent = input.toUpperCase();
+            localStorage.setItem('progress', progress);
+            if (progress == 6) { //lost
+              var country = "COUNTRY GOES HERE"
+              axios.post('/getAnswer').then((res) => {
+                country = res.data.country;
+                toast.error('Answer: ' + country, {
+                  duration: 5000,
+                  position: 'top-center',
+                  style: {},
+                });
+                this.setState({ gameStatus: -1 })
+              }).catch((error) => {
+                alert(error);
+              });
+            }
+          });
+        } else if (result == "CORRECT") { //won
+          toast.success('Correct!', {
+            duration: 2000,
+            position: 'top-center',
+            style: {},
+          });
+          var input = this.state.input;
+          this.countryInput.current.clearInput();
+          this.country.current.advance(6 - this.country.current.progress, (progress) => {
+            var guesses = this.guesses.current.querySelectorAll('div');
+            guesses[progress - 1].textContent = input.toUpperCase();
+            localStorage.setItem('progress', progress);
+            this.setState({gameStatus: 1});
+          });
+        } else {
+          toast('Not in country list', {
+            duration: 1000,
+            position: 'top-center',
+            style: {},
+          });
+        }
+      })
+      .catch((error) => {
+        alert(error);
+      });
+    }
   }
 
   render() {

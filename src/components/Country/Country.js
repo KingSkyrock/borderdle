@@ -22,9 +22,9 @@ class Path {
 }
 
 export default class Country extends React.Component {
+
   constructor(props) {
     super(props);
-
     this.progress = 0;
     this.timer = null;
     this.duration = 6000;
@@ -52,35 +52,19 @@ export default class Country extends React.Component {
     gsap.ticker.lagSmoothing(false)
   }
 
-  advance(callback) {
-    if (this.progress < 1 && this.timer == null) {
+  advance(multiplier, callback=(progress)=>{}) {
+    if (this.progress < 6 && this.timer == null) {
       for (var i = 0; i < this.pathArray.length; i++) {
         this.pathArray[i].tl.resume();
       }
-      callback((this.progress+1/6)*6);
+      callback(this.progress + 1);
       this.timer = setTimeout(()=> {
         for (var i = 0; i < this.pathArray.length; i++) {
           this.pathArray[i].tl.pause();
         }
-        this.progress += 1/6;
+        this.progress += 1*multiplier;
         this.timer = null;
-       }, this.duration/6)
-     }
-  }
-
-  completeAnimation(callback) {
-    if (this.progress < 1 && this.timer == null) {
-      for (var i = 0; i < this.pathArray.length; i++) {
-        this.pathArray[i].tl.resume();
-      }
-      callback((this.progress+1/6)*6);
-      this.timer = setTimeout(()=> {
-        for (var i = 0; i < this.pathArray.length; i++) {
-          this.pathArray[i].tl.pause();
-        }
-        this.progress = 1;
-        this.timer = null;
-       }, this.duration)
+       }, this.duration / 6 * multiplier)
      }
   }
 
