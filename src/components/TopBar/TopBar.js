@@ -9,7 +9,7 @@ const TopBar = () => {
 			<div className="flex flex-row content-center pr-12 justify-center">
 				<span className="text-3xl flex pt-2 items-center"><InfoBtn/></span>
 			</div>
-			<h3 className="lgw tracking-wide px-16">Bord<span className="text-dle">LE</span></h3>
+			<h3 className="lgw tracking-wide px-16">Border<span className="text-dle">DLE</span></h3>
 			<div className="pl-12 flex flex-row content-center justify-center">
 				<span className="text-3xl flex pt-2 items-center"><SettingsBtn/></span>
 			</div>
