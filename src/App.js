@@ -58,6 +58,22 @@ class App extends React.Component {
     }
   }
 
+  handleLoss() {
+    var country = "COUNTRY GOES HERE"
+    axios.post('/getAnswer').then((res) => {
+      country = res.data.country;
+      toast.error('Answer: ' + country, {
+        duration: 5000,
+        position: 'top-center',
+        style: {},
+      });
+      this.setState({ gameStatus: -1 })
+      localStorage.setItem('gameStatus', -1);
+    }).catch((error) => {
+      alert(error);
+    });
+  }
+
   handleGuess() {
     if (this.country.current.progress < 6 && !this.country.current.inProgress && this.state.gameStatus == 0) {
       axios.post('/checkGuess', { guess: this.state.input }, {}).then((res) => {
@@ -70,19 +86,7 @@ class App extends React.Component {
             guesses[progress - 1].textContent = input.toUpperCase();
             this.setLocalStorage(input, progress, 0);
             if (progress == 6) { //lost
-              var country = "COUNTRY GOES HERE"
-              axios.post('/getAnswer').then((res) => {
-                country = res.data.country;
-                toast.error('Answer: ' + country, {
-                  duration: 5000,
-                  position: 'top-center',
-                  style: {},
-                });
-                this.setState({ gameStatus: -1 })
-                localStorage.setItem('gameStatus', -1);
-              }).catch((error) => {
-                alert(error);
-              });
+              this.handleLoss()
             }
             this.country.current.inProgress = false;
           });
