@@ -27,19 +27,39 @@ class App extends React.Component {
 
   componentDidMount() {
     this.getCountries();
-    console.log(localStorage.getItem('progress'));
-    //this.country.current.advance(localStorage.getItem('progress'))
+    var guesses = this.guesses.current.querySelectorAll('div');
+    var storedGuesses = JSON.parse(localStorage.getItem('guesses'));
+    var gameStatus = localStorage.getItem('gameStatus');
+    if (gameStatus != null && gameStatus != 'null') {
+      this.setState({ gameStatus: gameStatus });
+    }
+    if (storedGuesses != null && storedGuesses != 'null') {
+      for (var i = 0; i < storedGuesses.length; i++) {
+        guesses[i].textContent = storedGuesses[i];
+      }
+    }
   }
 
   getCountries() {
     for (var i = 0; i < countries.length; i++) {
       this.countries.push(countries[i].name);
     }
-    console.log(this.countries)
+  }
+
+  setLocalStorage(input, progress, gameStatus) {
+    localStorage.setItem('progress', progress);
+    localStorage.setItem('gameStatus', gameStatus);
+    var storedGuesses = JSON.parse(localStorage.getItem('guesses'));
+    if (storedGuesses == null || storedGuesses == 'null') {
+      localStorage.setItem('guesses', JSON.stringify([input.toUpperCase()]));
+    } else {
+      storedGuesses.push(input.toUpperCase())
+      localStorage.setItem('guesses', JSON.stringify(storedGuesses));
+    }
   }
 
   handleGuess() {
-    if (this.country.current.progress < 6) {
+    if (this.country.current.progress < 6 && !this.country.current.inProgress && this.state.gameStatus == 0) {
       axios.post('/checkGuess', { guess: this.state.input }, {}).then((res) => {
         var result = res.data.result;
         if (result == "VALID") {
@@ -48,7 +68,7 @@ class App extends React.Component {
           this.country.current.advance(1, (progress) => {
             var guesses = this.guesses.current.querySelectorAll('div');
             guesses[progress - 1].textContent = input.toUpperCase();
-            localStorage.setItem('progress', progress);
+            this.setLocalStorage(input, progress, 0);
             if (progress == 6) { //lost
               var country = "COUNTRY GOES HERE"
               axios.post('/getAnswer').then((res) => {
@@ -59,10 +79,12 @@ class App extends React.Component {
                   style: {},
                 });
                 this.setState({ gameStatus: -1 })
+                localStorage.setItem('gameStatus', -1);
               }).catch((error) => {
                 alert(error);
               });
             }
+            this.country.current.inProgress = false;
           });
         } else if (result == "CORRECT") { //won
           toast.success('Correct!', {
@@ -75,8 +97,9 @@ class App extends React.Component {
           this.country.current.advance(6 - this.country.current.progress, (progress) => {
             var guesses = this.guesses.current.querySelectorAll('div');
             guesses[progress - 1].textContent = input.toUpperCase();
-            localStorage.setItem('progress', progress);
+            this.setLocalStorage(input, progress, 1);
             this.setState({gameStatus: 1});
+            this.country.current.inProgress = false;
           });
         } else {
           toast('Not in country list', {

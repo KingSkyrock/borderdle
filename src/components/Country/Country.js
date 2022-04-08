@@ -26,6 +26,7 @@ export default class Country extends React.Component {
   constructor(props) {
     super(props);
     this.progress = 0;
+    this.inProgress = false;
     this.timer = null;
     this.duration = 6000;
     this.pathArray = [];
@@ -43,17 +44,26 @@ export default class Country extends React.Component {
         for (var i = 0; i < borders.length; i++) {
           this.pathArray.push(new Path(borders[i], gsap.timeline()))
         }
+        gsap.ticker.lagSmoothing(false)
+        if (localStorage.getItem('gameStatus') == 1) {
+          this.advance(6 - this.progress, (progress) => {
+            this.inProgress = false;
+          });
+        } else {
+          this.advance(localStorage.getItem('progress'), () => {
+            this.inProgress = false;
+          });
+        }
       })
     })
     .catch((error) => {
       alert(error)
     })
-
-    gsap.ticker.lagSmoothing(false)
   }
 
   advance(multiplier, callback=(progress)=>{}) {
-    if (this.progress < 6 && this.timer == null) {
+    if (this.progress < 6 && this.timer == null && multiplier > 0) {
+      this.inProgress = true;
       for (var i = 0; i < this.pathArray.length; i++) {
         this.pathArray[i].tl.resume();
       }
