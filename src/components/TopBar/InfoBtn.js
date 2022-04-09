@@ -56,8 +56,8 @@ export default class InfoBtn extends React.Component {
 			<div>
 				<h1 className='modalmaintext'>How to play</h1>
 				<h3 className='modaltext pt-2'>Guess the <span className='tracking-wide font-bold'>BORDER<span className='text-dle'>DLE</span></span></h3>
-				<h3 className='modaltext'>Each guess must be a valid country name, hit the enter button to submit your answer</h3>
-				<h3 className='modaltext'>After each guess, more of the countries border will get revealed.</h3>
+				<h3 className='modaltext'>Each guess must be a valid country name; hit the enter button to submit your answer.</h3>
+				<h3 className='modaltext'>After each guess, more of the country's border will get revealed.</h3>
 			</div>
 		  </ReactModal>
 		</>
