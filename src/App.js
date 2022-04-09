@@ -27,6 +27,16 @@ class App extends React.Component {
 
   componentDidMount() {
     this.getCountries();
+    this.getLocalStorage();
+  }
+
+  getCountries() {
+    for (var i = 0; i < countries.length; i++) {
+      this.countries.push(countries[i].name);
+    }
+  }
+
+  getLocalStorage() {
     var guesses = this.guesses.current.querySelectorAll('div');
     var storedGuesses = JSON.parse(localStorage.getItem('guesses'));
     var gameStatus = localStorage.getItem('gameStatus');
@@ -37,12 +47,6 @@ class App extends React.Component {
       for (var i = 0; i < storedGuesses.length; i++) {
         guesses[i].textContent = storedGuesses[i];
       }
-    }
-  }
-
-  getCountries() {
-    for (var i = 0; i < countries.length; i++) {
-      this.countries.push(countries[i].name);
     }
   }
 
@@ -74,20 +78,36 @@ class App extends React.Component {
     });
   }
 
+  inCountryList(guess) {
+    var valid = false;
+    for (var i = 0; i < countries.length; i++) {
+      if (countries[i].name.toLowerCase() == guess.toLowerCase()) {
+        var valid = true;
+        break;
+      }
+    }
+    return valid;
+  }
+
   handleGuess() {
-    if (this.country.current.progress < 6 && !this.country.current.inProgress && this.state.gameStatus == 0) {
+    var conditions = this.country.current.progress < 6 && !this.country.current.inProgress && this.state.gameStatus == 0
+    if (conditions && !this.inCountryList(this.state.input)) {
+      toast('Not in country list', {
+        duration: 1000,
+        position: 'top-center',
+        style: {},
+      });
+    } else if (conditions && this.inCountryList(this.state.input)) {
       axios.post('/checkGuess', { guess: this.state.input }, {}).then((res) => {
         var result = res.data.result;
+        var input = this.state.input;
         if (result == "VALID") {
-          var input = this.state.input;
           this.countryInput.current.clearInput();
           this.country.current.advance(1, (progress) => {
             var guesses = this.guesses.current.querySelectorAll('div');
             guesses[progress - 1].textContent = input.toUpperCase();
             this.setLocalStorage(input, progress, 0);
-            if (progress == 6) { //lost
-              this.handleLoss()
-            }
+            if (progress == 6) this.handleLoss(); //lost
             this.country.current.inProgress = false;
           });
         } else if (result == "CORRECT") { //won
@@ -96,7 +116,6 @@ class App extends React.Component {
             position: 'top-center',
             style: {},
           });
-          var input = this.state.input;
           this.countryInput.current.clearInput();
           this.country.current.advance(6 - this.country.current.progress, (progress) => {
             var guesses = this.guesses.current.querySelectorAll('div');
@@ -104,12 +123,6 @@ class App extends React.Component {
             this.setLocalStorage(input, progress, 1);
             this.setState({gameStatus: 1});
             this.country.current.inProgress = false;
-          });
-        } else {
-          toast('Not in country list', {
-            duration: 1000,
-            position: 'top-center',
-            style: {},
           });
         }
       })

@@ -73,24 +73,10 @@ app.post('/checkGuess', (req, res) => { //might move some of this to client side
     }));
     res.end();
   } else {
-    var valid = false;
-    for (var i = 0; i < countries.length; i++) {
-      if (countries[i].name.toLowerCase() == req.body.guess.toLowerCase()) {
-        var valid = true;
-        break;
-      }
-    }
-    if (valid) {
-      res.send(JSON.stringify({
-        result: "VALID"
-      }));
-      res.end();
-    } else {
-      res.send(JSON.stringify({
-        result: "INVALID"
-      }));
-      res.end();
-    }
+    res.send(JSON.stringify({
+      result: "VALID"
+    }));
+    res.end();
   }
 
 });
