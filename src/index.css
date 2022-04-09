@@ -48,13 +48,10 @@
     @apply relative flex
   }
   .autocompletediv {
-    top: 100%;
-    width: 100%;
-    @apply absolute left-0 right-0 z-50 flex flex-col items-center justify-center max-h-48 overflow-y-auto scroll-smooth
+    @apply absolute left-0 top-full right-0 z-50 flex flex-col items-center justify-center max-h-48 w-full overflow-y-auto scroll-smooth
   }
   .autocomplete {
-    border: 1px solid;
-    @apply bg-[#1c6337] text-base w-full h-8 shadow-md border-green-900 flex items-center justify-center text-neutral-100 max-h-[35%]
+    @apply bg-[#1c6337] text-base w-full h-8 border-[1px] shadow-md border-green-900 flex items-center justify-center text-neutral-100 max-h-[35%]
   }
 }
 
