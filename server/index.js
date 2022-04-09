@@ -92,6 +92,9 @@ app.get('*', (req, res) => {
 function randomCountry() {
   var randomCountry = countries[Math.floor(Math.random()*(countries.length-1))].name;
   console.log(randomCountry)
+  while (randomCountry == "Micronesia" || randomCountry == "Tuvalu" || randomCountry == "Palestine" || randomCountry == "Marshall Islands") {
+    randomCountry = countries[Math.floor(Math.random() * (countries.length - 1))].name;
+  }
   return randomCountry;
 }
 
