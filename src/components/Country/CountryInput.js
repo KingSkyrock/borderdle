@@ -52,7 +52,7 @@ export default class CountryInput extends React.Component {
 
   render() {
     return (
-      <div ref={this.container} onFocus={()=>this.setState({showing: true})} className="relative inline-block">
+      <div ref={this.container} onFocus={()=>this.setState({showing: true})}>
         <input ref={this.input} value={this.state.input} onChange={(evt)=>{this.setState({input: evt.target.value}); this.handleChange(evt.target.value)}} maxLength="56" minLength="2" type="text" className="outline-none border-2 border-neutral-100 focus:border-neutral-300 mt-3 w-[464px] h-8 bg-[#3fb66b] dark:bg-slate-600 rounded text-neutral-100 text-lg text-center	placeholder:text-center placeholder:text-green-100 placeholder:text-lg" placeholder="Enter Country"></input>
       {this.state.input && this.state.showing && this.state.shown.map(a=>{
         return <div onClick={()=>{this.setState({input: a, showing: false}); this.handleChange(a)}}>{a}</div>

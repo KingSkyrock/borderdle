@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 
 const countries = require('../data/borders.json');
+const longlats = require('../data/longlats.json');
 const paths = require('../data/paths.json');
 
 const app = express();
@@ -9,6 +10,7 @@ const port = process.env.PORT || 3000;
 const DIST_DIR = path.join(__dirname, '../dist');
 const HTML_FILE = path.join(DIST_DIR, 'index.html');
 const bodyParser = require('body-parser');
+const haversine = require('haversine-distance');
 
 var country = randomCountry();
 
@@ -69,12 +71,14 @@ app.post('/getCountryPath', (req, res) => {
 app.post('/checkGuess', (req, res) => { //might move some of this to client side?
   if (req.body.guess.toLowerCase() == country.toLowerCase()) {
     res.send(JSON.stringify({
-      result: "CORRECT"
+      result: "CORRECT",
+      distance: 0
     }));
     res.end();
   } else {
     res.send(JSON.stringify({
-      result: "VALID"
+      result: "VALID",
+      distance: haversine(longlats[country.toLowerCase()], longlats[req.body.guess.toLowerCase()])
     }));
     res.end();
   }

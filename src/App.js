@@ -8,7 +8,6 @@ import axios from 'axios';
 import { FaGlobe } from "react-icons/fa";
 import toast, { Toaster } from 'react-hot-toast';
 const countries = require('../data/borders.json');
-
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -55,9 +54,9 @@ class App extends React.Component {
     localStorage.setItem('gameStatus', gameStatus);
     var storedGuesses = JSON.parse(localStorage.getItem('guesses'));
     if (storedGuesses == null || storedGuesses == 'null') {
-      localStorage.setItem('guesses', JSON.stringify([input.toUpperCase()]));
+      localStorage.setItem('guesses', JSON.stringify([input]));
     } else {
-      storedGuesses.push(input.toUpperCase())
+      storedGuesses.push(input)
       localStorage.setItem('guesses', JSON.stringify(storedGuesses));
     }
   }
@@ -100,13 +99,16 @@ class App extends React.Component {
     } else if (conditions && this.inCountryList(this.state.input)) {
       axios.post('/checkGuess', { guess: this.state.input }, {}).then((res) => {
         var result = res.data.result;
+        var circ = 40075;
+        var distance = Math.round(res.data.distance / 1000) + "km" + " - " + Math.round((((circ / 2) - Math.round(res.data.distance / 1000)) / (circ / 2))*100) + "%";
         var input = this.state.input;
+        this.setState({ input: "" });
         if (result == "VALID") {
           this.countryInput.current.clearInput();
           this.country.current.advance(1, (progress) => {
             var guesses = this.guesses.current.querySelectorAll('div');
-            guesses[progress - 1].textContent = input.toUpperCase();
-            this.setLocalStorage(input, progress, 0);
+            guesses[progress - 1].textContent = input.toUpperCase() + " - " + distance;
+            this.setLocalStorage(input.toUpperCase() + " - " + distance, progress, 0);
             if (progress == 6) this.handleLoss(); //lost
             this.country.current.inProgress = false;
           });
@@ -119,8 +121,8 @@ class App extends React.Component {
           this.countryInput.current.clearInput();
           this.country.current.advance(6 - this.country.current.progress, (progress) => {
             var guesses = this.guesses.current.querySelectorAll('div');
-            guesses[progress - 1].textContent = input.toUpperCase();
-            this.setLocalStorage(input, progress, 1);
+            guesses[progress - 1].textContent = input.toUpperCase() + " - " + distance;
+            this.setLocalStorage(input.toUpperCase() + " - " + distance, progress, 1);
             this.setState({gameStatus: 1});
             this.country.current.inProgress = false;
           });
