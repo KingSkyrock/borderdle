@@ -51,7 +51,7 @@
     @apply absolute left-0 top-full right-0 z-50 flex flex-col items-center justify-center max-h-48 w-full overflow-y-auto scroll-smooth
   }
   .autocomplete {
-    @apply bg-[#1c6337] text-base w-full h-8 border-[1.5px] shadow-md border-green-900 flex items-center justify-center text-neutral-100 max-h-[35%] select-none
+    @apply bg-[#1c6337] text-base w-full h-8 border-[1.5px] shadow-md border-green-900 flex items-center justify-center text-neutral-100 max-h-[35%] select-none 
   }
 }
 
