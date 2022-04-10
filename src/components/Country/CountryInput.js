@@ -53,7 +53,7 @@ export default class CountryInput extends React.Component {
   render() {
     return (
       <div className='inputdiv' ref={this.container} onFocus={()=>this.setState({showing: true})}>
-        <input ref={this.input} value={this.state.input} onChange={(evt)=>{this.setState({input: evt.target.value}); this.handleChange(evt.target.value)}} maxLength="56" minLength="2" type="text" className="input" placeholder="Enter Country"></input>
+        <input ref={this.input} value={this.state.input} onChange={(evt)=>{this.setState({input: evt.target.value}); this.handleChange(evt.target.value)}} maxLength="32" minLength="4" type="text" className="input" placeholder="Enter Country"></input>
         <div className='autocompletediv '>
         {this.state.input && this.state.showing && this.state.shown.map(a=>{
           return <div onClick={()=>{this.setState({input: a, showing: false}); this.handleChange(a)}} className='autocomplete'>{a}</div>
