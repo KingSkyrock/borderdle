@@ -165,14 +165,14 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="main">
+      <div className="main flex items-center flex-col">
         <TopBar/>
         <Toaster />
         <Country
           ref={this.country}
         />
-        <div className="flex flex-col items-center pt-3">
-          <div ref={this.guesses} className="grid grid-cols-7 gap-1 text-center">
+        <div className="flex flex-col items-center pt-3 max-w-[75%] w-full">
+          <div ref={this.guesses} className="px-[10%] grid grid-cols-9 gap-1 text-center">
             <div className='guessdiv'></div>
             <div className='guessdiv'></div>
             <div className='guessdiv'></div>
