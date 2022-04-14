@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import JsxParser from 'react-jsx-parser';
 import { gsap } from 'gsap'
 import axios from 'axios';
+import { DateTime } from "luxon";
 class Path {
   constructor(border, tl) {
     this.border = border
@@ -82,21 +83,29 @@ export default class Country extends React.Component {
             }
           }
         }, false);
-
-        if (localStorage.getItem('gameStatus') == 1) {
-          this.advance(6 - this.progress, (progress) => {
-            this.inProgress = false;
-          });
-        } else {
-          this.advance(localStorage.getItem('progress'), () => {
-            this.inProgress = false;
-          });
-        }
+        this.readLocalStorage();
       })
     })
     .catch((error) => {
       alert(error)
     })
+  }
+
+  readLocalStorage() {
+    var utc = DateTime.utc();
+    var dateStr = utc.year + "-" + utc.month + "-" + utc.day
+    var data = JSON.parse(localStorage.getItem('data'));
+    if (data != null && data != "null" && data != undefined && data[dateStr] != undefined) {
+      if (data[dateStr].gameStatus == 1) {
+        this.advance(6 - this.progress, (progress) => {
+          this.inProgress = false;
+        });
+      } else if (data[dateStr].progress) {
+        this.advance(data[dateStr].progress, () => {
+          this.inProgress = false;
+        });
+      }
+    }
   }
 
   advance(multiplier, callback = (progress) => { }) {

@@ -2,7 +2,6 @@ const express = require('express');
 const path = require('path');
 
 const countries = require('../data/borders.json');
-const longlats = require('../data/longlats.json');
 const paths = require('../data/paths.json');
 
 const app = express();
@@ -10,7 +9,7 @@ const port = process.env.PORT || 3000;
 const DIST_DIR = path.join(__dirname, '../dist');
 const HTML_FILE = path.join(DIST_DIR, 'index.html');
 const bodyParser = require('body-parser');
-const haversine = require('haversine-distance');
+const schedule = require('node-schedule');
 
 var country = randomCountry();
 
@@ -21,6 +20,19 @@ app.use(bodyParser.urlencoded({
 }))
 
 app.use(bodyParser.json())
+
+const rule = new schedule.RecurrenceRule();
+rule.hour = 0;
+rule.tz = 'Etc/UTC';
+
+/*
+const job = schedule.scheduleJob('1 * * * * *', function () { // every minute for testing
+  newCountry();
+});
+*/
+const daily = schedule.scheduleJob(rule, function () {
+  newCountry();
+});
 
 app.get('/amogus', (req, res) => {
   res.send("AMOGUS");
@@ -68,23 +80,6 @@ app.post('/getCountryPath', (req, res) => {
   res.end();
 });
 
-app.post('/checkGuess', (req, res) => {
-  if (req.body.guess.toLowerCase() == country.toLowerCase()) {
-    res.send(JSON.stringify({
-      result: "CORRECT",
-      distance: 0
-    }));
-    res.end();
-  } else {
-    res.send(JSON.stringify({
-      result: "VALID",
-      distance: haversine(longlats[country.toLowerCase()], longlats[req.body.guess.toLowerCase()])
-    }));
-    res.end();
-  }
-
-});
-
 app.get('*', (req, res) => {
  res.sendFile(HTML_FILE);
 });
@@ -96,6 +91,13 @@ function randomCountry() {
     randomCountry = countries[Math.floor(Math.random() * (countries.length - 1))].name;
   }
   return randomCountry;
+}
+
+function newCountry() {
+  lastCountry = country;
+  while (country == lastCountry) {
+    country = randomCountry();
+  }
 }
 
 app.listen(port, function () {
