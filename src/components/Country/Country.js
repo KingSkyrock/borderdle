@@ -5,6 +5,8 @@ import JsxParser from 'react-jsx-parser';
 import { gsap } from 'gsap'
 import axios from 'axios';
 import { DateTime } from "luxon";
+
+const paths = require('../../../data/paths.json');
 class Path {
   constructor(border, tl) {
     this.border = border
@@ -59,35 +61,67 @@ export default class Country extends React.Component {
   };
 
   componentDidMount() {
-    axios.post('/getCountryPath').then((res) => {
-      this.setState({paths: res.data.paths}, ()=> {
-        var borders = document.querySelector('.jsx-parser').querySelector('svg').querySelector('g').querySelectorAll('path');
-        for (var i = 0; i < borders.length; i++) {
-          this.pathArray.push(new Path(borders[i], gsap.timeline()))
-        }
-        //gsap.ticker.lagSmoothing(false)
-        window.addEventListener('blur', () => {
-          if (this.timer != null) {
-            this.timer.pause();
-            for (var i = 0; i < this.pathArray.length; i++) {
-              this.pathArray[i].tl.pause();
-            }
-          }
-        }, false);
-
-        window.addEventListener('focus', () => {
-          if (this.timer != null) {
-            this.timer.resume();
-            for (var i = 0; i < this.pathArray.length; i++) {
-              this.pathArray[i].tl.resume();
-            }
-          }
-        }, false);
-        this.readLocalStorage();
-      })
+    axios.post('/getAnswer').then((res) => {
+      this.getSVG(res.data.country)
     })
     .catch((error) => {
       alert(error)
+    })
+  }
+
+  getSVG(country) {
+    var svg = "<svg ref={this.svg} className='pb-1' xmlns='http://www.w3.org/2000/svg' version='1.0' width='208px' height='208px' viewBox='0 0 1024.000000 1024.000000'><g id='border' transform='translate(0.000000,1024.000000) scale(0.100000,-0.100000)' fill='none' stroke='#1e293b' strokeWidth='100px'>";
+    var rwanda = "<svg ref={this.svg} className='pb-1' xmlns='http://www.w3.org/2000/svg' version='1.0' width='208px' height='208px' viewBox='0 0 350.000000 308.000000'><g id='border' fill='none' stroke='#1e293b' strokeWidth='3px'>";
+    var timor = "<svg ref={this.svg} className='pb-1' xmlns='http://www.w3.org/2000/svg' version='1.0' width='208px' height='208px' viewBox='0 0 1024.000000 1024.000000'><g id='border' fill='none' stroke='#1e293b' strokeWidth='10px'>";
+    var austria = "<svg ref={this.svg} className='pb-1' xmlns='http://www.w3.org/2000/svg' version='1.0' width='208px' height='208px' viewBox='0 0 1980.000000 1013.000000'><g id='border' fill='none' stroke='#1e293b' strokeWidth='19px'>"
+    var malaysia = "<svg ref={this.svg} class='pb-1' xmlns='http://www.w3.org/2000/svg' version='1.0' width='416px' height='208px' viewBox='0 0 1024.000000 1024.000000' transform='scale(2, 2)'><g id='border' fill='none' stroke='#1e293b' strokeWidth='5px'>"
+    var serbia = "<svg ref={this.svg} class='pb-1' xmlns='http://www.w3.org/2000/svg' version='1.0' width='208px' height='208px' viewBox='0 0 1024.000000 1024.000000'><g id='border' fill='none' stroke='#1e293b' strokeWidth='9px'>"
+    var indonesia = "<svg ref={this.svg} class='pb-1' xmlns='http://www.w3.org/2000/svg' version='1.0' width='416px' height='208px' viewBox='0 0 1280.000000 1280.000000' transform='scale(2, 2)'><g id='border' fill='none' stroke='#1e293b' strokeWidth='5px'>"
+    var cameroon = "<svg ref={this.svg} className='pb-1' xmlns='http://www.w3.org/2000/svg' version='1.0' width='208px' height='208px' viewBox='0 0 1280.000000 1280.000000'><g id='border' fill='none' stroke='#1e293b' strokeWidth='11px'>";
+    var bahamas = "<svg ref={this.svg} className='pb-1' xmlns='http://www.w3.org/2000/svg' version='1.0' width='208px' height='208px' viewBox='0 0 1024.000000 1024.000000'><g id='border' fill='none' stroke='#1e293b' strokeWidth='6px'>";
+
+    if (country.toLowerCase() == "rwanda") {
+      svg = rwanda;
+    } else if (country.toLowerCase() == "timor-leste") {
+      svg = timor;
+    } else if (country.toLowerCase() == "austria") {
+      svg = austria;
+    } else if (country.toLowerCase() == "malaysia") {
+      svg = malaysia;
+    } else if (country.toLowerCase() == "serbia") {
+      svg = serbia;
+    } else if (country.toLowerCase() == "indonesia") {
+      svg = indonesia;
+    } else if (country.toLowerCase() == "cameroon") {
+      svg = cameroon;
+    } else if (country.toLowerCase() == "bahamas") {
+      svg = bahamas;
+    }
+
+    this.setState({ paths: svg + paths[country.toLowerCase()] }, () => {
+      var borders = document.querySelector('.jsx-parser').querySelector('svg').querySelector('g').querySelectorAll('path');
+      for (var i = 0; i < borders.length; i++) {
+        this.pathArray.push(new Path(borders[i], gsap.timeline()))
+      }
+      //gsap.ticker.lagSmoothing(false)
+      window.addEventListener('blur', () => {
+        if (this.timer != null) {
+          this.timer.pause();
+          for (var i = 0; i < this.pathArray.length; i++) {
+            this.pathArray[i].tl.pause();
+          }
+        }
+      }, false);
+
+      window.addEventListener('focus', () => {
+        if (this.timer != null) {
+          this.timer.resume();
+          for (var i = 0; i < this.pathArray.length; i++) {
+            this.pathArray[i].tl.resume();
+          }
+        }
+      }, false);
+      this.readLocalStorage();
     })
   }
 
