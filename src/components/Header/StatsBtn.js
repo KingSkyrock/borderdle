@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactModal from 'react-modal';
-import { IoMdSettings } from "react-icons/io";
+import { VscGraph } from "react-icons/vsc";
 
 const modalSize ={
 	content:{
@@ -24,7 +24,7 @@ const modalSize ={
 	   background: 'rgba(0, 0, 0,  0.3)',
 	}
 }
-export default class InfoBtn extends React.Component {
+export default class StatsBtn extends React.Component {
 	constructor () {
 	  super();
 	  this.state = {
@@ -46,7 +46,7 @@ export default class InfoBtn extends React.Component {
 	render () {
 	  return (
 		<>
-		  <button className='text-3xl text-neutral-200' onClick={this.handleOpenModal}><IoMdSettings/></button>
+		  <button className='text-xl mr-2 text-neutral-200' name='Stats' onClick={this.handleOpenModal}><VscGraph/></button>
 		  <ReactModal 
 			 isOpen={this.state.showModal}
 			 onRequestClose={this.handleCloseModal}

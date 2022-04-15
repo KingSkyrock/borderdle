@@ -1,13 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import TopBar from './components/TopBar/TopBar.js';
+// import TopBar from './components/Header/TopBar.js';
 import Country from './components/Country/Country.js';
 import CountryInput from './components/Country/CountryInput.js';
 import axios from 'axios';
 import { FaGlobe } from "react-icons/fa";
 import toast, { Toaster } from 'react-hot-toast';
 import { DateTime } from "luxon";
+import InfoBtn from "./components/Header/InfoBtn.js";
+import SettingsBtn from "./components/Header/SettingsBtn.js";
+import StatsBtn from "./components/Header/StatsBtn.js";
+
 
 const haversine = require('haversine-distance');
 const longlats = require('../data/longlats.json');
@@ -165,14 +169,19 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="main flex items-center flex-col">
-        <TopBar/>
-        <Toaster />
-        <Country
-          ref={this.country}
-        />
-        <div className="flex flex-col items-center pt-3 max-w-[75%] w-full">
-          <div ref={this.guesses} className="px-[10%] grid grid-cols-9 gap-1 text-center">
+      <div className="main">
+        <div className="w-full max-w-lg flex flex-col">
+          <header className="border-b-2 px-3 border-gray-200 flex">
+            <InfoBtn/>
+            <h1 className="lgw">
+              Border<span className="text-dle">dle</span>
+            </h1>
+            <StatsBtn/>
+            <SettingsBtn/>
+          </header>
+          <Toaster />
+          <Country ref={this.country}/>
+          <div ref={this.guesses} className="grid grid-cols-7 gap-1 text-center">
             <div className='guessdiv'></div>
             <div className='guessdiv'></div>
             <div className='guessdiv'></div>
@@ -180,21 +189,23 @@ class App extends React.Component {
             <div className='guessdiv'></div>
             <div className='guessdiv'></div>
           </div>
-          <CountryInput
-            ref={this.countryInput}
-            options={this.countries}
-            onChange={(value) => {
-              this.setState({input: value})
-            }}
-            onEnter={()=>this.handleGuess()}
-          />
-          <button onClick={()=>this.handleGuess()} type="submit" className="btnguess">
-            <FaGlobe
-              className="btnicon"
-            />Enter answer
-          </button>
+          <div className="my-2">
+            <CountryInput
+              ref={this.countryInput}
+              options={this.countries}
+              onChange={(value) => {
+                this.setState({input: value})
+              }}
+              onEnter={()=>this.handleGuess()}
+            />
+            <button onClick={()=>this.handleGuess()} type="submit" className="btnguess">
+              <FaGlobe
+                className="btnicon"
+              />Enter answer
+            </button>
+          </div>
         </div>
-      </div>
+    </div>
     )
   }
 

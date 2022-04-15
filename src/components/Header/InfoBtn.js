@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactModal from 'react-modal';
-import { VscGraph } from "react-icons/vsc";
+import { FaQuestion } from "react-icons/fa";
 
 const modalSize ={
 	content:{
@@ -46,7 +46,7 @@ export default class InfoBtn extends React.Component {
 	render () {
 	  return (
 		<>
-		  <button className='text-3xl text-neutral-200' onClick={this.handleOpenModal}><VscGraph/></button>
+		  <button className='text-2xl text-neutral-200' name="Information" onClick={this.handleOpenModal}><FaQuestion/></button>
 		  <ReactModal 
 			 isOpen={this.state.showModal}
 			 onRequestClose={this.handleCloseModal}
@@ -56,8 +56,8 @@ export default class InfoBtn extends React.Component {
 			<div>
 				<h1 className='modalmaintext'>How to play</h1>
 				<h3 className='modaltext pt-2'>Guess the <span className='tracking-wide font-bold'>BORDER<span className='text-dle'>DLE</span></span></h3>
-				<h3 className='modaltext'>Each guess must be a valid country name, hit the enter button to submit your answer</h3>
-				<h3 className='modaltext'>After each guess, more of the countries border will get revealed.</h3>
+				<h3 className='modaltext'>Each guess must be a valid country name; hit the enter button to submit your answer.</h3>
+				<h3 className='modaltext'>After each guess, more of the country's border will get revealed.</h3>
 			</div>
 		  </ReactModal>
 		</>
