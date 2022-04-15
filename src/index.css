@@ -21,7 +21,7 @@
 
 @layer components {
   .main {
-    @apply flex justify-center flex-auto bg-cover bg-[#1d8543] h-screen
+    @apply flex justify-center flex-auto bg-cover bg-[#1d8543] min-h-screen
   }
   .game {
     @apply flex-grow flex flex-col mx-2 bg-[#1d8543]
