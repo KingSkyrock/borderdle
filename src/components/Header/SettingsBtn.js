@@ -46,7 +46,7 @@ export default class SettingsBtn extends React.Component {
 	render () {
 	  return (
 		<>
-		  <button className='text-3xl text-red-600' name="Settings" onClick={this.handleOpenModal}><IoMdSettings/></button>
+		  <button className='text-3xl text-neutral-200 ml-3' aria-label="Settings" onClick={this.handleOpenModal}><IoMdSettings/></button>
 		  <ReactModal 
 			 isOpen={this.state.showModal}
 			 onRequestClose={this.handleCloseModal}

@@ -46,7 +46,7 @@ export default class InfoBtn extends React.Component {
 	render () {
 	  return (
 		<>
-		  <button className='text-2xl text-neutral-200' name="Information" onClick={this.handleOpenModal}><FaQuestion/></button>
+		  <button className='text-2xl text-neutral-200 mr-3' aria-label="Information" onClick={this.handleOpenModal}><FaQuestion/></button>
 		  <ReactModal 
 			 isOpen={this.state.showModal}
 			 onRequestClose={this.handleCloseModal}

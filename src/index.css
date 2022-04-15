@@ -27,7 +27,7 @@
     @apply flex-grow flex flex-col mx-2 bg-[#1d8543]
   }
   .lgw {
-    @apply text-4xl font-bold text-neutral-200 pt-2 uppercase tracking-wide text-center flex-auto
+    @apply text-4xl font-bold text-neutral-200 my-1 uppercase tracking-wide text-center flex-auto
   }
   .modalmaintext {
     @apply text-3xl font-semibold text-neutral-200 pb-3 uppercase tracking-normal text-center

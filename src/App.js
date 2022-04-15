@@ -180,29 +180,31 @@ class App extends React.Component {
             <SettingsBtn/>
           </header>
           <Toaster />
-          <Country ref={this.country}/>
-          <div ref={this.guesses} className="grid grid-cols-7 gap-1 text-center">
-            <div className='guessdiv'></div>
-            <div className='guessdiv'></div>
-            <div className='guessdiv'></div>
-            <div className='guessdiv'></div>
-            <div className='guessdiv'></div>
-            <div className='guessdiv'></div>
-          </div>
-          <div className="my-2">
-            <CountryInput
-              ref={this.countryInput}
-              options={this.countries}
-              onChange={(value) => {
-                this.setState({input: value})
-              }}
-              onEnter={()=>this.handleGuess()}
-            />
-            <button onClick={()=>this.handleGuess()} type="submit" className="btnguess">
-              <FaGlobe
-                className="btnicon"
-              />Enter answer
-            </button>
+          <div className='game'>
+            <Country ref={this.country}/>
+            <div ref={this.guesses} className="grid grid-cols-7 gap-1 text-center">
+              <div className='guessdiv'></div>
+              <div className='guessdiv'></div>
+              <div className='guessdiv'></div>
+              <div className='guessdiv'></div>
+              <div className='guessdiv'></div>
+              <div className='guessdiv'></div>
+            </div>
+            <div className="my-2">
+              <CountryInput
+                ref={this.countryInput}
+                options={this.countries}
+                onChange={(value) => {
+                  this.setState({input: value})
+                }}
+                onEnter={()=>this.handleGuess()}
+              />
+              <button onClick={()=>this.handleGuess()} type="submit" className="btnguess">
+                <FaGlobe
+                  className="btnicon"
+                />Enter answer
+              </button>
+            </div>
           </div>
         </div>
     </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactModal from 'react-modal';
-import { VscGraph } from "react-icons/vsc";
+import { BsFillBarChartFill } from "react-icons/bs";
 
 const modalSize ={
 	content:{
@@ -46,7 +46,7 @@ export default class StatsBtn extends React.Component {
 	render () {
 	  return (
 		<>
-		  <button className='text-xl mr-2 text-neutral-200' name='Stats' onClick={this.handleOpenModal}><VscGraph/></button>
+		  <button className='text-xl ml-2 text-neutral-200' aria-label="Stats" onClick={this.handleOpenModal}><BsFillBarChartFill/></button>
 		  <ReactModal 
 			 isOpen={this.state.showModal}
 			 onRequestClose={this.handleCloseModal}
