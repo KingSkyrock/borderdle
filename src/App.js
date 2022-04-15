@@ -124,7 +124,7 @@ class App extends React.Component {
   }
 
   handleGuess() {
-    var conditions = this.country.current.progress < 6 && !this.country.current.inProgress && this.state.gameStatus == 0
+    var conditions = this.country.current.progress < 7 && !this.country.current.inProgress && this.state.gameStatus == 0
     var input = this.state.input;
     if (conditions && !this.inCountryList(input)) {
       toast('Not in country list', {
@@ -142,7 +142,7 @@ class App extends React.Component {
         this.country.current.advance(1, (progress) => {
           var guesses = this.guesses.current.querySelectorAll('div');
           guesses[progress - 1].textContent = input.toUpperCase() + " - " + distance;
-          if (progress == 6) { //lost
+          if (progress == 7) { //lost
             this.setLocalStorage(input.toUpperCase() + " - " + distance, progress, -1);
             this.handleLoss();
           } else {
@@ -158,6 +158,7 @@ class App extends React.Component {
         });
         this.countryInput.current.clearInput();
         this.country.current.advance(6 - this.country.current.progress, (progress) => {
+          console.log(progress)
           var guesses = this.guesses.current.querySelectorAll('div');
           guesses[progress - 1].textContent = input.toUpperCase() + " - " + distance;
           this.setLocalStorage(input.toUpperCase() + " - " + distance, progress, 1);
@@ -185,6 +186,7 @@ class App extends React.Component {
           <div className='game'>
             <Country ref={this.country}/>
             <div ref={this.guesses} className="grid grid-cols-7 gap-1 text-center">
+              <div className='guessdiv'></div>
               <div className='guessdiv'></div>
               <div className='guessdiv'></div>
               <div className='guessdiv'></div>

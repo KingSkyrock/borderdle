@@ -10,8 +10,10 @@ const DIST_DIR = path.join(__dirname, '../dist');
 const HTML_FILE = path.join(DIST_DIR, 'index.html');
 const bodyParser = require('body-parser');
 const schedule = require('node-schedule');
+var fs = require('file-system');
 
-var country = randomCountry();
+var country = null;
+newCountry();
 
 app.use(compression())
 app.use(express.static(DIST_DIR));
@@ -67,10 +69,17 @@ function randomCountry() {
 }
 
 function newCountry() {
-  lastCountry = country;
-  while (country == lastCountry) {
+  if (country != null) {
+    lastCountry = country;
+    while (country == lastCountry) {
+      country = randomCountry();
+    }
+  } else {
     country = randomCountry();
   }
+  fs.writeFile('./num.txt', parseInt(fs.readFileSync('./num.txt', 'utf8'))+1, function (err) { });
+  console.log("Borderdle #" + (1 + parseInt(fs.readFileSync('./num.txt', 'utf8'))));
+  
 }
 
 app.listen(port, function () {

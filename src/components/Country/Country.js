@@ -156,6 +156,8 @@ export default class Country extends React.Component {
         this.progress += 1*multiplier;
         this.timer = null;
        }, this.duration / 6 * multiplier)
+     } else if (this.progress == 6 && this.timer == null) {
+        callback(7);
      }
   }
 
