@@ -10,6 +10,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { DateTime } from "luxon";
 import InfoBtn from "./components/Header/InfoBtn.js";
 import SettingsBtn from "./components/Header/SettingsBtn.js";
+import GithubBtn from "./components/Header/GithubBtn.js"
 import StatsBtn from "./components/Header/StatsBtn.js";
 
 
@@ -172,9 +173,10 @@ class App extends React.Component {
       <div className="main">
         <div className="w-full max-w-lg flex flex-col">
           <header className="border-b-2 px-3 border-gray-200 flex">
+            <GithubBtn/>
             <InfoBtn/>
             <h1 className="lgw">
-              Border<span className="text-dle">dle</span>
+              Bord<span className="text-dle">le</span>
             </h1>
             <StatsBtn/>
             <SettingsBtn/>
