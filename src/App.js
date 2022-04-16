@@ -123,6 +123,37 @@ class App extends React.Component {
     return valid;
   }
 
+  bearing(a, b) {
+    var lat1 = a[1] * Math.PI / 180;
+    var lng1 = a[0] * Math.PI / 180;
+    var lat2 = b[1] * Math.PI / 180;
+    var lng2 = b[0] * Math.PI / 180;
+    var dist = (lng2 - lng1)
+
+    var theta = Math.atan2(Math.sin(dist) * Math.cos(lat2), Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dist))
+    return (theta * 180 / Math.PI + 360) % 360
+  }
+
+  compass(bearing) {
+    if (bearing <= 67.5 && bearing > 22.5) {
+      return "NE"
+    } else if (bearing <= 112.5 && bearing > 67.5) {
+      return "E"
+    } else if (bearing <= 157.5 && bearing > 112.5) {
+      return "SE"
+    } else if (bearing <= 202.5 && bearing > 157.5) {
+      return "S"
+    } else if (bearing <= 247.5 && bearing > 202.5) {
+      return "SW"
+    } else if (bearing <= 292.5 && bearing > 247.5) {
+      return "W"
+    } else if (bearing <= 337.5 && bearing > 292.5) {
+      return "NW"
+    } else if (bearing <= 360 && bearing > 337.5 || bearing <= 22.5 && bearing >= 0) {
+      return "N"
+    }
+  }
+
   handleGuess() {
     var conditions = this.country.current.progress < 7 && !this.country.current.inProgress && this.state.gameStatus == 0
     var input = this.state.input;
@@ -135,7 +166,8 @@ class App extends React.Component {
     } else if (conditions && this.inCountryList(input)) {
       var circ = 40075;
       var rawDistance = haversine(longlats[this.answer.toLowerCase()], longlats[input.toLowerCase()])
-      var distance = Math.round(rawDistance / 1000) + "km" + " - " + Math.round((((circ / 2) - Math.round(rawDistance / 1000)) / (circ / 2)) * 100) + "%";
+      var direction = this.compass(this.bearing(longlats[input.toLowerCase()], longlats[this.answer.toLowerCase()]))
+      var distance = Math.round(rawDistance / 1000) + "km" + " - " + Math.round((((circ / 2) - Math.round(rawDistance / 1000)) / (circ / 2)) * 100) + "%" + " - " + direction;
       this.setState({ input: "" });
       if (input.toLowerCase() != this.answer.toLowerCase()) {
         this.countryInput.current.clearInput();
