@@ -65,7 +65,6 @@ function randomCountry() {
   while (randomCountry == "Micronesia" || randomCountry == "Tuvalu" || randomCountry == "Palestine" || randomCountry == "Marshall Islands") {
     randomCountry = countries[Math.floor(Math.random() * (countries.length - 1))].name;
   }
-  return "Slovenia"
   return randomCountry;
 }
 
@@ -78,8 +77,17 @@ function newCountry() {
   } else {
     country = randomCountry();
   }
-  fs.writeFile('./num.txt', parseInt(fs.readFileSync('./num.txt', 'utf8'))+1, function (err) { });
-  console.log("Borderdle #" + (1 + parseInt(fs.readFileSync('./num.txt', 'utf8'))));
+
+  fs.readFile('./data/data.json', (err, data) => {
+    if (err) throw err;
+    data = JSON.parse(data);
+    data.num += 1;
+    console.log("Borderdle #" + (data.num));
+    fs.writeFile('./data/data.json', JSON.stringify(data));
+  });
+
+  
+  
   
 }
 

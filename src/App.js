@@ -113,8 +113,7 @@ class App extends React.Component {
     }
     return valid;
   }
-  //	Δψ = ln( tan(π/4 + φ2/2) / tan(π/4 + φ1/2) )	(‘projected’ latitude difference)
-  //θ = atan2(Δλ, Δψ)
+  
   bearing(a, b) {
     var lat1 = a[1] * Math.PI / 180;
     var lng1 = a[0] * Math.PI / 180;
