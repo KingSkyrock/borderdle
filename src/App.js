@@ -8,10 +8,12 @@ import axios from 'axios';
 import { FaGlobe } from "react-icons/fa";
 import toast, { Toaster } from 'react-hot-toast';
 import { DateTime } from "luxon";
+import ReactTooltip from 'react-tooltip';
 import InfoBtn from "./components/Header/InfoBtn.js";
 import SettingsBtn from "./components/Header/SettingsBtn.js";
 import GithubBtn from "./components/Header/GithubBtn.js"
 import StatsBtn from "./components/Header/StatsBtn.js";
+
 
 const haversine = require('haversine-distance');
 const longlats = require('../data/longlats.json');
@@ -62,7 +64,6 @@ class App extends React.Component {
   getLocalStorage() {
     var utc = DateTime.utc();
     var dateStr = utc.year + "-" + utc.month + "-" + utc.day
-    var guesses = this.guesses.current.querySelectorAll('.guessdiv');
     var data = JSON.parse(localStorage.getItem('data'));
     if (data != null && data != "null" && data != undefined && data[dateStr] != undefined) {
       var gameStatus = data[dateStr].gameStatus;
@@ -112,16 +113,21 @@ class App extends React.Component {
     }
     return valid;
   }
-
+  //	Δψ = ln( tan(π/4 + φ2/2) / tan(π/4 + φ1/2) )	(‘projected’ latitude difference)
+  //θ = atan2(Δλ, Δψ)
   bearing(a, b) {
     var lat1 = a[1] * Math.PI / 180;
     var lng1 = a[0] * Math.PI / 180;
     var lat2 = b[1] * Math.PI / 180;
     var lng2 = b[0] * Math.PI / 180;
-    var dist = (lng2 - lng1)
-
-    var theta = Math.atan2(Math.sin(dist) * Math.cos(lat2), Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dist))
-    return (theta * 180 / Math.PI + 360) % 360
+    var distLng = (lng2 - lng1)
+    var distLat = Math.log(Math.tan(Math.PI / 4 + lat2 / 2) / Math.tan(Math.PI / 4 + lat1 / 2));
+    if (Math.abs(distLng) > Math.PI) distLng = -(2 * Math.PI - distLng);
+    var theta = Math.atan2(distLng, distLat) * 180 / Math.PI;
+    while (theta < 0) {
+      theta += 360;
+    }
+    return theta;
   }
 
   compass(bearing) {
@@ -164,9 +170,10 @@ class App extends React.Component {
       });
     } else if (conditions && this.inCountryList(input)) {
       var circ = 40075;
-      var rawDistance = haversine(longlats[this.answer.toLowerCase()], longlats[input.toLowerCase()])
-      var direction = this.compass(this.bearing(longlats[input.toLowerCase()], longlats[this.answer.toLowerCase()]))
-      var distance = Math.round(rawDistance / 1000) + "km" + " - " + Math.round((((circ / 2) - Math.round(rawDistance / 1000)) / (circ / 2)) * 100) + "%" + " - " + direction;
+      var rawDistance = haversine(longlats[this.answer.toLowerCase()], longlats[input.toLowerCase()]);
+      var bearing = this.bearing(longlats[input.toLowerCase()], longlats[this.answer.toLowerCase()]);
+      var direction = this.compass(bearing);
+      var distance = Math.round(rawDistance / 1000) + "km" + " - " + Math.round((((circ / 2) - Math.round(rawDistance / 1000)) / (circ / 2)) * 100) + "%" + " - " + direction + " - " + Math.round(bearing);
       this.setState({ input: "" });
       if (input.toLowerCase() != this.answer.toLowerCase()) {
         this.countryInput.current.clearInput();
@@ -203,6 +210,7 @@ class App extends React.Component {
     guesses[progress - 1].querySelector('.distance').textContent = info.split(" - ")[1]
     guesses[progress - 1].querySelector('.percent').textContent = info.split(" - ")[2]
     guesses[progress - 1].querySelector('.direction').textContent = info.split(" - ")[3];
+    guesses[progress - 1].querySelector('.bearing').textContent = info.split(" - ")[4] + "°";
   }
 
   render() {
@@ -226,43 +234,64 @@ class App extends React.Component {
                 <span className='name'></span>
                 <span className='distance'></span>
                 <span className='percent'></span>
-                <span className='direction'></span>
+                <span data-tip data-for='t1'className='direction'></span>
+                <ReactTooltip id='t1'>
+                  <span className='bearing'></span>
+                </ReactTooltip>
               </div>
               <div className='guessdiv'>
                 <span className='name'></span>
                 <span className='distance'></span>
                 <span className='percent'></span>
-                <span className='direction'></span>
+                <span data-tip data-for='t2' className='direction'></span>
+                <ReactTooltip id='t2'>
+                  <span className='bearing'></span>
+                </ReactTooltip>
               </div>
               <div className='guessdiv'>
                 <span className='name'></span>
                 <span className='distance'></span>
                 <span className='percent'></span>
-                <span className='direction'></span>
+                <span data-tip data-for='t3' className='direction'></span>
+                <ReactTooltip id='t3'>
+                  <span className='bearing'></span>
+                </ReactTooltip>
               </div>
               <div className='guessdiv'>
                 <span className='name'></span>
                 <span className='distance'></span>
                 <span className='percent'></span>
-                <span className='direction'></span>
+                <span data-tip data-for='t4' className='direction'></span>
+                <ReactTooltip id='t4'>
+                  <span className='bearing'></span>
+                </ReactTooltip>
               </div>
               <div className='guessdiv'>
                 <span className='name'></span>
                 <span className='distance'></span>
                 <span className='percent'></span>
-                <span className='direction'></span>
+                <span data-tip data-for='t5' className='direction'></span>
+                <ReactTooltip id='t5'>
+                  <span className='bearing'></span>
+                </ReactTooltip>
               </div>
               <div className='guessdiv'>
                 <span className='name'></span>
                 <span className='distance'></span>
                 <span className='percent'></span>
-                <span className='direction'></span>
+                <span data-tip data-for='t6' className='direction'></span>
+                <ReactTooltip id='t6'>
+                  <span className='bearing'></span>
+                </ReactTooltip>
               </div>
               <div className='guessdiv'>
                 <span className='name'></span>
                 <span className='distance'></span>
                 <span className='percent'></span>
-                <span className='direction'></span>
+                <span data-tip data-for='t7' className='direction'></span>
+                <ReactTooltip id='t7'>
+                  <span className='bearing'></span>
+                </ReactTooltip>
               </div>
             </div>
             <div className="my-2">
