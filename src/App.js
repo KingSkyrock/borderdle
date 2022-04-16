@@ -13,7 +13,6 @@ import SettingsBtn from "./components/Header/SettingsBtn.js";
 import GithubBtn from "./components/Header/GithubBtn.js"
 import StatsBtn from "./components/Header/StatsBtn.js";
 
-
 const haversine = require('haversine-distance');
 const longlats = require('../data/longlats.json');
 const countries = require('../data/borders.json');
@@ -63,7 +62,7 @@ class App extends React.Component {
   getLocalStorage() {
     var utc = DateTime.utc();
     var dateStr = utc.year + "-" + utc.month + "-" + utc.day
-    var guesses = this.guesses.current.querySelectorAll('div');
+    var guesses = this.guesses.current.querySelectorAll('.guessdiv');
     var data = JSON.parse(localStorage.getItem('data'));
     if (data != null && data != "null" && data != undefined && data[dateStr] != undefined) {
       var gameStatus = data[dateStr].gameStatus;
@@ -73,7 +72,7 @@ class App extends React.Component {
       }
       if (storedGuesses != null && storedGuesses != 'null') {
         for (var i = 0; i < storedGuesses.length; i++) {
-          guesses[i].textContent = storedGuesses[i];
+          this.displayGuess(i + 1, storedGuesses[i])
         }
       }
     }
@@ -101,15 +100,6 @@ class App extends React.Component {
     obj.guesses = newGuesses;
     data[dateStr] = obj;
     localStorage.setItem("data", JSON.stringify(data));
-  }
-
-  handleLoss() {
-    toast.error('Answer: ' + this.answer, {
-      duration: 5000,
-      position: 'top-center',
-      style: {},
-    });
-    this.setState({ gameStatus: -1 })
   }
 
   inCountryList(guess) {
@@ -154,6 +144,15 @@ class App extends React.Component {
     }
   }
 
+  handleLoss() {
+    toast.error('Answer: ' + this.answer, {
+      duration: 5000,
+      position: 'top-center',
+      style: {},
+    });
+    this.setState({ gameStatus: -1 })
+  }
+
   handleGuess() {
     var conditions = this.country.current.progress < 7 && !this.country.current.inProgress && this.state.gameStatus == 0
     var input = this.state.input;
@@ -172,8 +171,7 @@ class App extends React.Component {
       if (input.toLowerCase() != this.answer.toLowerCase()) {
         this.countryInput.current.clearInput();
         this.country.current.advance(1, (progress) => {
-          var guesses = this.guesses.current.querySelectorAll('div');
-          guesses[progress - 1].textContent = input.toUpperCase() + " - " + distance;
+          this.displayGuess(progress, input.toUpperCase() + " - " + distance)
           if (progress == 7) { //lost
             this.setLocalStorage(input.toUpperCase() + " - " + distance, progress, -1);
             this.handleLoss();
@@ -190,15 +188,21 @@ class App extends React.Component {
         });
         this.countryInput.current.clearInput();
         this.country.current.advance(6 - this.country.current.progress, (progress) => {
-          console.log(progress)
-          var guesses = this.guesses.current.querySelectorAll('div');
-          guesses[progress - 1].textContent = input.toUpperCase() + " - " + distance;
+          this.displayGuess(progress, input.toUpperCase() + " - " + distance)
           this.setLocalStorage(input.toUpperCase() + " - " + distance, progress, 1);
           this.setState({ gameStatus: 1 });
           this.country.current.inProgress = false;
         });
       }
     }
+  }
+
+  displayGuess(progress, info) {
+    var guesses = this.guesses.current.querySelectorAll('.guessdiv');
+    guesses[progress - 1].querySelector('.name').textContent = info.split(" - ")[0]
+    guesses[progress - 1].querySelector('.distance').textContent = info.split(" - ")[1]
+    guesses[progress - 1].querySelector('.percent').textContent = info.split(" - ")[2]
+    guesses[progress - 1].querySelector('.direction').textContent = info.split(" - ")[3];
   }
 
   render() {
@@ -218,13 +222,48 @@ class App extends React.Component {
           <div className='game'>
             <Country ref={this.country}/>
             <div ref={this.guesses} className="grid grid-cols-7 gap-1 text-center">
-              <div className='guessdiv'></div>
-              <div className='guessdiv'></div>
-              <div className='guessdiv'></div>
-              <div className='guessdiv'></div>
-              <div className='guessdiv'></div>
-              <div className='guessdiv'></div>
-              <div className='guessdiv'></div>
+              <div className='guessdiv'>
+                <span className='name'></span>
+                <span className='distance'></span>
+                <span className='percent'></span>
+                <span className='direction'></span>
+              </div>
+              <div className='guessdiv'>
+                <span className='name'></span>
+                <span className='distance'></span>
+                <span className='percent'></span>
+                <span className='direction'></span>
+              </div>
+              <div className='guessdiv'>
+                <span className='name'></span>
+                <span className='distance'></span>
+                <span className='percent'></span>
+                <span className='direction'></span>
+              </div>
+              <div className='guessdiv'>
+                <span className='name'></span>
+                <span className='distance'></span>
+                <span className='percent'></span>
+                <span className='direction'></span>
+              </div>
+              <div className='guessdiv'>
+                <span className='name'></span>
+                <span className='distance'></span>
+                <span className='percent'></span>
+                <span className='direction'></span>
+              </div>
+              <div className='guessdiv'>
+                <span className='name'></span>
+                <span className='distance'></span>
+                <span className='percent'></span>
+                <span className='direction'></span>
+              </div>
+              <div className='guessdiv'>
+                <span className='name'></span>
+                <span className='distance'></span>
+                <span className='percent'></span>
+                <span className='direction'></span>
+              </div>
             </div>
             <div className="my-2">
               <CountryInput
