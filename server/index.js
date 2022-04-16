@@ -85,10 +85,6 @@ function newCountry() {
     console.log("Borderdle #" + (data.num));
     fs.writeFile('./data/data.json', JSON.stringify(data));
   });
-
-  
-  
-  
 }
 
 app.listen(port, function () {

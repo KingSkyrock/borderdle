@@ -41,6 +41,20 @@
   .guessdiv {
     @apply col-span-7 h-8 bg-[#85e4a8] rounded
   }
+
+  .name {
+    @apply mr-[1%]
+  }
+  .distance {
+    @apply mr-[1%] ml-[1%]
+  }
+  .percent {
+    @apply mr-[1%] ml-[1%]
+  }
+  .direction {
+    @apply ml-[1%]
+  }
+
   .btnguess {
     @apply w-full text-neutral-200 rounded font-bold p-1 flex items-center justify-center border-2 uppercase my-0.5 bg-[#126130] hover:bg-[#0f5328] active:bg-[#147236] text-xl
   }
