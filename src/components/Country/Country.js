@@ -70,15 +70,15 @@ export default class Country extends React.Component {
   }
 
   getSVG(country) {
-    var svg = "<svg ref={this.svg} className='pb-1' xmlns='http://www.w3.org/2000/svg' version='1.0' width='208px' height='208px' viewBox='0 0 1024.000000 1024.000000'><g id='border' transform='translate(0.000000,1024.000000) scale(0.100000,-0.100000)' fill='none' stroke='#1e293b' strokeWidth='100px'>";
-    var rwanda = "<svg ref={this.svg} className='pb-1' xmlns='http://www.w3.org/2000/svg' version='1.0' width='208px' height='208px' viewBox='0 0 350.000000 308.000000'><g id='border' fill='none' stroke='#1e293b' strokeWidth='3px'>";
-    var timor = "<svg ref={this.svg} className='pb-1' xmlns='http://www.w3.org/2000/svg' version='1.0' width='208px' height='208px' viewBox='0 0 1024.000000 1024.000000'><g id='border' fill='none' stroke='#1e293b' strokeWidth='10px'>";
-    var austria = "<svg ref={this.svg} className='pb-1' xmlns='http://www.w3.org/2000/svg' version='1.0' width='208px' height='208px' viewBox='0 0 1980.000000 1013.000000'><g id='border' fill='none' stroke='#1e293b' strokeWidth='19px'>"
-    var malaysia = "<svg ref={this.svg} class='pb-1' xmlns='http://www.w3.org/2000/svg' version='1.0' width='416px' height='208px' viewBox='0 0 1024.000000 1024.000000' transform='scale(2, 2)'><g id='border' fill='none' stroke='#1e293b' strokeWidth='5px'>"
-    var serbia = "<svg ref={this.svg} class='pb-1' xmlns='http://www.w3.org/2000/svg' version='1.0' width='208px' height='208px' viewBox='0 0 1024.000000 1024.000000'><g id='border' fill='none' stroke='#1e293b' strokeWidth='9px'>"
-    var indonesia = "<svg ref={this.svg} class='pb-1' xmlns='http://www.w3.org/2000/svg' version='1.0' width='416px' height='208px' viewBox='0 0 1280.000000 1280.000000' transform='scale(2, 2)'><g id='border' fill='none' stroke='#1e293b' strokeWidth='5px'>"
-    var cameroon = "<svg ref={this.svg} className='pb-1' xmlns='http://www.w3.org/2000/svg' version='1.0' width='208px' height='208px' viewBox='0 0 1280.000000 1280.000000'><g id='border' fill='none' stroke='#1e293b' strokeWidth='11px'>";
-    var bahamas = "<svg ref={this.svg} className='pb-1' xmlns='http://www.w3.org/2000/svg' version='1.0' width='208px' height='208px' viewBox='0 0 1024.000000 1024.000000'><g id='border' fill='none' stroke='#1e293b' strokeWidth='6px'>";
+    let svg = "<svg ref={this.svg} className='pb-1' xmlns='http://www.w3.org/2000/svg' version='1.0' width='208px' height='208px' viewBox='0 0 1024.000000 1024.000000'><g id='border' transform='translate(0.000000,1024.000000) scale(0.100000,-0.100000)' fill='none' stroke='#1e293b' strokeWidth='100px'>";
+    let rwanda = "<svg ref={this.svg} className='pb-1' xmlns='http://www.w3.org/2000/svg' version='1.0' width='208px' height='208px' viewBox='0 0 350.000000 308.000000'><g id='border' fill='none' stroke='#1e293b' strokeWidth='3px'>";
+    let timor = "<svg ref={this.svg} className='pb-1' xmlns='http://www.w3.org/2000/svg' version='1.0' width='208px' height='208px' viewBox='0 0 1024.000000 1024.000000'><g id='border' fill='none' stroke='#1e293b' strokeWidth='10px'>";
+    let austria = "<svg ref={this.svg} className='pb-1' xmlns='http://www.w3.org/2000/svg' version='1.0' width='208px' height='208px' viewBox='0 0 1980.000000 1013.000000'><g id='border' fill='none' stroke='#1e293b' strokeWidth='19px'>"
+    let malaysia = "<svg ref={this.svg} class='pb-1' xmlns='http://www.w3.org/2000/svg' version='1.0' width='416px' height='208px' viewBox='0 0 1024.000000 1024.000000' transform='scale(2, 2)'><g id='border' fill='none' stroke='#1e293b' strokeWidth='5px'>"
+    let serbia = "<svg ref={this.svg} class='pb-1' xmlns='http://www.w3.org/2000/svg' version='1.0' width='208px' height='208px' viewBox='0 0 1024.000000 1024.000000'><g id='border' fill='none' stroke='#1e293b' strokeWidth='9px'>"
+    let indonesia = "<svg ref={this.svg} class='pb-1' xmlns='http://www.w3.org/2000/svg' version='1.0' width='416px' height='208px' viewBox='0 0 1280.000000 1280.000000' transform='scale(2, 2)'><g id='border' fill='none' stroke='#1e293b' strokeWidth='5px'>"
+    let cameroon = "<svg ref={this.svg} className='pb-1' xmlns='http://www.w3.org/2000/svg' version='1.0' width='208px' height='208px' viewBox='0 0 1280.000000 1280.000000'><g id='border' fill='none' stroke='#1e293b' strokeWidth='11px'>";
+    let bahamas = "<svg ref={this.svg} className='pb-1' xmlns='http://www.w3.org/2000/svg' version='1.0' width='208px' height='208px' viewBox='0 0 1024.000000 1024.000000'><g id='border' fill='none' stroke='#1e293b' strokeWidth='6px'>";
 
     if (country.toLowerCase() == "rwanda") {
       svg = rwanda;
@@ -99,15 +99,15 @@ export default class Country extends React.Component {
     }
 
     this.setState({ paths: svg + paths[country.toLowerCase()] }, () => {
-      var borders = document.querySelector('.jsx-parser').querySelector('svg').querySelector('g').querySelectorAll('path');
-      for (var i = 0; i < borders.length; i++) {
+      let borders = document.querySelector('.jsx-parser').querySelector('svg').querySelector('g').querySelectorAll('path');
+      for (let i = 0; i < borders.length; i++) {
         this.pathArray.push(new Path(borders[i], gsap.timeline()))
       }
       //gsap.ticker.lagSmoothing(false)
       window.addEventListener('blur', () => {
         if (this.timer != null) {
           this.timer.pause();
-          for (var i = 0; i < this.pathArray.length; i++) {
+          for (let i = 0; i < this.pathArray.length; i++) {
             this.pathArray[i].tl.pause();
           }
         }
@@ -116,7 +116,7 @@ export default class Country extends React.Component {
       window.addEventListener('focus', () => {
         if (this.timer != null) {
           this.timer.resume();
-          for (var i = 0; i < this.pathArray.length; i++) {
+          for (let i = 0; i < this.pathArray.length; i++) {
             this.pathArray[i].tl.resume();
           }
         }
@@ -126,9 +126,9 @@ export default class Country extends React.Component {
   }
 
   readLocalStorage() {
-    var utc = DateTime.utc();
-    var dateStr = utc.year + "-" + utc.month + "-" + utc.day
-    var data = JSON.parse(localStorage.getItem('data'));
+    let utc = DateTime.utc();
+    let dateStr = utc.year + "-" + utc.month + "-" + utc.day
+    let data = JSON.parse(localStorage.getItem('data'));
     if (data != null && data != "null" && data != undefined && data[dateStr] != undefined) {
       if (data[dateStr].gameStatus == 1) {
         this.advance(6 - this.progress, (progress) => {
@@ -145,12 +145,12 @@ export default class Country extends React.Component {
   advance(multiplier, callback = (progress) => { }) {
     if (this.progress < 6 && this.timer == null && multiplier > 0) {
       this.inProgress = true;
-      for (var i = 0; i < this.pathArray.length; i++) {
+      for (let i = 0; i < this.pathArray.length; i++) {
         this.pathArray[i].tl.resume();
       }
       callback(this.progress + 1);
       this.timer = new Timer(()=> {
-        for (var i = 0; i < this.pathArray.length; i++) {
+        for (let i = 0; i < this.pathArray.length; i++) {
           this.pathArray[i].tl.pause();
         }
         this.progress += 1*multiplier;

@@ -10,7 +10,7 @@ const DIST_DIR = path.join(__dirname, '../dist');
 const HTML_FILE = path.join(DIST_DIR, 'index.html');
 const bodyParser = require('body-parser');
 const schedule = require('node-schedule');
-var fs = require('file-system');
+const fs = require('file-system');
 
 var country = null;
 newCountry();
@@ -60,7 +60,7 @@ app.get('*', (req, res) => {
 });
 
 function randomCountry() {
-  var randomCountry = countries[Math.floor(Math.random()*(countries.length-1))].name;
+  let randomCountry = countries[Math.floor(Math.random()*(countries.length-1))].name;
   console.log(randomCountry)
   while (randomCountry == "Micronesia" || randomCountry == "Tuvalu" || randomCountry == "Palestine" || randomCountry == "Marshall Islands") {
     randomCountry = countries[Math.floor(Math.random() * (countries.length - 1))].name;

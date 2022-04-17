@@ -57,7 +57,7 @@ class App extends React.Component {
   }
 
   getCountries() {
-    for (var i = 0; i < countries.length; i++) {
+    for (let i = 0; i < countries.length; i++) {
       this.countries.push(countries[i].name);
     }
     axios.post('/getAnswer').then((res) => {
@@ -68,17 +68,17 @@ class App extends React.Component {
   }
 
   getLocalStorage() {
-    var utc = DateTime.utc();
-    var dateStr = utc.year + "-" + utc.month + "-" + utc.day
-    var data = JSON.parse(localStorage.getItem('data'));
+    let utc = DateTime.utc();
+    let dateStr = utc.year + "-" + utc.month + "-" + utc.day
+    let data = JSON.parse(localStorage.getItem('data'));
     if (data != null && data != "null" && data != undefined && data[dateStr] != undefined) {
-      var gameStatus = data[dateStr].gameStatus;
-      var storedGuesses = data[dateStr].guesses;
+      let gameStatus = data[dateStr].gameStatus;
+      let storedGuesses = data[dateStr].guesses;
       if (gameStatus != null && gameStatus != 'null') {
         this.setState({ gameStatus: gameStatus });
       }
       if (storedGuesses != null && storedGuesses != 'null') {
-        for (var i = 0; i < storedGuesses.length; i++) {
+        for (let i = 0; i < storedGuesses.length; i++) {
           this.displayGuess(i + 1, storedGuesses[i])
         }
       }
@@ -86,18 +86,18 @@ class App extends React.Component {
   }
 
   setLocalStorage(input, progress, gameStatus) {
-    var utc = DateTime.utc();
-    var dateStr = utc.year + "-" + utc.month + "-" + utc.day
-    var obj = {progress: progress, gameStatus: gameStatus, guesses: null};
-    var data = JSON.parse(localStorage.getItem("data"))
+    const utc = DateTime.utc();
+    const dateStr = utc.year + "-" + utc.month + "-" + utc.day
+    let obj = {progress: progress, gameStatus: gameStatus, guesses: null};
+    let data = JSON.parse(localStorage.getItem("data"))
     if (data == null || data == "null") {
       data = {};
       data[dateStr] = {};
     } else if (data[dateStr] == undefined) {
       data[dateStr] = {};
     } 
-    var storedGuesses = data[dateStr].guesses;
-    var newGuesses = [];
+    let storedGuesses = data[dateStr].guesses;
+    let newGuesses = [];
     if (storedGuesses == undefined) {
       newGuesses = [input];
     } else {
@@ -110,10 +110,10 @@ class App extends React.Component {
   }
 
   inCountryList(guess) {
-    var valid = false;
-    for (var i = 0; i < countries.length; i++) {
+    let valid = false;
+    for (let i = 0; i < countries.length; i++) {
       if (countries[i].name.toLowerCase() == guess.toLowerCase()) {
-        var valid = true;
+        valid = true;
         break;
       }
     }
@@ -121,14 +121,14 @@ class App extends React.Component {
   }
   
   bearing(a, b) {
-    var lat1 = a[1] * Math.PI / 180;
-    var lng1 = a[0] * Math.PI / 180;
-    var lat2 = b[1] * Math.PI / 180;
-    var lng2 = b[0] * Math.PI / 180;
-    var distLng = (lng2 - lng1)
-    var distLat = Math.log(Math.tan(Math.PI / 4 + lat2 / 2) / Math.tan(Math.PI / 4 + lat1 / 2));
+    const lat1 = a[1] * Math.PI / 180;
+    const lng1 = a[0] * Math.PI / 180;
+    const lat2 = b[1] * Math.PI / 180;
+    const lng2 = b[0] * Math.PI / 180;
+    const distLng = (lng2 - lng1)
+    const distLat = Math.log(Math.tan(Math.PI / 4 + lat2 / 2) / Math.tan(Math.PI / 4 + lat1 / 2));
     if (Math.abs(distLng) > Math.PI) distLng = -(2 * Math.PI - distLng);
-    var theta = Math.atan2(distLng, distLat) * 180 / Math.PI;
+    let theta = Math.atan2(distLng, distLat) * 180 / Math.PI;
     while (theta < 0) {
       theta += 360;
     }
@@ -165,8 +165,8 @@ class App extends React.Component {
   }
 
   handleGuess() {
-    var conditions = this.country.current.progress < 7 && !this.country.current.inProgress && this.state.gameStatus == 0
-    var input = this.state.input;
+    const conditions = this.country.current.progress < 7 && !this.country.current.inProgress && this.state.gameStatus == 0
+    const input = this.state.input;
     if (conditions && !this.inCountryList(input)) {
       toast('Not in country list', {
         duration: 1000,
@@ -174,11 +174,11 @@ class App extends React.Component {
         style: {},
       });
     } else if (conditions && this.inCountryList(input)) {
-      var circ = 40075;
-      var rawDistance = haversine(longlats[this.answer.toLowerCase()], longlats[input.toLowerCase()]);
-      var bearing = this.bearing(longlats[input.toLowerCase()], longlats[this.answer.toLowerCase()]);
-      var direction = this.compass(bearing);
-      var distance = Math.round(rawDistance / 1000) + "km" + " - " + Math.round((((circ / 2) - Math.round(rawDistance / 1000)) / (circ / 2)) * 100) + " - " + direction + " - " + Math.round(bearing);
+      const circ = 40075;
+      const rawDistance = haversine(longlats[this.answer.toLowerCase()], longlats[input.toLowerCase()]);
+      const bearing = this.bearing(longlats[input.toLowerCase()], longlats[this.answer.toLowerCase()]);
+      const direction = this.compass(bearing);
+      const distance = Math.round(rawDistance / 1000) + "km" + " - " + Math.round((((circ / 2) - Math.round(rawDistance / 1000)) / (circ / 2)) * 100) + " - " + direction + " - " + Math.round(bearing);
       this.setState({ input: "" });
       if (input.toLowerCase() != this.answer.toLowerCase()) {
         this.countryInput.current.clearInput();
@@ -211,11 +211,11 @@ class App extends React.Component {
 
   displayGuess(progress, info) {
     this.setState({shownGuesses: progress}, () => {
-      var names = this.state.names;
-      var distances = this.state.distances;
-      var percent = this.state.percent;
-      var arrows = this.state.arrows;
-      var bearings = this.state.bearings;
+      let names = this.state.names;
+      let distances = this.state.distances;
+      let percent = this.state.percent;
+      let arrows = this.state.arrows;
+      let bearings = this.state.bearings;
       names[progress - 1] = info.split(" - ")[0];
       distances[progress - 1] = info.split(" - ")[1];
       percent[progress - 1] = parseInt(info.split(" - ")[2]);

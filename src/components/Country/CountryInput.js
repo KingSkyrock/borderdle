@@ -33,9 +33,9 @@ export default class CountryInput extends React.Component {
 
   handleChange(value) {
     this.props.onChange(value);
-    var arrayStartsWith = [];
-    var arrayIncludes = [];
-    for (var i = 0; i < this.props.options.length; i++) {
+    let arrayStartsWith = [];
+    let arrayIncludes = [];
+    for (let i = 0; i < this.props.options.length; i++) {
       if (this.props.options[i].toLowerCase().startsWith(value.toLowerCase())) {
         arrayStartsWith.push(this.props.options[i])
       } else if (this.props.options[i].toLowerCase().includes(value.toLowerCase())) {
