@@ -13,7 +13,8 @@ import InfoBtn from "./components/Header/InfoBtn.js";
 import SettingsBtn from "./components/Header/SettingsBtn.js";
 import GithubBtn from "./components/Header/GithubBtn.js"
 import StatsBtn from "./components/Header/StatsBtn.js";
-
+import { Twemoji } from 'react-emoji-render';
+import CountUp from 'react-countup';
 
 const haversine = require('haversine-distance');
 const longlats = require('../data/longlats.json');
@@ -28,10 +29,14 @@ class App extends React.Component {
     this.guesses = React.createRef();
     this.countries = [];
     this.answer = "";
+    
 
     this.state = {
       input: "",
+      arrows: ["", "", "", "", "", "", ""],
+      percent: [0, 0, 0, 0, 0, 0, 0],
       gameStatus: 0,
+      shownGuesses: 0,
     }
   };
 
@@ -131,21 +136,21 @@ class App extends React.Component {
 
   compass(bearing) {
     if (bearing <= 67.5 && bearing > 22.5) {
-      return "NE"
+      return "↗️"
     } else if (bearing <= 112.5 && bearing > 67.5) {
-      return "E"
+      return "➡️"
     } else if (bearing <= 157.5 && bearing > 112.5) {
-      return "SE"
+      return "↘️"
     } else if (bearing <= 202.5 && bearing > 157.5) {
-      return "S"
+      return "⬇️"
     } else if (bearing <= 247.5 && bearing > 202.5) {
-      return "SW"
+      return "↙️"
     } else if (bearing <= 292.5 && bearing > 247.5) {
-      return "W"
+      return "⬅️"
     } else if (bearing <= 337.5 && bearing > 292.5) {
-      return "NW"
+      return "↖️"
     } else if (bearing <= 360 && bearing > 337.5 || bearing <= 22.5 && bearing >= 0) {
-      return "N"
+      return "⬆️"
     }
   }
 
@@ -172,7 +177,7 @@ class App extends React.Component {
       var rawDistance = haversine(longlats[this.answer.toLowerCase()], longlats[input.toLowerCase()]);
       var bearing = this.bearing(longlats[input.toLowerCase()], longlats[this.answer.toLowerCase()]);
       var direction = this.compass(bearing);
-      var distance = Math.round(rawDistance / 1000) + "km" + " - " + Math.round((((circ / 2) - Math.round(rawDistance / 1000)) / (circ / 2)) * 100) + "%" + " - " + direction + " - " + Math.round(bearing);
+      var distance = Math.round(rawDistance / 1000) + "km" + " - " + Math.round((((circ / 2) - Math.round(rawDistance / 1000)) / (circ / 2)) * 100) + " - " + direction + " - " + Math.round(bearing);
       this.setState({ input: "" });
       if (input.toLowerCase() != this.answer.toLowerCase()) {
         this.countryInput.current.clearInput();
@@ -204,12 +209,17 @@ class App extends React.Component {
   }
 
   displayGuess(progress, info) {
-    var guesses = this.guesses.current.querySelectorAll('.guessdiv');
-    guesses[progress - 1].querySelector('.name').textContent = info.split(" - ")[0]
-    guesses[progress - 1].querySelector('.distance').textContent = info.split(" - ")[1]
-    guesses[progress - 1].querySelector('.percent').textContent = info.split(" - ")[2]
-    guesses[progress - 1].querySelector('.direction').textContent = info.split(" - ")[3];
-    guesses[progress - 1].querySelector('.bearing').textContent = info.split(" - ")[4] + "°";
+    this.setState({shownGuesses: progress}, () => {
+      var guesses = this.guesses.current.querySelectorAll('.guessdiv');
+      guesses[progress - 1].querySelector('.name').textContent = info.split(" - ")[0];
+      guesses[progress - 1].querySelector('.distance').textContent = info.split(" - ")[1];
+      guesses[progress - 1].querySelector('.bearing').textContent = info.split(" - ")[4] + "°";
+      var arrows = this.state.arrows;
+      var percent = this.state.percent;
+      arrows[progress - 1] = info.split(" - ")[3];
+      percent[progress - 1] = parseInt(info.split(" - ")[2]);
+      this.setState({ arrows: arrows, percent: percent})
+    })
   }
 
   render() {
@@ -230,67 +240,95 @@ class App extends React.Component {
             <Country ref={this.country}/>
             <div ref={this.guesses} className="grid grid-cols-7 gap-1 text-center">
               <div className='guessdiv'>
-                <span className='name'></span>
-                <span className='distance'></span>
-                <span className='percent'></span>
-                <span data-tip data-for='t1'className='direction'></span>
-                <ReactTooltip id='t1'>
-                  <span className='bearing'></span>
-                </ReactTooltip>
+                {this.state.shownGuesses > 0 &&
+                  <>
+                    <span className='name'></span>
+                    <span className='distance'></span>
+                    <span className='percent'><CountUp end={this.state.percent[0]}/>%</span>
+                    <span data-tip data-for='t1' className='direction'><Twemoji className="directionEmoji" svg text={this.state.arrows[0]} /></span>
+                    <ReactTooltip id='t1'>
+                      <span className='bearing'></span>
+                    </ReactTooltip>
+                  </>
+                }
               </div>
               <div className='guessdiv'>
-                <span className='name'></span>
-                <span className='distance'></span>
-                <span className='percent'></span>
-                <span data-tip data-for='t2' className='direction'></span>
-                <ReactTooltip id='t2'>
-                  <span className='bearing'></span>
-                </ReactTooltip>
+                {this.state.shownGuesses > 1 &&
+                  <>
+                    <span className='name'></span>
+                    <span className='distance'></span>
+                    <span className='percent'><CountUp end={this.state.percent[1]} />%</span>
+                    <span data-tip data-for='t1' className='direction'><Twemoji className="directionEmoji" svg text={this.state.arrows[1]} /></span>
+                    <ReactTooltip id='t1'>
+                      <span className='bearing'></span>
+                    </ReactTooltip>
+                  </>
+                }
               </div>
               <div className='guessdiv'>
-                <span className='name'></span>
-                <span className='distance'></span>
-                <span className='percent'></span>
-                <span data-tip data-for='t3' className='direction'></span>
-                <ReactTooltip id='t3'>
-                  <span className='bearing'></span>
-                </ReactTooltip>
+                {this.state.shownGuesses > 2 &&
+                  <>
+                    <span className='name'></span>
+                    <span className='distance'></span>
+                    <span className='percent'><CountUp end={this.state.percent[2]} />%</span>
+                    <span data-tip data-for='t2' className='direction'><Twemoji className="directionEmoji" svg text={this.state.arrows[2]} /></span>
+                    <ReactTooltip id='t2'>
+                      <span className='bearing'></span>
+                    </ReactTooltip>
+                  </>
+                }
               </div>
               <div className='guessdiv'>
-                <span className='name'></span>
-                <span className='distance'></span>
-                <span className='percent'></span>
-                <span data-tip data-for='t4' className='direction'></span>
-                <ReactTooltip id='t4'>
-                  <span className='bearing'></span>
-                </ReactTooltip>
+                {this.state.shownGuesses > 3 &&
+                  <>
+                    <span className='name'></span>
+                    <span className='distance'></span>
+                    <span className='percent'><CountUp end={this.state.percent[3]} />%</span>
+                    <span data-tip data-for='t4' className='direction'><Twemoji className="directionEmoji" svg text={this.state.arrows[3]} /></span>
+                    <ReactTooltip id='t4'>
+                      <span className='bearing'></span>
+                    </ReactTooltip>
+                  </>
+                }
               </div>
               <div className='guessdiv'>
-                <span className='name'></span>
-                <span className='distance'></span>
-                <span className='percent'></span>
-                <span data-tip data-for='t5' className='direction'></span>
-                <ReactTooltip id='t5'>
-                  <span className='bearing'></span>
-                </ReactTooltip>
+                {this.state.shownGuesses > 4 &&
+                  <>
+                    <span className='name'></span>
+                    <span className='distance'></span>
+                    <span className='percent'><CountUp end={this.state.percent[4]} />%</span>
+                    <span data-tip data-for='t5' className='direction'><Twemoji className="directionEmoji" svg text={this.state.arrows[4]} /></span>
+                    <ReactTooltip id='t5'>
+                      <span className='bearing'></span>
+                    </ReactTooltip>
+                  </>
+                }
               </div>
               <div className='guessdiv'>
-                <span className='name'></span>
-                <span className='distance'></span>
-                <span className='percent'></span>
-                <span data-tip data-for='t6' className='direction'></span>
-                <ReactTooltip id='t6'>
-                  <span className='bearing'></span>
-                </ReactTooltip>
+                {this.state.shownGuesses > 5 &&
+                  <>
+                    <span className='name'></span>
+                    <span className='distance'></span>
+                    <span className='percent'><CountUp end={this.state.percent[5]} />%</span>
+                    <span data-tip data-for='t6' className='direction'><Twemoji className="directionEmoji" svg text={this.state.arrows[5]} /></span>
+                    <ReactTooltip id='t6'>
+                      <span className='bearing'></span>
+                    </ReactTooltip>
+                  </>
+                }
               </div>
               <div className='guessdiv'>
-                <span className='name'></span>
-                <span className='distance'></span>
-                <span className='percent'></span>
-                <span data-tip data-for='t7' className='direction'></span>
-                <ReactTooltip id='t7'>
-                  <span className='bearing'></span>
-                </ReactTooltip>
+                {this.state.shownGuesses > 6 &&
+                  <>
+                    <span className='name'></span>
+                    <span className='distance'></span>
+                    <span className='percent'><CountUp end={this.state.percent[6]} />%</span>
+                    <span data-tip data-for='t7' className='direction'><Twemoji className="directionEmoji" svg text={this.state.arrows[6]} /></span>
+                    <ReactTooltip id='t7'>
+                      <span className='bearing'></span>
+                    </ReactTooltip>
+                  </>
+                }
               </div>
             </div>
             <div className="mt-2">
