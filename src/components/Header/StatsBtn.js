@@ -18,7 +18,7 @@ const modalSize ={
 		minWidth: '350px',
 		borderRadius: '25px',
 		boxShadow: '0px 10px 20px 5px rgba(0, 0, 0, 0.3)',
-		backgroundColor: '1d8543',
+		backgroundColor: '#1d8543',
 	},
 	overlay: {
 	   background: 'rgba(0, 0, 0,  0.3)',

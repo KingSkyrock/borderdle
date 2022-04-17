@@ -293,7 +293,7 @@ class App extends React.Component {
                 </ReactTooltip>
               </div>
             </div>
-            <div className="my-2">
+            <div className="mt-2">
               <CountryInput
                 ref={this.countryInput}
                 options={this.countries}

@@ -39,20 +39,20 @@
     @apply flex items-center justify-center pr-2 text-blue-300 h-5 w-auto
   }
   .guessdiv {
-    @apply col-span-7 h-8 bg-[#85e4a8] rounded
+    @apply col-span-7 h-8 bg-[#85e4a8] rounded flex text-2xl w-full justify-evenly items-center
   }
 
   .name {
-    @apply mr-[1%]
+    @apply text-ellipsis overflow-hidden whitespace-nowrap border-[1.5px] rounded w-full
   }
   .distance {
-    @apply mr-[1%] ml-[1%]
+    @apply border-[1.5px] rounded w-fit
   }
   .percent {
-    @apply mr-[1%] ml-[1%]
+    @apply border-[1.5px] rounded w-fit
   }
   .direction {
-    @apply ml-[1%]
+    @apply border-[1.5px] rounded w-fit
   }
 
   .btnguess {
@@ -66,7 +66,7 @@
     @apply flex-auto relative
   }
   .autocompletediv {
-    @apply absolute left-0 top-full right-0 z-50 flex flex-col items-center justify-center max-h-48 w-full overflow-y-auto scroll-smooth
+    @apply absolute left-0 top-full right-0 z-50 flex flex-col items-center justify-center max-h-48 w-full overflow-y-auto scroll-smooth divide-x-2
   }
   .autocomplete {
     @apply bg-[#1c6337] text-base w-full h-8 border-[1.5px] shadow-md border-green-900 flex items-center justify-center text-neutral-100 max-h-[35%] select-none 

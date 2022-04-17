@@ -10,6 +10,9 @@ module.exports = {
             colors: {
                 "dle": "#084726",
             },
+            animation: {
+                reveal: "reveal 200ms forwards",
+            },
         },
     },
     variants: {},
