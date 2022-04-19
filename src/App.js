@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-// import TopBar from './components/Header/TopBar.js';
 import Country from './components/Country/Country.js';
 import CountryInput from './components/Country/CountryInput.js';
 import GuessContainer from './components/Country/GuessContainer.js';
@@ -13,6 +12,7 @@ import InfoBtn from "./components/Header/InfoBtn.js";
 import SettingsBtn from "./components/Header/SettingsBtn.js";
 import GithubBtn from "./components/Header/GithubBtn.js"
 import StatsBtn from "./components/Header/StatsBtn.js";
+import { Twemoji } from 'react-emoji-render';
 
 const haversine = require('haversine-distance');
 const longlats = require('../data/longlats.json');
@@ -137,21 +137,21 @@ class App extends React.Component {
 
   compass(bearing) {
     if (bearing <= 67.5 && bearing > 22.5) {
-      return "↗️"
+      return "2197"
     } else if (bearing <= 112.5 && bearing > 67.5) {
-      return "➡️"
+      return "27a1"
     } else if (bearing <= 157.5 && bearing > 112.5) {
-      return "↘️"
+      return "2198"
     } else if (bearing <= 202.5 && bearing > 157.5) {
-      return "⬇️"
+      return "2b07"
     } else if (bearing <= 247.5 && bearing > 202.5) {
-      return "↙️"
+      return "2199"
     } else if (bearing <= 292.5 && bearing > 247.5) {
-      return "⬅️"
+      return "2b05"
     } else if (bearing <= 337.5 && bearing > 292.5) {
-      return "↖️"
+      return "2196"
     } else if (bearing <= 360 && bearing > 337.5 || bearing <= 22.5 && bearing >= 0) {
-      return "⬆️"
+      return "2b06"
     }
   }
 
@@ -229,11 +229,11 @@ class App extends React.Component {
   render() {
     return (
       <div className="main">
-        <div className="w-full max-w-lg flex flex-col">
-          <header className="border-b-2 px-3 border-gray-200 flex">
+        <div className="inmain">
+          <header className="header">
            <GithubBtn/>
             <InfoBtn/>
-            <h1 className="lgw">
+            <h1 className="headle">
               Bord<span className="text-dle">le</span>
             </h1>
             <StatsBtn/>
@@ -242,7 +242,7 @@ class App extends React.Component {
           <Toaster />
           <div className='game'>
             <Country ref={this.country}/>
-            <div ref={this.guesses} className="grid grid-cols-7 gap-1 text-center">
+            <div ref={this.guesses} className="guessrow">
               {[0,1,2,3,4,5,6].map(n => {
                 return (
                   <GuessContainer
@@ -273,6 +273,26 @@ class App extends React.Component {
               </button>
             </div>
           </div>
+          <footer className="footer footertext">
+            <Twemoji
+              text="❤️"
+              className="footer mr-1"
+            />
+            <span className="footerdle">BORD<span className="text-dle mr-[0.125rem]">DLE</span>?</span>
+              <a
+                className="pl-1"
+                href="https://www.ko-fi.com/underscorelior"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div className="w-max">
+                  <Twemoji
+                    text="- Buy us a coffe! ☕"
+                    className='footer footerkofi'
+                  />
+                </div>
+              </a>
+          </footer>
         </div>
     </div>
     )

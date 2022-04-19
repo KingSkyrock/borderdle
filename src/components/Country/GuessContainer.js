@@ -18,7 +18,7 @@ export default class GuessContainer extends React.Component {
             <span className='name'>{this.props.name}</span>
             <span className='distance'>{this.props.distance}</span>
             <span className='percent'><CountUp end={this.props.percent} />%</span>
-            <span data-tip data-for={"t" + this.props.num} className='direction'><Twemoji className="directionEmoji" svg text={this.props.arrow} /></span>
+            <span data-tip data-for={"t" + this.props.num} className='direction'><img className="diremoji" src={`http://twemoji.maxcdn.com/2/svg/${this.props.arrow}.svg`} alt={`${this.props.arrow}`}/></span>
             <ReactTooltip id={"t" + this.props.num}>
               <span className='bearing'>{this.props.bearing}</span>
             </ReactTooltip>
