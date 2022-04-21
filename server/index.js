@@ -82,7 +82,7 @@ function newCountry() {
     if (err) throw err;
     data = JSON.parse(data);
     data.num += 1;
-    console.log("Borderdle #" + (data.num));
+    console.log("Bordle #" + (data.num));
     fs.writeFile('./data/data.json', JSON.stringify(data));
   });
 }

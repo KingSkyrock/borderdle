@@ -13,6 +13,7 @@ import SettingsBtn from "./components/Header/SettingsBtn.js";
 import GithubBtn from "./components/Header/GithubBtn.js"
 import StatsBtn from "./components/Header/StatsBtn.js";
 import { Twemoji } from 'react-emoji-render';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 const haversine = require('haversine-distance');
 const longlats = require('../data/longlats.json');
@@ -28,7 +29,6 @@ class App extends React.Component {
     this.countries = [];
     this.answer = "";
     
-
     this.state = {
       input: "",
       names: ["", "", "", "", "", "", ""],
@@ -125,7 +125,7 @@ class App extends React.Component {
     const lng1 = a[0] * Math.PI / 180;
     const lat2 = b[1] * Math.PI / 180;
     const lng2 = b[0] * Math.PI / 180;
-    const distLng = (lng2 - lng1)
+    let distLng = (lng2 - lng1)
     const distLat = Math.log(Math.tan(Math.PI / 4 + lat2 / 2) / Math.tan(Math.PI / 4 + lat1 / 2));
     if (Math.abs(distLng) > Math.PI) distLng = -(2 * Math.PI - distLng);
     let theta = Math.atan2(distLng, distLat) * 180 / Math.PI;
@@ -135,23 +135,24 @@ class App extends React.Component {
     return theta;
   }
 
-  compass(bearing) {
+  compass(bearing, emoji) {
+    bearing = parseInt(bearing);
     if (bearing <= 67.5 && bearing > 22.5) {
-      return "2197"
+      return emoji ? "↗️" : "2197"
     } else if (bearing <= 112.5 && bearing > 67.5) {
-      return "27a1"
+      return emoji ? "➡️" : "27a1"
     } else if (bearing <= 157.5 && bearing > 112.5) {
-      return "2198"
+      return emoji ? "↘️" : "2198"
     } else if (bearing <= 202.5 && bearing > 157.5) {
-      return "2b07"
+      return emoji ? "⬇️" : "2b07"
     } else if (bearing <= 247.5 && bearing > 202.5) {
-      return "2199"
+      return emoji ? "↙️" : "2199"
     } else if (bearing <= 292.5 && bearing > 247.5) {
-      return "2b05"
+      return emoji ? "⬅️" : "2b05"
     } else if (bearing <= 337.5 && bearing > 292.5) {
-      return "2196"
+      return emoji ? "↖️" : "2196"
     } else if (bearing <= 360 && bearing > 337.5 || bearing <= 22.5 && bearing >= 0) {
-      return "2b06"
+      return emoji ? "⬆️" : "2b06"
     }
   }
 
@@ -162,6 +163,58 @@ class App extends React.Component {
       style: {},
     });
     this.setState({ gameStatus: -1 })
+  }
+
+  getSquares(percent) {
+    let squares = new Array(5);
+    let greenCount = Math.floor(percent / 20);
+    let yellowCount = percent - greenCount * 20 >= 10 ? 1 : 0;
+    squares.fill("🟩", 0, greenCount);
+    squares.fill("🟨", greenCount, greenCount + yellowCount);
+    squares.fill("⬛", greenCount + yellowCount);
+    return squares.join("");
+  }
+
+  handleShare() {
+    let text = `🌐 Bordle 1 ${this.state.shownGuesses}/7 🌐
+${this.state.shownGuesses > 0 ? this.getSquares(this.state.percent[0]) + this.compass(this.state.bearings[0], true) : ""}
+${this.state.shownGuesses > 1 ? this.getSquares(this.state.percent[1]) + this.compass(this.state.bearings[1], true) : ""}
+${this.state.shownGuesses > 2 ? this.getSquares(this.state.percent[2]) + this.compass(this.state.bearings[2], true) : ""}
+${this.state.shownGuesses > 3 ? this.getSquares(this.state.percent[3]) + this.compass(this.state.bearings[3], true) : ""}
+${this.state.shownGuesses > 4 ? this.getSquares(this.state.percent[4]) + this.compass(this.state.bearings[4], true) : ""}
+${this.state.shownGuesses > 5 ? this.getSquares(this.state.percent[5]) + this.compass(this.state.bearings[5], true) : ""}
+${this.state.shownGuesses > 6 ? this.getSquares(this.state.percent[6]) + this.compass(this.state.bearings[6], true) : ""}`.trim() + "\nWEBSITE";
+    navigator.clipboard.writeText(text).then(() => {
+      toast.success('Copied to clipboard.', {
+        duration: 2000,
+        position: 'top-center',
+        style: {},
+      });
+    },() => {
+      var textArea = document.createElement("textarea");
+      textArea.value = text;
+
+      textArea.style.top = "0";
+      textArea.style.left = "0";
+      textArea.style.position = "fixed";
+      textArea.style.display = "none";
+
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+
+      try {
+        document.execCommand('copy');
+        
+        toast.success('Copied to clipboard.', {
+          duration: 2000,
+          position: 'top-center',
+          style: {},
+        });
+      } catch (err) {
+        alert("you bad");
+      }
+    });
   }
 
   handleGuess() {
@@ -177,7 +230,7 @@ class App extends React.Component {
       const circ = 40075;
       const rawDistance = haversine(longlats[this.answer.toLowerCase()], longlats[input.toLowerCase()]);
       const bearing = this.bearing(longlats[input.toLowerCase()], longlats[this.answer.toLowerCase()]);
-      const direction = this.compass(bearing);
+      const direction = this.compass(bearing, false);
       const distance = Math.round(rawDistance / 1000) + "km" + " - " + Math.round((((circ / 2) - Math.round(rawDistance / 1000)) / (circ / 2)) * 100) + " - " + direction + " - " + Math.round(bearing);
       this.setState({ input: "" });
       if (input.toLowerCase() != this.answer.toLowerCase()) {
@@ -258,19 +311,29 @@ class App extends React.Component {
               })}
             </div>
             <div className="mt-2">
+              {(this.state.gameStatus ? true : false) &&
+                <>
+                  <button onClick={()=>this.handleShare()} className="sharebutton">share</button>
+                </>
+              }
               <CountryInput
                 ref={this.countryInput}
                 options={this.countries}
                 onChange={(value) => {
                   this.setState({input: value})
                 }}
+                gameStatus={this.state.gameStatus}
                 onEnter={()=>this.handleGuess()}
               />
-              <button onClick={()=>this.handleGuess()} type="submit" className="btnguess">
-                <FaGlobe
-                  className="btnicon"
-                />Enter answer
-              </button>
+              {(this.state.gameStatus ? false : true) &&
+                <>
+                  <button onClick={() => this.handleGuess()} className="btnguess">
+                    <FaGlobe
+                      className="btnicon"
+                    />Enter answer
+                  </button>
+                </>
+              }
             </div>
           </div>
           <footer className="footer footertext">

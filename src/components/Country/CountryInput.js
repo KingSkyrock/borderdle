@@ -17,7 +17,7 @@ export default class CountryInput extends React.Component {
   };
   
   componentDidMount() {
-    document.addEventListener("mousedown", (evt)=>this.handleClickOutside(evt));
+    document.addEventListener("mousedown", (evt) => this.handleClickOutside(evt));
     this.input.current.addEventListener("keydown", (evt) => {
       if (evt.key == 'Enter') {
         this.props.onEnter();
@@ -25,8 +25,17 @@ export default class CountryInput extends React.Component {
     });
   }
 
+  componentDidUnmount() {
+    document.removeEventListener("mousedown", (evt) => this.handleClickOutside(evt));
+    this.input.current.removeEventListener("keydown", (evt) => {
+      if (evt.key == 'Enter') {
+        this.props.onEnter();
+      }
+    });
+  }
+
   handleClickOutside(evt) {
-    if (this.container && !this.container.current.contains(evt.target)) {
+    if (!this.props.gameStatus && this.container && !this.container.current.contains(evt.target)) {
       this.setState({showing: false})
     }
   }
@@ -51,6 +60,9 @@ export default class CountryInput extends React.Component {
   }
 
   render() {
+    if (this.props.gameStatus) {
+      return (<></>)
+    }
     return (
       <div className='inputdiv' ref={this.container} onFocus={()=>this.setState({showing: true})}>
         <input ref={this.input} value={this.state.input} onChange={(evt)=>{this.setState({input: evt.target.value}); this.handleChange(evt.target.value)}} maxLength="32" minLength="4" type="text" className="input" placeholder="Enter Country"></input>
@@ -66,5 +78,6 @@ export default class CountryInput extends React.Component {
 CountryInput.propTypes = {
   options: PropTypes.array.isRequired,
   onChange: PropTypes.func.isRequired,
-  onEnter: PropTypes.func
+  onEnter: PropTypes.func.isRequired,
+  gameStatus: PropTypes.number.isRequired,
 };
