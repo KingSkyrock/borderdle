@@ -13,7 +13,6 @@ import SettingsBtn from "./components/Header/SettingsBtn.js";
 import GithubBtn from "./components/Header/GithubBtn.js"
 import StatsBtn from "./components/Header/StatsBtn.js";
 import { Twemoji } from 'react-emoji-render';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 const haversine = require('haversine-distance');
 const longlats = require('../data/longlats.json');
