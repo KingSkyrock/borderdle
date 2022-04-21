@@ -17,6 +17,7 @@ import { Twemoji } from 'react-emoji-render';
 const haversine = require('haversine-distance');
 const longlats = require('../data/longlats.json');
 const countries = require('../data/borders.json');
+const data = require('../data/data.json');
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -175,7 +176,7 @@ class App extends React.Component {
   }
 
   handleShare() {
-    let text = `🌐 Bordle 1 ${this.state.shownGuesses}/7 🌐
+    let text = `🌐 Bordle ${data.num + 1} ${this.state.shownGuesses}/7 🌐
 ${this.state.shownGuesses > 0 ? this.getSquares(this.state.percent[0]) + this.compass(this.state.bearings[0], true) : ""}
 ${this.state.shownGuesses > 1 ? this.getSquares(this.state.percent[1]) + this.compass(this.state.bearings[1], true) : ""}
 ${this.state.shownGuesses > 2 ? this.getSquares(this.state.percent[2]) + this.compass(this.state.bearings[2], true) : ""}
@@ -189,7 +190,7 @@ ${this.state.shownGuesses > 6 ? this.getSquares(this.state.percent[6]) + this.co
         position: 'top-center',
         style: {},
       });
-    },() => {
+    }, () => {
       var textArea = document.createElement("textarea");
       textArea.value = text;
 
@@ -204,7 +205,7 @@ ${this.state.shownGuesses > 6 ? this.getSquares(this.state.percent[6]) + this.co
 
       try {
         document.execCommand('copy');
-        
+
         toast.success('Copied to clipboard.', {
           duration: 2000,
           position: 'top-center',
@@ -340,7 +341,7 @@ ${this.state.shownGuesses > 6 ? this.getSquares(this.state.percent[6]) + this.co
               text="❤️"
               className="footer mr-1"
             />
-            <span className="footerdle">BORD<span className="text-dle mr-[0.125rem]">DLE</span>?</span>
+            <span className="footerdle">BOR<span className="text-dle mr-[0.125rem]">DLE</span>?</span>
               <a
                 className="pl-1"
                 href="https://www.ko-fi.com/underscorelior"
