@@ -68,8 +68,8 @@ class App extends React.Component {
   }
 
   getLocalStorage() {
-    let utc = DateTime.utc();
-    let dateStr = utc.year + "-" + utc.month + "-" + utc.day
+    const utc = DateTime.utc();
+    const dateStr = utc.year + "-" + utc.month + "-" + utc.day;
     let data = JSON.parse(localStorage.getItem('data'));
     if (data != null && data != "null" && data != undefined && data[dateStr] != undefined) {
       let gameStatus = data[dateStr].gameStatus;
@@ -87,7 +87,7 @@ class App extends React.Component {
 
   setLocalStorage(input, progress, gameStatus) {
     const utc = DateTime.utc();
-    const dateStr = utc.year + "-" + utc.month + "-" + utc.day
+    const dateStr = utc.year + "-" + utc.month + "-" + utc.day;
     let obj = {progress: progress, gameStatus: gameStatus, guesses: null};
     let data = JSON.parse(localStorage.getItem("data"))
     if (data == null || data == "null") {
@@ -218,6 +218,14 @@ ${this.state.shownGuesses > 6 ? this.getSquares(this.state.percent[6]) + this.co
   }
 
   handleGuess() {
+    axios.post('/getAnswer').then((res) => {
+      if (this.answer != res.data.country) {
+        window.location.reload();
+      }
+    }).catch((error) => {
+      alert(error);
+    });
+
     const conditions = this.country.current.progress < 7 && !this.country.current.inProgress && this.state.gameStatus == 0
     const input = this.state.input;
     if (conditions && !this.inCountryList(input)) {
@@ -230,7 +238,8 @@ ${this.state.shownGuesses > 6 ? this.getSquares(this.state.percent[6]) + this.co
       const circ = 40075;
       const rawDistance = haversine(longlats[this.answer.toLowerCase()], longlats[input.toLowerCase()]);
       const bearing = this.bearing(longlats[input.toLowerCase()], longlats[this.answer.toLowerCase()]);
-      const direction = this.compass(bearing, false);
+      let direction = this.compass(bearing, false);
+      if (rawDistance == 0) direction = "1f389";
       const distance = Math.round(rawDistance / 1000) + "km" + " - " + Math.round((((circ / 2) - Math.round(rawDistance / 1000)) / (circ / 2)) * 100) + " - " + direction + " - " + Math.round(bearing);
       this.setState({ input: "" });
       if (input.toLowerCase() != this.answer.toLowerCase()) {

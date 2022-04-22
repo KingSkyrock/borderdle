@@ -29,11 +29,11 @@ rule.hour = 0;
 rule.minute = 0;
 rule.tz = 'Etc/UTC';
 
-/*
-const job = schedule.scheduleJob('1 * * * * *', function () { // every minute for testing
+
+/*const job = schedule.scheduleJob('1 * * * * *', function () { // every minute for testing
   newCountry();
-});
-*/
+});*/
+
 const daily = schedule.scheduleJob(rule, function () {
   newCountry();
 });
