@@ -48,10 +48,22 @@
   }
 
   .modalmaintext {
-    @apply text-3xl font-semibold text-neutral-200 pb-3 uppercase tracking-normal text-center
+    @apply text-2xl font-medium tracking-wider text-neutral-200 pb-1 uppercase text-center border-b-2 border-gray-200
   }
   .modaltext {
     @apply text-lg font-semibold text-neutral-200 pt-3 pl-4
+  }
+  .modalswitch {
+    @apply relative inline-block w-8 h-6 pr-2 bg-neutral-50
+  }
+  .modalselect {
+    @apply flex-auto text-neutral-500 rounded font-semibold h-8 sm:h-auto bg-neutral-50
+  }
+  .modalselectdiv {
+    @apply flex-row items-center modaltext flex text-neutral-300
+  }
+  .modalselecttext {
+    @apply pl-2 text-[1.05rem] leading-4 sm:text-lg
   }
 
 

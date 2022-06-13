@@ -1,6 +1,8 @@
 import React from 'react';
-import ReactModal from 'react-modal';
+// import ReactModal from 'react-modal';
 import { BsFillBarChartFill } from "react-icons/bs";
+import toast, { Toaster } from 'react-hot-toast';
+
 
 const modalSize ={
 	content:{
@@ -46,20 +48,7 @@ export default class StatsBtn extends React.Component {
 	render () {
 	  return (
 		<>
-		  <button className='text-xl ml-2 text-neutral-200' aria-label="Stats" onClick={this.handleOpenModal}><BsFillBarChartFill/></button>
-		  <ReactModal 
-			 isOpen={this.state.showModal}
-			 onRequestClose={this.handleCloseModal}
-           	 shouldCloseOnOverlayClick={true}
-			 style={modalSize}
-		  >
-			<div>
-				<h1 className='modalmaintext'>How to play</h1>
-				<h3 className='modaltext pt-2'>Guess the <span className='tracking-wide font-bold'>BORDER<span className='text-dle'>DLE</span></span></h3>
-				<h3 className='modaltext'>Each guess must be a valid country name, hit the enter button to submit your answer</h3>
-				<h3 className='modaltext'>After each guess, more of the countries border will get revealed.</h3>
-			</div>
-		  </ReactModal>
+		  <button className='text-xl ml-2 text-neutral-200' aria-label="Stats" onClick={()=>toast.error("This Feature will be released in an upcoming update!",{duration: 1000,position: 'top-center',style: {}})}><BsFillBarChartFill/></button>
 		</>
 	  );
 	}

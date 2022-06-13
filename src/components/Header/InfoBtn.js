@@ -13,15 +13,14 @@ const modalSize ={
 		paddingLeft: '45px',
 		paddingRight: '45px',
 		border: '0px',
-		height: '95%',
+		height: '100%',
 		width: '35%',
+		maxWidth: '700px',
 		minWidth: '350px',
-		borderRadius: '25px',
-		boxShadow: '0px 10px 20px 5px rgba(0, 0, 0, 0.3)',
 		backgroundColor: '#1d8543',
 	},
 	overlay: {
-	   background: 'rgba(0, 0, 0,  0.3)',
+	   background: '#1d8543',
 	}
 }
 export default class InfoBtn extends React.Component {

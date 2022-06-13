@@ -7,14 +7,12 @@
     "start": "node server/index.js",
     "dev": "webpack --mode development && node server/index.js --watch",
     "prod": "webpack --mode production && node server/index.js --watch",
-    "code": "webpack --watch --mode development",
     "build": "webpack --mode production",
     "test": "echo \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" && exit 1"
   },
   "author": "me",
   "license": "ISC",
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^6.1.1",
     "axios": "^0.26.1",
     "compression": "^1.7.4",
     "compression-webpack-plugin": "^9.2.0",

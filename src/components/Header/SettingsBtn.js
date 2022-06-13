@@ -13,15 +13,14 @@ const modalSize ={
 		paddingLeft: '45px',
 		paddingRight: '45px',
 		border: '0px',
-		height: '70%',
+		height: '100%',
 		width: '35%',
+		maxWidth: '700px',
 		minWidth: '350px',
-		borderRadius: '25px',
-		boxShadow: '0px 10px 20px 5px rgba(0, 0, 0, 0.3)',
 		backgroundColor: '#1d8543',
 	},
 	overlay: {
-	   background: 'rgba(0, 0, 0,  0.3)',
+	   background: '#1d8543',
 	}
 }
 export default class SettingsBtn extends React.Component {
@@ -46,20 +45,31 @@ export default class SettingsBtn extends React.Component {
 	render () {
 	  return (
 		<>
-		  <button className='text-3xl text-neutral-200 ml-3' aria-label="Settings" onClick={this.handleOpenModal}><IoMdSettings/></button>
-		  <ReactModal 
-			 isOpen={this.state.showModal}
-			 onRequestClose={this.handleCloseModal}
-           	 shouldCloseOnOverlayClick={true}
-			 style={modalSize}
-		  >
-			<div>
-				<h1 className='modalmaintext'>How to play</h1>
-				<h3 className='modaltext pt-2'>Guess the <span className='tracking-wide font-bold'>BORDER<span className='text-dle'>DLE</span></span></h3>
-				<h3 className='modaltext'>Each guess must be a valid country name, hit the enter button to submit your answer</h3>
-				<h3 className='modaltext'>After each guess, more of the countries border will get revealed.</h3>
-			</div>
-		  </ReactModal>
+		<button className='text-3xl text-neutral-200 ml-3' aria-label="Settings" onClick={this.handleOpenModal}><IoMdSettings/></button>
+			<ReactModal 
+			isOpen={this.state.showModal}
+			onRequestClose={this.handleCloseModal}
+			shouldCloseOnOverlayClick={true}
+			style={modalSize}>
+				<div>
+					<h1 className='modalmaintext'>Settings</h1>
+					<div className="flex justify-start items-start">
+						<div>						
+							<span className="pt-4 modaltext flex flex-row items-center text-neutral-300"><input type="checkbox" className="modalswitch"/> Dark Mode</span>
+							<span className="modalselectdiv">
+								<select className="modalselect" value="Miles">
+									<option value="mile">Miles</option>
+									<option value="km">KM</option>
+								</select>	
+								<span className="pl-2 text-[1.05rem] leading-4 sm:text-lg">Unit of Measurement</span>
+							</span>
+						</div>
+					</div>
+					<div className="pt-[7.5%]">
+						<h3 className='text-2xl text-neutral-200 font-medium tracking-wide'>Difficulty Settings </h3><span className="text-md text-neutral-50 italic">Features coming soon!</span>
+					</div>
+				</div>	
+			</ReactModal>
 		</>
 	  );
 	}
