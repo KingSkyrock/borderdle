@@ -38,6 +38,7 @@ class App extends React.Component {
       bearings: ["", "", "", "", "", "", ""],
       gameStatus: 0,
       shownGuesses: 0,
+      unit: "km"
     }
   };
 
@@ -183,7 +184,11 @@ ${this.state.shownGuesses > 2 ? this.getSquares(this.state.percent[2]) + this.co
 ${this.state.shownGuesses > 3 ? this.getSquares(this.state.percent[3]) + this.compass(this.state.bearings[3], true) : ""}
 ${this.state.shownGuesses > 4 ? this.getSquares(this.state.percent[4]) + this.compass(this.state.bearings[4], true) : ""}
 ${this.state.shownGuesses > 5 ? this.getSquares(this.state.percent[5]) + this.compass(this.state.bearings[5], true) : ""}
-${this.state.shownGuesses > 6 ? this.getSquares(this.state.percent[6]) + this.compass(this.state.bearings[6], true) : ""}`.trim() + "\nWEBSITE";
+${this.state.shownGuesses > 6 ? this.getSquares(this.state.percent[6]) + this.compass(this.state.bearings[6], true) : ""}`.trim();
+    if (this.state.gameStatus == 1) {
+      text = text.slice(0, -2) + "🎉";
+    }
+    text += "\nWEBSITE";
     navigator.clipboard.writeText(text).then(() => {
       toast.success('Copied to clipboard.', {
         duration: 2000,
@@ -240,17 +245,24 @@ ${this.state.shownGuesses > 6 ? this.getSquares(this.state.percent[6]) + this.co
       const bearing = this.bearing(longlats[input.toLowerCase()], longlats[this.answer.toLowerCase()]);
       let direction = this.compass(bearing, false);
       if (rawDistance == 0) direction = "1f389";
-      const distance = Math.round(rawDistance / 1000) + "km" + " - " + Math.round((((circ / 2) - Math.round(rawDistance / 1000)) / (circ / 2)) * 100) + " - " + direction + " - " + Math.round(bearing);
+      var distance;
+      if (this.state.unit == "km") {
+        distance = Math.round(rawDistance / 1000) + "km";
+      } else if (this.state.unit == "mi") {
+        distance = Math.round(rawDistance / 1000 * 0.621371) + "mi";
+      }
+      const info = distance + " - " + Math.round((((circ / 2) - Math.round(rawDistance / 1000)) / (circ / 2)) * 100) + " - " + direction + " - " + Math.round(bearing);
+      
       this.setState({ input: "" });
       if (input.toLowerCase() != this.answer.toLowerCase()) {
         this.countryInput.current.clearInput();
         this.country.current.advance(1, (progress) => {
-          this.displayGuess(progress, input.toUpperCase() + " - " + distance)
+          this.displayGuess(progress, input.toUpperCase() + " - " + info)
           if (progress == 7) { //lost
-            this.setLocalStorage(input.toUpperCase() + " - " + distance, progress, -1);
+            this.setLocalStorage(input.toUpperCase() + " - " + info, progress, -1);
             this.handleLoss();
           } else {
-            this.setLocalStorage(input.toUpperCase() + " - " + distance, progress, 0);
+            this.setLocalStorage(input.toUpperCase() + " - " + info, progress, 0);
           }
           this.country.current.inProgress = false;
         });
@@ -262,8 +274,8 @@ ${this.state.shownGuesses > 6 ? this.getSquares(this.state.percent[6]) + this.co
         });
         this.countryInput.current.clearInput();
         this.country.current.advance(6 - this.country.current.progress, (progress) => {
-          this.displayGuess(progress, input.toUpperCase() + " - " + distance)
-          this.setLocalStorage(input.toUpperCase() + " - " + distance, progress, 1);
+          this.displayGuess(progress, input.toUpperCase() + " - " + info)
+          this.setLocalStorage(input.toUpperCase() + " - " + info, progress, 1);
           this.setState({ gameStatus: 1 });
           this.country.current.inProgress = false;
         });
@@ -299,7 +311,11 @@ ${this.state.shownGuesses > 6 ? this.getSquares(this.state.percent[6]) + this.co
               Bord<span className="text-dle">le</span>
             </h1>
             <StatsBtn/>
-            <SettingsBtn/>
+            <SettingsBtn 
+              onUnitChange={(unit) => {
+                this.setState({unit: unit})
+              }}
+            />
           </header>
           <Toaster />
           <div className='game'>

@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactModal from 'react-modal';
 import { IoMdSettings } from "react-icons/io";
+import PropTypes from 'prop-types';
 
 const modalSize ={
 	content:{
@@ -27,7 +28,8 @@ export default class SettingsBtn extends React.Component {
 	constructor () {
 	  super();
 	  this.state = {
-		showModal: false
+		  showModal: false,
+      unit: "km"
 	  };
 	  
 	  this.handleOpenModal = this.handleOpenModal.bind(this);
@@ -41,7 +43,15 @@ export default class SettingsBtn extends React.Component {
 	handleCloseModal () {
 	  this.setState({ showModal: false });
 	}
-	
+
+  handleUnitChange (evt) {
+    evt.preventDefault();
+    evt.stopPropagation();
+    this.setState({ unit: evt.target.value }, () => {
+      this.props.onUnitChange(this.state.unit);
+    });
+  }
+	 
 	render () {
 	  return (
 		<>
@@ -57,8 +67,8 @@ export default class SettingsBtn extends React.Component {
 						<div>						
 							<span className="pt-4 modaltext flex flex-row items-center text-neutral-300"><input type="checkbox" className="modalswitch"/> Dark Mode</span>
 							<span className="modalselectdiv">
-								<select className="modalselect" value="Miles">
-									<option value="mile">Miles</option>
+								<select onChange={(evt) => this.handleUnitChange(evt)} className="modalselect" value={this.state.unit}>
+									<option value="mi">Miles</option>
 									<option value="km">KM</option>
 								</select>	
 								<span className="pl-2 text-[1.05rem] leading-4 sm:text-lg">Unit of Measurement</span>
@@ -73,4 +83,8 @@ export default class SettingsBtn extends React.Component {
 		</>
 	  );
 	}
-  }
+}
+
+SettingsBtn.propTypes = {
+  onUnitChange: PropTypes.func.isRequired,
+};
