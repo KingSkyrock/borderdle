@@ -48,7 +48,7 @@ export default class StatsBtn extends React.Component {
 	render () {
 	  return (
 		<>
-		  <button className='text-xl ml-2 text-neutral-200' aria-label="Stats" onClick={()=>toast.error("This Feature will be released in an upcoming update!",{duration: 1000,position: 'top-center',style: {}})}><BsFillBarChartFill/></button>
+		  <button className='text-xl ml-2 text-neutral-200' aria-label="Stats" onClick={()=>toast.error("This feature will be released in an upcoming update!",{duration: 1000,position: 'top-center',style: {}})}><BsFillBarChartFill/></button>
 		</>
 	  );
 	}

@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactModal from 'react-modal';
 import { IoMdSettings } from "react-icons/io";
+import { ImCross } from "react-icons/im";
 import PropTypes from 'prop-types';
 
 const modalSize ={
@@ -62,7 +63,8 @@ export default class SettingsBtn extends React.Component {
 			shouldCloseOnOverlayClick={true}
 			style={modalSize}>
 				<div>
-					<h1 className='modalmaintext'>Settings</h1>
+          <h1 className='modalmaintext'>Settings <button className='text-xl text-neutral-200 ml-3 mt-2 float-right' aria-label="Close" onClick={this.handleCloseModal}><ImCross /></button></h1>
+          <button></button>
 					<div className="flex justify-start items-start">
 						<div>						
 							<span className="pt-4 modaltext flex flex-row items-center text-neutral-300"><input type="checkbox" className="modalswitch"/> Dark Mode</span>

@@ -244,7 +244,7 @@ ${
     if (this.state.gameStatus == 1) {
       text = text.slice(0, -2) + "🎉";
     }
-    text += "\nWEBSITE";
+    text += "\n" + window.location.href;
     navigator.clipboard.writeText(text).then(
       () => {
         toast.success("Copied to clipboard.", {
@@ -474,7 +474,7 @@ ${
           <footer className="footer footertext">
             <Twemoji text="❤️" className="footer mr-1" />
             <span className="footerdle">
-              BOR<span className="text-dle mr-[0.125rem]">DLE</span>?
+              BORDER<span className="text-dle mr-[0.125rem]">DLE</span>?
             </span>
             <a
               className="pl-1"
