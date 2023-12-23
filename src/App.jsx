@@ -29,6 +29,21 @@ export default class App extends Component {
     this.input = React.createRef();
     this.guesses = React.createRef();
     this.countries = [];
+    this.shorthands = {
+      "usa": "United States",
+      "us": "United States",
+      "uk": "United Kingdom",
+      "uae": "United Arab Emirates",
+      "drc": "DR Congo",
+      "dprk": "North Korea",
+      "korea": "South Korea",
+      "nz": "New Zealand",
+      "skn": "Saint Kitts and Nevis",
+      "svg": "Saint Vincent and the Grenadines",
+      "png": "Papua New Guinea",
+      "car": "Central African Republic",
+      "stp": "Sao Tome and Principe"
+    }
     this.answer = "";
 
     this.state = {
@@ -125,6 +140,10 @@ export default class App extends Component {
     obj.guesses = newGuesses;
     data[dateStr] = obj;
     localStorage.setItem("data", JSON.stringify(data));
+  }
+
+  handleShorthand(guess) {
+    return this.shorthands[guess.toLowerCase()] ? this.shorthands[guess.toLowerCase()] : guess;
   }
 
   inCountryList(guess) {
@@ -298,7 +317,7 @@ ${
       this.country.current.progress < 7 &&
       !this.country.current.inProgress &&
       this.state.gameStatus == 0;
-    const input = this.state.input;
+    const input = this.handleShorthand(this.state.input);
     if (conditions && !this.inCountryList(input)) {
       toast("Not in country list", {
         duration: 1000,

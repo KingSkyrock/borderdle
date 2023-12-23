@@ -46,10 +46,7 @@
   .closebutton {
     @apply text-xl text-neutral-200 mt-2 float-right;
   }
-
-  .statsbar {
-    @apply bg-neutral-400
-  }
+  
 }
 
 ::-webkit-scrollbar {
