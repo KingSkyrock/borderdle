@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 
 const modalSize = {
   content: {
-    top: "20%",
+    top: "30%",
     left: "50%",
     right: "auto",
     bottom: "auto",

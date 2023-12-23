@@ -5,7 +5,7 @@ import { ImCross } from "react-icons/im";
 
 const modalSize = {
   content: {
-    top: "20%",
+    top: "30%",
     left: "50%",
     right: "auto",
     bottom: "auto",
