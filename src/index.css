@@ -9,7 +9,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  
+
 }
 
 @layer utilities {
@@ -23,6 +23,7 @@
   .main {
     @apply flex justify-center flex-auto bg-cover bg-[#1d8543] min-h-screen
   }
+
   .inmain {
     @apply w-full max-w-lg flex flex-col
   }
@@ -30,19 +31,23 @@
   .header {
     @apply border-b-2 px-3 border-gray-200 flex
   }
+
   .headle {
     @apply text-4xl font-bold text-neutral-200 my-1 uppercase tracking-wide text-center flex-auto
   }
-  
+
   .footer {
     @apply flex items-center justify-center
   }
+
   .footertext {
     @apply text-neutral-200 text-center
   }
-  .footerdle{
+
+  .footerdle {
     @apply text-lg font-bold tracking-wide mr-1
   }
+
   .footerkofi {
     @apply text-base font-semibold
   }
@@ -50,18 +55,23 @@
   .modalmaintext {
     @apply text-2xl font-medium tracking-wider text-neutral-200 pb-1 uppercase text-center border-b-2 border-gray-200
   }
+
   .modaltext {
     @apply text-lg font-semibold text-neutral-200 pt-3 pl-4
   }
+
   .modalswitch {
     @apply relative inline-block w-8 h-6 pr-2 bg-neutral-50
   }
+
   .modalselect {
     @apply flex-auto text-neutral-500 rounded font-semibold h-8 sm:h-auto bg-neutral-50
   }
+
   .modalselectdiv {
     @apply flex-row items-center modaltext flex text-neutral-300
   }
+
   .modalselecttext {
     @apply pl-2 text-[1.05rem] leading-4 sm:text-lg
   }
@@ -74,6 +84,7 @@
   .guessrow {
     @apply grid grid-cols-8 gap-[0.125rem] text-center
   }
+
   .guessdiv {
     @apply col-span-8 h-8 bg-[#85e4a8] rounded flex text-xl w-full items-center
   }
@@ -81,15 +92,19 @@
   .name {
     @apply text-ellipsis overflow-hidden whitespace-nowrap border-[1.5px] rounded bg-[#2aa557] h-8 w-full mr-[2px]
   }
+
   .distance {
     @apply border-[1.5px] rounded bg-[#2aa557] h-8 w-[176px] mr-[2px]
   }
+
   .percent {
     @apply flex items-center justify-center border-[1.5px] h-8 animate-reveal rounded bg-[#2aa557] w-[104px] mr-[2px] text-center
   }
+
   .direction {
     @apply border-[1.5px] rounded h-8 bg-[#2aa557] w-[64px] flex items-center justify-center
   }
+
   .diremoji {
     @apply h-4 w-4 flex items-center justify-center m-0
   }
@@ -98,6 +113,7 @@
   .btnguess {
     @apply w-full text-neutral-200 rounded font-bold p-1 flex items-center justify-center border-2 uppercase my-0.5 bg-[#126130] hover:bg-[#0f5328] active:bg-[#147236] text-xl
   }
+
   .btnicon {
     @apply flex items-center justify-center pr-2 text-blue-300 h-5 w-auto
   }
@@ -105,25 +121,29 @@
   .inputdiv {
     @apply flex-auto relative
   }
+
   .input {
     @apply outline-none border-2 border-neutral-100 focus:border-neutral-300 h-8 bg-[#3fb66b] rounded text-neutral-100 text-lg text-center placeholder:text-center placeholder:text-green-100 placeholder:text-lg w-full
   }
+
   .autocompletediv {
     @apply absolute left-0 top-full right-0 z-50 flex-col items-center justify-center max-h-48 w-full overflow-y-auto scroll-smooth divide-x-2 rounded
   }
+
   .autocomplete {
-    @apply bg-[#1c6337] text-base w-full h-8 border-[1.5px] shadow-md border-green-900 flex items-center justify-center text-neutral-100 max-h-[35%] select-none 
+    @apply bg-[#1c6337] text-base w-full h-8 border-[1.5px] shadow-md border-green-900 flex items-center justify-center text-neutral-100 max-h-[35%] select-none
   }
 
 
   .sharebutton {
-    @apply w-full text-neutral-200 rounded font-bold p-1 flex items-center justify-center border-2 uppercase my-0.5 bg-sky-700 hover:bg-sky-800 active:bg-sky-600 text-xl 
+    @apply w-full text-neutral-200 rounded font-bold p-1 flex items-center justify-center border-2 uppercase my-0.5 bg-sky-700 hover:bg-sky-800 active:bg-sky-600 text-xl
   }
 }
 
 ::-webkit-scrollbar {
   @apply bg-green-600 rounded-sm
 }
+
 ::-webkit-scrollbar-thumb {
   @apply bg-green-700 rounded-sm
 }
