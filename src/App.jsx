@@ -487,7 +487,7 @@ ${
               )}
             </div>
           </div>
-          <footer className="flex items-center justify-center text-neutral-200 text-center text-2xl font-semibold p-2 bg-green-700 rounded-t-xl border-t-[2.5px] border-x-[2.5px] border-neutral-400">
+          <footer className="flex items-center justify-center text-neutral-200 text-center text-lg xl:text-xl font-semibold p-2 bg-green-700 rounded-t-xl border-t-[2.5px] border-x-[2.5px] border-neutral-400 max-w-[90%] mx-auto">
             <Twemoji text="❤️" className="footer mr-1" />
             <span className="font-bold tracking-wide mr-1">
               BORDER<span className="text-dle mr-[0.125rem]">DLE</span>?
