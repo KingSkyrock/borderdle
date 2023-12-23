@@ -15,7 +15,7 @@ const modalSize = {
     paddingLeft: "45px",
     paddingRight: "45px",
     border: "0px",
-    height: "35%",
+    height: "50%",
     width: "35%",
     maxWidth: "700px",
     minWidth: "350px",
