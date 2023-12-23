@@ -56,14 +56,14 @@ export default class SettingsBtn extends React.Component {
 	render () {
 	  return (
 		<>
-		<button className='text-3xl text-neutral-200 ml-3' aria-label="Settings" onClick={this.handleOpenModal}><IoMdSettings/></button>
+		  <button className='text-3xl text-neutral-200 ml-3' aria-label="Settings" onClick={this.handleOpenModal}><IoMdSettings/></button>
 			<ReactModal 
 			isOpen={this.state.showModal}
 			onRequestClose={this.handleCloseModal}
 			shouldCloseOnOverlayClick={true}
 			style={modalSize}>
 				<div>
-          <h1 className='modalmaintext'>Settings <button className='text-xl text-neutral-200 ml-3 mt-2 float-right' aria-label="Close" onClick={this.handleCloseModal}><ImCross /></button></h1>
+          <h1 className='modalmaintext'><span className="ml-[1.25rem]">Settings</span> <button className='closebutton' aria-label="Close" onClick={this.handleCloseModal}><ImCross /></button></h1>
           <button></button>
 					<div className="flex justify-start items-start">
 						<div>						

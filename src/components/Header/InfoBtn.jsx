@@ -54,7 +54,7 @@ export default class InfoBtn extends React.Component {
 			 style={modalSize}
 		  >
 			<div>
-        <h1 className='modalmaintext'>How to play <button className='text-xl text-neutral-200 ml-3 mt-2 float-right' aria-label="Close" onClick={this.handleCloseModal}><ImCross /></button></h1>
+        <h1 className='modalmaintext'><span className="ml-[1.25rem]">How to play</span> <button className='closebutton' aria-label="Close" onClick={this.handleCloseModal}><ImCross /></button></h1>
         <h3 className='modaltext pt-2'>
           Welcome!{" "}
           <span className='tracking-wide font-bold'>BORDER<span className='text-dle'>DLE</span></span>

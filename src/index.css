@@ -138,6 +138,10 @@
   .sharebutton {
     @apply w-full text-neutral-200 rounded font-bold p-1 flex items-center justify-center border-2 uppercase my-0.5 bg-sky-700 hover:bg-sky-800 active:bg-sky-600 text-xl
   }
+
+  .closebutton {
+    @apply text-xl text-neutral-200 mt-2 float-right
+  }
 }
 
 ::-webkit-scrollbar {

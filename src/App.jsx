@@ -198,7 +198,7 @@ export default class App extends Component {
   }
 
   handleShare() {
-    let text = `🌐 Borderdle ${data.num + 1} ${this.state.shownGuesses}/7 🌐
+    let text = `🌐 Borderdle #${data.num + 1} ${this.state.shownGuesses}/7 🌐
 ${
   this.state.shownGuesses > 0
     ? this.getSquares(this.state.percent[0]) +
@@ -244,7 +244,7 @@ ${
     if (this.state.gameStatus == 1) {
       text = text.slice(0, -2) + "🎉";
     }
-    text += "\n" + window.location.href;
+    text += "\n#borderdle\n" + window.location.href;
     navigator.clipboard.writeText(text).then(
       () => {
         toast.success("Copied to clipboard.", {
@@ -275,7 +275,7 @@ ${
             style: {},
           });
         } catch (err) {
-          alert("you bad");
+          alert("Error. This is not supposed to happen...");
         }
       }
     );
