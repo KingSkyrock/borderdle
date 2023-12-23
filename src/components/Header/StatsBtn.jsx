@@ -50,6 +50,7 @@ export default class StatsBtn extends React.Component {
       for (let game of Object.values(data)) {
         totalGuesses += game.progress;
         if (game.gameStatus == 1) {
+          totalGuesses += game.progress;
           gamesWon++;
           guessDistribution[game.progress - 1]++;
         }
