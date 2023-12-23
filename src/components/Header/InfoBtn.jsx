@@ -81,8 +81,8 @@ export default class InfoBtn extends React.Component {
               Find the correct country in 7 guesses!
             </h3>
             <h3 className="modaltext">
-              You begin with no outline of the country, but after each guess,
-              more of the country's border will be revealed.
+              You begin with an empty canvas but with each guess, a larger part
+              of the country's border gets revealed.
             </h3>
             <h3 className="modaltext">
               The goal is to try to guess the correct country as early as
@@ -93,8 +93,8 @@ export default class InfoBtn extends React.Component {
               guess, leaving you one last chance to get it right.
             </h3>
             <h3 className="modaltext">
-              Each guess must be a valid country name. Hit the enter button to
-              submit your answer.
+              Each guess must be a valid country name, validated by the
+              autocomplete popup. Hit the enter button to submit your answer.
             </h3>
           </div>
         </ReactModal>
