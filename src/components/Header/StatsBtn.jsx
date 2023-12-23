@@ -2,6 +2,7 @@ import React from "react";
 import { BsFillBarChartFill } from "react-icons/bs";
 import ReactModal from "react-modal";
 import { ImCross } from "react-icons/im";
+import toast, { Toaster } from 'react-hot-toast';
 
 const modalSize = {
   content: {
@@ -29,6 +30,10 @@ export default class StatsBtn extends React.Component {
     super();
     this.state = {
       showModal: false,
+      gamesPlayed: null,
+      gamesWon: null,
+      avgGuesses: null,
+      guessDistribution: null
     };
 
     this.handleOpenModal = this.handleOpenModal.bind(this);
@@ -36,7 +41,46 @@ export default class StatsBtn extends React.Component {
   }
 
   handleOpenModal() {
-    this.setState({ showModal: true });
+    let data = JSON.parse(localStorage.getItem("data"));
+    if (
+      data != null &&
+      data != "null" &&
+      data != undefined
+    ) {
+      let numGames = Object.keys(data).length;
+      let totalGuesses = 0;
+      let gamesWon = 0;
+      let guessDistribution = [0, 0, 0, 0, 0, 0, 0]
+      for (let game of Object.values(data)) {
+        totalGuesses += game.progress
+        if (game.gameStatus == 1) {
+          gamesWon++;
+          guessDistribution[game.progress - 1]++;
+        }
+      }
+      this.setState({
+        showModal: true,
+        gamesPlayed: numGames,
+        gamesWon: gamesWon,
+        avgGuesses: Math.round(totalGuesses / numGames * 100)/100,
+        guessDistribution: guessDistribution
+      });
+    } else {
+      toast.error("Play a game first to see your statistics!", { duration: 1000, position: 'top-center', style: {} });
+    }
+  }
+
+  getBarPercentages() {
+    let arr = [0, 0, 0, 0, 0, 0, 0]
+    if (this.state.guessDistribution) {
+      let max = Math.max(...this.state.guessDistribution)
+      if (max) {
+        for (let i in arr) {
+          arr[i] = this.state.guessDistribution[i] / max
+        }
+      }
+    }
+    return arr;
   }
 
   handleCloseModal() {
@@ -48,7 +92,7 @@ export default class StatsBtn extends React.Component {
       <>
         <button
           className="text-2xl text-neutral-200 mr-3"
-          aria-label="Information"
+          aria-label="Statistics"
           onClick={this.handleOpenModal}
         >
           <BsFillBarChartFill />
@@ -61,7 +105,7 @@ export default class StatsBtn extends React.Component {
         >
           <div>
             <h1 className="modalmaintext">
-              <span className="ml-[1.25rem]">How to play</span>{" "}
+              <span className="ml-[1.25rem]">Player Statistics</span>{" "}
               <button
                 className="closebutton"
                 aria-label="Close"
@@ -70,32 +114,19 @@ export default class StatsBtn extends React.Component {
                 <ImCross />
               </button>
             </h1>
-            <h3 className="modaltext pt-2">
-              Welcome!{" "}
-              <span className="tracking-wide font-bold">
-                BORDER<span className="text-dle">DLE</span>
-              </span>{" "}
-              is a country quiz game inspired by Wordle and Worldle.
-            </h3>
-            <h3 className="modaltext pt-2">
-              Find the correct country in 7 guesses!
-            </h3>
-            <h3 className="modaltext">
-              You begin with no outline of the country, but after each guess,
-              more of the country's border will be revealed.
-            </h3>
-            <h3 className="modaltext">
-              The goal is to try to guess the correct country as early as
-              possible.
-            </h3>
-            <h3 className="modaltext">
-              The full outline of the country will be revealed after your 6th
-              guess, leaving you one last chance to get it right.
-            </h3>
-            <h3 className="modaltext">
-              Each guess must be a valid country name. Hit the enter button to
-              submit your answer.
-            </h3>
+            <h3 className="modaltext">Games played: {this.state.gamesPlayed}</h3>
+            <h3 className="modaltext">Games won: {this.state.gamesWon}</h3>
+            <h3 className="modaltext">Average number of guesses: {this.state.avgGuesses}</h3>
+            <h3 className="modaltext">Guess distribution: {this.getBarPercentages()}</h3>
+            <div>
+              1: <div className="statsbar"></div><br />
+              2: <div className="statsbar"></div><br />
+              3: <div className="statsbar"></div><br />
+              4: <div className="statsbar"></div><br />
+              5: <div className="statsbar"></div><br />
+              6: <div className="statsbar"></div><br />
+              7: <div className="statsbar"></div><br />
+            </div>
           </div>
         </ReactModal>
       </>

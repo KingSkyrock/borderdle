@@ -109,7 +109,7 @@ function randomCountry() {
   let randomCountry =
     countries[Math.floor(Math.random() * (countries.length - 1))].name;
   console.log(randomCountry);
-  while (
+  while ( //broken countries
     randomCountry == "Micronesia" ||
     randomCountry == "Tuvalu" ||
     randomCountry == "Palestine" ||
