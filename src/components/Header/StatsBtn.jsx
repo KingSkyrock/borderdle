@@ -2,7 +2,7 @@ import React from "react";
 import { BsFillBarChartFill } from "react-icons/bs";
 import ReactModal from "react-modal";
 import { ImCross } from "react-icons/im";
-import toast, { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from "react-hot-toast";
 
 const modalSize = {
   content: {
@@ -33,7 +33,7 @@ export default class StatsBtn extends React.Component {
       gamesPlayed: null,
       gamesWon: null,
       avgGuesses: null,
-      guessDistribution: null
+      guessDistribution: null,
     };
 
     this.handleOpenModal = this.handleOpenModal.bind(this);
@@ -42,17 +42,13 @@ export default class StatsBtn extends React.Component {
 
   handleOpenModal() {
     let data = JSON.parse(localStorage.getItem("data"));
-    if (
-      data != null &&
-      data != "null" &&
-      data != undefined
-    ) {
+    if (data != null && data != "null" && data != undefined) {
       let numGames = Object.keys(data).length;
       let totalGuesses = 0;
       let gamesWon = 0;
-      let guessDistribution = [0, 0, 0, 0, 0, 0, 0]
+      let guessDistribution = [0, 0, 0, 0, 0, 0, 0];
       for (let game of Object.values(data)) {
-        totalGuesses += game.progress
+        totalGuesses += game.progress;
         if (game.gameStatus == 1) {
           gamesWon++;
           guessDistribution[game.progress - 1]++;
@@ -62,21 +58,25 @@ export default class StatsBtn extends React.Component {
         showModal: true,
         gamesPlayed: numGames,
         gamesWon: gamesWon,
-        avgGuesses: Math.round(totalGuesses / numGames * 100)/100,
-        guessDistribution: guessDistribution
+        avgGuesses: Math.round((totalGuesses / numGames) * 100) / 100,
+        guessDistribution: guessDistribution,
       });
     } else {
-      toast.error("Play a game first to see your statistics!", { duration: 1000, position: 'top-center', style: {} });
+      toast.error("Play a game first to see your statistics!", {
+        duration: 1000,
+        position: "top-center",
+        style: {},
+      });
     }
   }
 
   getBarPercentages() {
-    let arr = [0, 0, 0, 0, 0, 0, 0]
+    let arr = [0, 0, 0, 0, 0, 0, 0];
     if (this.state.guessDistribution) {
-      let max = Math.max(...this.state.guessDistribution)
+      let max = Math.max(...this.state.guessDistribution);
       if (max) {
         for (let i in arr) {
-          arr[i] = this.state.guessDistribution[i] / max
+          arr[i] = this.state.guessDistribution[i] / max;
         }
       }
     }
@@ -114,18 +114,140 @@ export default class StatsBtn extends React.Component {
                 <ImCross />
               </button>
             </h1>
-            <h3 className="modaltext">Games played: {this.state.gamesPlayed}</h3>
-            <h3 className="modaltext">Games won: {this.state.gamesWon}</h3>
-            <h3 className="modaltext">Average number of guesses: {this.state.avgGuesses}</h3>
-            <h3 className="modaltext">Guess distribution: {this.getBarPercentages()}</h3>
-            <div>
-              1: <div className="statsbar"></div><br />
-              2: <div className="statsbar"></div><br />
-              3: <div className="statsbar"></div><br />
-              4: <div className="statsbar"></div><br />
-              5: <div className="statsbar"></div><br />
-              6: <div className="statsbar"></div><br />
-              7: <div className="statsbar"></div><br />
+            <div className="flex w-full flex-col mx-auto max-w-[75%] text-2xl font-medium modaltext pb-6">
+              <h3>Games played: {this.state.gamesPlayed}</h3>
+              <h3>Games won: {this.state.gamesWon}</h3>
+              <h3>Average number of guesses: {this.state.avgGuesses}</h3>
+            </div>
+            <div className="flex w-full max-w-[75%] flex-col mx-auto">
+              <h3 className="modaltext text-center font-bold text-3xl">
+                Guess Distribution
+              </h3>
+              <span className="statsbarspan">
+                1{" "}
+                <div
+                  style={{
+                    width: this.getBarPercentages()[0] * 100 + "%",
+                    content:
+                      this.state.guessDistribution != null
+                        ? this.state.guessDistribution[0]
+                        : "0",
+                  }}
+                  className="statsbar"
+                >
+                  {this.state.guessDistribution != null
+                    ? this.state.guessDistribution[0]
+                    : "0"}
+                </div>
+              </span>
+              <span className="statsbarspan">
+                2{" "}
+                <div
+                  style={{
+                    width: this.getBarPercentages()[1] * 100 + "%",
+                    content:
+                      this.state.guessDistribution != null
+                        ? this.state.guessDistribution[1]
+                        : "0",
+                  }}
+                  className="statsbar"
+                >
+                  {" "}
+                  {this.state.guessDistribution != null
+                    ? this.state.guessDistribution[1]
+                    : "0"}
+                </div>
+              </span>
+              <span className="statsbarspan">
+                3{" "}
+                <div
+                  style={{
+                    width: this.getBarPercentages()[2] * 100 + "%",
+                    content:
+                      this.state.guessDistribution != null
+                        ? this.state.guessDistribution[2]
+                        : "0",
+                  }}
+                  className="statsbar"
+                >
+                  {" "}
+                  {this.state.guessDistribution != null
+                    ? this.state.guessDistribution[2]
+                    : "0"}
+                </div>
+              </span>
+              <span className="statsbarspan">
+                4{" "}
+                <div
+                  style={{
+                    width: this.getBarPercentages()[3] * 100 + "%",
+                    content:
+                      this.state.guessDistribution != null
+                        ? this.state.guessDistribution[3]
+                        : "0",
+                  }}
+                  className="statsbar"
+                >
+                  {" "}
+                  {this.state.guessDistribution != null
+                    ? this.state.guessDistribution[3]
+                    : "0"}
+                </div>
+              </span>
+              <span className="statsbarspan">
+                5{" "}
+                <div
+                  style={{
+                    width: this.getBarPercentages()[4] * 100 + "%",
+                    content:
+                      this.state.guessDistribution != null
+                        ? this.state.guessDistribution[4]
+                        : "0",
+                  }}
+                  className="statsbar"
+                >
+                  {" "}
+                  {this.state.guessDistribution != null
+                    ? this.state.guessDistribution[4]
+                    : "0"}
+                </div>
+              </span>
+              <span className="statsbarspan">
+                6{" "}
+                <div
+                  style={{
+                    width: this.getBarPercentages()[5] * 100 + "%",
+                    content:
+                      this.state.guessDistribution != null
+                        ? this.state.guessDistribution[5]
+                        : "0",
+                  }}
+                  className="statsbar"
+                >
+                  {" "}
+                  {this.state.guessDistribution != null
+                    ? this.state.guessDistribution[5]
+                    : "0"}
+                </div>
+              </span>
+              <span className="statsbarspan">
+                7{" "}
+                <div
+                  style={{
+                    width: this.getBarPercentages()[6] * 100 + "%",
+                    content:
+                      this.state.guessDistribution != null
+                        ? this.state.guessDistribution[6]
+                        : "0",
+                  }}
+                  className="statsbar"
+                >
+                  {" "}
+                  {this.state.guessDistribution != null
+                    ? this.state.guessDistribution[6]
+                    : "0"}
+                </div>
+              </span>
             </div>
           </div>
         </ReactModal>

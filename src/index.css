@@ -48,7 +48,11 @@
   }
 
   .statsbar {
-    @apply bg-neutral-400
+    @apply flex flex-col justify-center w-full h-8 bg-neutral-50 rounded-sm text-black text-xl font-bold;
+  }
+
+  .statsbarspan {
+    @apply flex w-full h-full text-2xl font-bold text-neutral-200 gap-x-4 modaltext;
   }
 }
 
