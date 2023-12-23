@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 
 export default class CountryInput extends React.Component {
@@ -75,7 +74,7 @@ export default class CountryInput extends React.Component {
     }
     return (
       <div
-        className="inputdiv"
+        className="flex-auto relative"
         ref={this.container}
         onFocus={() => this.setState({ showing: true })}
       >
@@ -89,10 +88,10 @@ export default class CountryInput extends React.Component {
           maxLength="32"
           minLength="4"
           type="text"
-          className="input"
+          className="outline-none border-2 border-neutral-100 focus:border-neutral-300 h-8 bg-[#3fb66b] rounded text-neutral-100 text-lg text-center placeholder:text-center placeholder:text-green-100 placeholder:text-lg w-full"
           placeholder="Enter Country"
         ></input>
-        <div className="autocompletediv ">
+        <div className="absolute left-0 top-full right-0 z-50 flex-col items-center justify-center max-h-48 w-full overflow-y-auto scroll-smooth divide-x-2 rounded ">
           {this.state.input &&
             this.state.showing &&
             this.state.shown.map((a) => {
@@ -102,7 +101,7 @@ export default class CountryInput extends React.Component {
                     this.setState({ input: a, showing: false });
                     this.handleChange(a);
                   }}
-                  className="autocomplete"
+                  className="bg-[#1c6337] text-base w-full h-8 border-[1.5px] shadow-md border-green-900 flex items-center justify-center text-neutral-100 max-h-[35%] select-none"
                 >
                   {a}
                 </div>

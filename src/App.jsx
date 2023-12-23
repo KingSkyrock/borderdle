@@ -1,19 +1,20 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import "./index.css";
-import Country from "./components/Country/Country.jsx";
-import CountryInput from "./components/Country/CountryInput";
-import GuessContainer from "./components/Country/GuessContainer";
+
 import axios from "axios";
-import { FaGlobe } from "react-icons/fa";
-import toast, { Toaster } from "react-hot-toast";
 import { DateTime } from "luxon";
+import haversine from "haversine-distance";
+
+import toast, { Toaster } from "react-hot-toast";
+import { FaGlobe, FaGithub } from "react-icons/fa";
+import { Twemoji } from "react-emoji-render";
+
 import InfoBtn from "./components/Header/InfoBtn";
 import SettingsBtn from "./components/Header/SettingsBtn";
-import GithubBtn from "./components/Header/GithubBtn";
 import StatsBtn from "./components/Header/StatsBtn";
-import { Twemoji } from "react-emoji-render";
-import haversine from 'haversine-distance';
+import Country from "./components/Country/Country";
+import CountryInput from "./components/Country/CountryInput";
+import GuessContainer from "./components/Country/GuessContainer";
 
 import longlats from "../data/longlats.json";
 import countries from "../data/borders.json";
@@ -405,12 +406,24 @@ ${
 
   render() {
     return (
-      <div className="main">
-        <div className="inmain">
-          <header className="header">
-            <GithubBtn />
+      <div className="flex justify-center flex-auto bg-cover bg-[#1d8543] min-h-screen">
+        <div className="w-full max-w-lg flex flex-col">
+          <header className="border-b-2 px-3 border-gray-200 flex">
+            <button
+              className="text-3xl text-neutral-200 mr-3"
+              aria-label="Github Repository"
+            >
+              <a
+                aria-label="Github Repository"
+                href="https://github.com/KingSkyrock/Borderdle"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FaGithub />
+              </a>
+            </button>
             <InfoBtn />
-            <h1 className="headle">
+            <h1 className="text-4xl font-bold text-neutral-200 my-1 uppercase tracking-wide text-center flex-auto">
               Border<span className="text-dle">dle</span>
             </h1>
             <StatsBtn />
@@ -421,9 +434,12 @@ ${
             />
           </header>
           <Toaster />
-          <div className="game">
+          <div className="flex-grow flex flex-col mx-2 bg-[#1d8543]">
             <Country ref={this.country} />
-            <div ref={this.guesses} className="guessrow">
+            <div
+              ref={this.guesses}
+              className="grid grid-cols-8 gap-[0.125rem] text-center"
+            >
               {[0, 1, 2, 3, 4, 5, 6].map((n) => {
                 return (
                   <GuessContainer
@@ -443,7 +459,7 @@ ${
                 <>
                   <button
                     onClick={() => this.handleShare()}
-                    className="sharebutton"
+                    className="w-full text-neutral-200 rounded font-bold p-1 flex items-center justify-center border-2 uppercase my-0.5 bg-sky-700 hover:bg-sky-800 active:bg-sky-600 text-xl"
                   >
                     share
                   </button>
@@ -462,18 +478,18 @@ ${
                 <>
                   <button
                     onClick={() => this.handleGuess()}
-                    className="btnguess"
+                    className="w-full text-neutral-200 rounded font-bold p-1 flex items-center justify-center border-2 uppercase my-0.5 bg-[#126130] hover:bg-[#0f5328] active:bg-[#147236] text-xl"
                   >
-                    <FaGlobe className="btnicon" />
+                    <FaGlobe className="flex items-center justify-center pr-2 text-blue-300 h-5 w-auto" />
                     Enter answer
                   </button>
                 </>
               )}
             </div>
           </div>
-          <footer className="footer footertext">
+          <footer className="flex items-center justify-center text-neutral-200 text-center text-2xl font-semibold p-2 bg-green-700 rounded-t-xl border-t-[2.5px] border-x-[2.5px] border-neutral-400">
             <Twemoji text="❤️" className="footer mr-1" />
-            <span className="footerdle">
+            <span className="font-bold tracking-wide mr-1">
               BORDER<span className="text-dle mr-[0.125rem]">DLE</span>?
             </span>
             <a
@@ -485,7 +501,7 @@ ${
               <div className="w-max">
                 <Twemoji
                   text="- Buy us a coffee! ☕"
-                  className="footer footerkofi"
+                  className="flex items-center justify-center gap-x-2"
                 />
               </div>
             </a>

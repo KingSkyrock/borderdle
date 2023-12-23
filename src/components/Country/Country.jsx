@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import parse from "html-react-parser";
 import { gsap } from "gsap";
 import axios from "axios";
@@ -43,7 +43,7 @@ class Timer {
     this.timerId = window.setTimeout(this.callback, this.remaining);
   }
 }
-export default class Country extends Component {
+export default class Country extends React.Component {
   constructor(props) {
     super(props);
     this.progress = 0;
@@ -188,7 +188,7 @@ export default class Country extends Component {
 
   render() {
     return (
-      <div className="flex flex-col items-center pt-3 jsx-parser">
+      <div className="flex flex-col items-center jsx-parser p-4">
         {parse(this.state.paths + "</g></svg>")}
       </div>
     );
