@@ -1,7 +1,7 @@
 import React from "react";
-import { BsFillBarChartFill } from "react-icons/bs";
+import { BsFillBarChartFill } from "react-icons/bs/index";
 import ReactModal from "react-modal";
-import { ImCross } from "react-icons/im";
+import { ImCross } from "react-icons/im/index";
 import toast, { Toaster } from "react-hot-toast";
 
 const modalSize = {

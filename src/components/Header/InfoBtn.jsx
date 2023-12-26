@@ -1,7 +1,7 @@
 import React from "react";
 import ReactModal from "react-modal";
-import { FaQuestion } from "react-icons/fa";
-import { ImCross } from "react-icons/im";
+import { FaQuestion } from "react-icons/fa/index";
+import { ImCross } from "react-icons/im/index";
 
 const modalSize = {
   content: {

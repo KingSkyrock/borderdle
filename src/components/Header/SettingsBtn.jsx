@@ -1,7 +1,7 @@
 import React from "react";
 import ReactModal from "react-modal";
-import { IoMdSettings } from "react-icons/io";
-import { ImCross } from "react-icons/im";
+import { IoMdSettings } from "react-icons/io/index";
+import { ImCross } from "react-icons/im/index";
 import PropTypes from "prop-types";
 
 const modalSize = {

@@ -6,7 +6,7 @@ import { DateTime } from "luxon";
 import haversine from "haversine-distance";
 
 import toast, { Toaster } from "react-hot-toast";
-import { FaGlobe, FaGithub } from "react-icons/fa";
+import { FaGlobe, FaGithub } from "react-icons/fa/index";
 import { Twemoji } from "react-emoji-render";
 
 import InfoBtn from "./components/Header/InfoBtn";
@@ -19,6 +19,7 @@ import GuessContainer from "./components/Country/GuessContainer";
 import longlats from "../data/longlats.json";
 import countries from "../data/borders.json";
 import data from "../data/data.json";
+import shorthands from "../data/shorthands.json";
 
 export default class App extends Component {
   constructor(props) {
@@ -29,21 +30,6 @@ export default class App extends Component {
     this.input = React.createRef();
     this.guesses = React.createRef();
     this.countries = [];
-    this.shorthands = {
-      "usa": "United States",
-      "us": "United States",
-      "uk": "United Kingdom",
-      "uae": "United Arab Emirates",
-      "drc": "DR Congo",
-      "dprk": "North Korea",
-      "korea": "South Korea",
-      "nz": "New Zealand",
-      "skn": "Saint Kitts and Nevis",
-      "svg": "Saint Vincent and the Grenadines",
-      "png": "Papua New Guinea",
-      "car": "Central African Republic",
-      "stp": "Sao Tome and Principe"
-    }
     this.answer = "";
 
     this.state = {
@@ -62,12 +48,12 @@ export default class App extends Component {
   componentDidMount() {
     this.getCountries();
     this.getLocalStorage();
-
+    
     window.addEventListener(
       "focus",
       () => {
         axios
-          .post("/getAnswer")
+          .post("/api/getAnswer")
           .then((res) => {
             if (this.answer != res.data.country) {
               window.location.reload();
@@ -86,7 +72,7 @@ export default class App extends Component {
       this.countries.push(countries[i].name);
     }
     axios
-      .post("/getAnswer")
+      .post("/api/getAnswer")
       .then((res) => {
         this.answer = res.data.country;
       })
@@ -143,7 +129,7 @@ export default class App extends Component {
   }
 
   handleShorthand(guess) {
-    return this.shorthands[guess.toLowerCase()] ? this.shorthands[guess.toLowerCase()] : guess;
+    return shorthands[guess.toLowerCase()] ? shorthands[guess.toLowerCase()] : guess;
   }
 
   inCountryList(guess) {
@@ -303,7 +289,7 @@ ${
 
   handleGuess() {
     axios
-      .post("/getAnswer")
+      .post("/api/getAnswer")
       .then((res) => {
         if (this.answer != res.data.country) {
           window.location.reload();
@@ -464,6 +450,7 @@ ${
                   <GuessContainer
                     shown={this.state.shownGuesses > n}
                     num={n}
+                    key={n}
                     percent={this.state.percent[n]}
                     arrow={this.state.arrows[n]}
                     name={this.state.names[n]}
