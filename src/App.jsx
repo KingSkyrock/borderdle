@@ -53,7 +53,7 @@ export default class App extends Component {
       "focus",
       () => {
         axios
-          .post("/api/getAnswer")
+          .post("/getAnswer")
           .then((res) => {
             if (this.answer != res.data.country) {
               window.location.reload();
@@ -72,7 +72,7 @@ export default class App extends Component {
       this.countries.push(countries[i].name);
     }
     axios
-      .post("/api/getAnswer")
+      .post("/getAnswer")
       .then((res) => {
         this.answer = res.data.country;
       })
@@ -289,7 +289,7 @@ ${
 
   handleGuess() {
     axios
-      .post("/api/getAnswer")
+      .post("/getAnswer")
       .then((res) => {
         if (this.answer != res.data.country) {
           window.location.reload();
