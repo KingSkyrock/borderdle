@@ -4,11 +4,9 @@ import compression from "compression";
 import bodyParser from "body-parser";
 import schedule from "node-schedule";
 import fs from "node:fs/promises";
+import fscb from "fs"
 import express from "express";
 import { fileURLToPath } from 'url';
-
-let country = null;
-newCountry();
 
 const isProduction = process.env.NODE_ENV === "production";
 const port = process.env.PORT || 5173;
@@ -16,6 +14,9 @@ const base = process.env.BASE || "/";
 const DIST_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), 'dist/client');
 
 const app = express();
+
+let country = null;
+newCountry();
 
 let vite;
 if (!isProduction) {
@@ -90,7 +91,6 @@ app.use("*", async (req, res) => {
 function randomCountry() {
   let randomCountry =
     countries[Math.floor(Math.random() * (countries.length - 1))].name;
-  console.log(randomCountry);
   while ( //broken countries
     randomCountry == "Micronesia" ||
     randomCountry == "Tuvalu" ||
@@ -112,14 +112,14 @@ function newCountry() {
   } else {
     country = randomCountry();
   }
-
-  fs.readFile("./data/data.json", (err, data) => {
-    if (err) throw err;
-    data = JSON.parse(data);
-    data.num += 1;
-    console.log("Bordle #" + data.num);
-    fs.writeFile("./data/data.json", JSON.stringify(data));
-  });
+  if (isProduction) {
+    fscb.readFile("./data/data.json", (err, data) => {
+      if (err) throw err;
+      data = JSON.parse(data);
+      data.num += 1;
+      fs.writeFile("./data/data.json", JSON.stringify(data));
+    });
+  }
 }
 
 app.listen(port, () => {
