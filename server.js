@@ -11,7 +11,7 @@ import { fileURLToPath } from 'url';
 const isProduction = process.env.NODE_ENV === "production";
 const port = process.env.PORT || 5173;
 const base = process.env.BASE || "/";
-const DIST_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), 'dist/client');
+const DIST_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), 'dist');
 
 const app = express();
 
@@ -68,7 +68,7 @@ app.post("/getAnswer", (req, res) => {
 app.use("*", async (req, res) => {
   try {
     if (isProduction) {
-      const html = await fs.readFile('./dist/client/index.html', 'utf-8');  
+      const html = await fs.readFile('./dist/index.html', 'utf-8');  
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html);
     } else {
       const html = await vite.transformIndexHtml(req.originalUrl, await fs.readFile('index.html', 'utf-8'));
