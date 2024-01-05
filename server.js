@@ -68,17 +68,10 @@ app.post("/getAnswer", (req, res) => {
 app.use("*", async (req, res) => {
   try {
     if (isProduction) {
-      const template = await fs.readFile('./dist/client/index.html', 'utf-8');
-      const { render } = await import('./dist/server/entry-server.js');
-  
-      const html = template.replace(`<!--outlet-->`, render);
+      const html = await fs.readFile('./dist/client/index.html', 'utf-8');  
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html);
     } else {
-      const url = req.originalUrl;
-      const template = await vite.transformIndexHtml(url, await fs.readFile('index.html', 'utf-8'));
-      const { render } = await vite.ssrLoadModule('/src/entry-server.jsx');
-  
-      const html = template.replace(`<!--outlet-->`, render);
+      const html = await vite.transformIndexHtml(req.originalUrl, await fs.readFile('index.html', 'utf-8'));
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html);
     }
   } catch (e) {
