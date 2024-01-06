@@ -3,7 +3,7 @@
      "name" : "borderdle",
      "script" : "./server.js",
      "env": {
-      "PORT": 800,
+      "PORT": 2000,
       "NODE_ENV": "production"
     }
   }],
