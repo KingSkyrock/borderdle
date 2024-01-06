@@ -16,7 +16,7 @@
       "repo" : "git@github.com:KingSkyrock/borderdle.git",
       "path" : "/var/www/borderdle",
       "forward-agent": "true",
-      "post-deploy" : "npm install; pm2 startOrRestart ecosystem.json"
+      "post-deploy" : "npm install; npm run build; pm2 startOrRestart ecosystem.json"
      }
   }
 }
