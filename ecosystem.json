@@ -1,0 +1,22 @@
+{
+  "apps" : [{
+     "name" : "borderdle",
+     "script" : "./server.js",
+     "env": {
+      "PORT": 800,
+      "NODE_ENV": "production"
+    }
+  }],
+  "deploy" : {
+    "production" : {
+      "user" : "root",
+      "host" : ["198.199.104.207"],
+      "ssh_options": "StrictHostKeyChecking=no",
+      "ref"  : "origin/main",
+      "repo" : "git@github.com:KingSkyrock/borderdle.git",
+      "path" : "/var/www/borderdle",
+      "forward-agent": "true",
+      "post-deploy" : "npm install; pm2 startOrRestart ecosystem.json"
+     }
+  }
+}
