@@ -66,25 +66,34 @@ app.post("/getAnswer", (req, res) => {
 });
 
 app.post("/getNum", (req, res) => {
-  let num;
-  if (isProduction) {
+  if (true) {
     fscb.readFile("./data/data.json", (err, data) => {
       if (err) {
         fs.writeFile("./data/data.json", `{"num":1}`);
+        res.send(
+          JSON.stringify({
+            num: 1
+          })
+        );
+        res.end();
       } else {
         data = JSON.parse(data);
-        num = data.num;
+        res.send(
+          JSON.stringify({
+            num: data.num
+          })
+        );
+        res.end();
       }
     });
   } else {
-    num = "DEV"
+    res.send(
+      JSON.stringify({
+        num: "DEV"
+      })
+    );
+    res.end();
   }
-  res.send(
-    JSON.stringify({
-      num: num
-    })
-  );
-  res.end();
 })
 
 app.use("*", async (req, res) => {
@@ -127,7 +136,7 @@ function newCountry() {
   } else {
     country = randomCountry();
   }
-  if (isProduction) {
+  if (true) {
     fscb.readFile("./data/data.json", (err, data) => {
       if (err) {
         fs.writeFile("./data/data.json", `{"num":1}`);
