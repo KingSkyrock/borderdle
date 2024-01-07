@@ -65,6 +65,28 @@ app.post("/getAnswer", (req, res) => {
   res.end();
 });
 
+app.post("/getNum", (req, res) => {
+  let num;
+  if (isProduction) {
+    fscb.readFile("./data/data.json", (err, data) => {
+      if (err) {
+        fs.writeFile("./data/data.json", `{"num":1}`);
+      } else {
+        data = JSON.parse(data);
+        num = data.num;
+      }
+    });
+  } else {
+    num = "DEV"
+  }
+  res.send(
+    JSON.stringify({
+      num: num
+    })
+  );
+  res.end();
+})
+
 app.use("*", async (req, res) => {
   try {
     if (isProduction) {
