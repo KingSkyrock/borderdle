@@ -1,10 +1,9 @@
 # Borderdle
 
+### BORDERDLE is a country quiz game inspired by Wordle and Worldle.
+
 > [!WARNING]  
 > The game may be very buggy! If you encounter any issues, please feel free to submit a GitHub issue. We will do our best to get to it as soon as possible. Your feedback is greatly appreciated.
-
-
-### BORDERDLE is a country quiz game inspired by Wordle and Worldle.
 
 ## How to Play:
 
