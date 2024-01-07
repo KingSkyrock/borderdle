@@ -54,6 +54,10 @@
   .statsbarspan {
     @apply flex w-full h-full text-2xl font-bold text-neutral-200 gap-x-4 modaltext;
   }
+
+  html {
+    @apply bg-[#1d8543];
+  }
 }
 
 ::-webkit-scrollbar {
