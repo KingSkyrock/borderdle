@@ -107,10 +107,13 @@ function newCountry() {
   }
   if (isProduction) {
     fscb.readFile("./data/data.json", (err, data) => {
-      if (err) throw err;
-      data = JSON.parse(data);
+      if (err) {
+        fs.writeFile("./data/data.json", `{"num":1}`);
+      } else {
+        data = JSON.parse(data);
       data.num += 1;
       fs.writeFile("./data/data.json", JSON.stringify(data));
+      }
     });
   }
 }
