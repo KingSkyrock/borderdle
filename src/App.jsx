@@ -48,7 +48,7 @@ export default class App extends Component {
   componentDidMount() {
     this.getCountries();
     this.getLocalStorage();
-    
+
     window.addEventListener(
       "focus",
       () => {
@@ -129,7 +129,9 @@ export default class App extends Component {
   }
 
   handleShorthand(guess) {
-    return shorthands[guess.toLowerCase()] ? shorthands[guess.toLowerCase()] : guess;
+    return shorthands[guess.toLowerCase()]
+      ? shorthands[guess.toLowerCase()]
+      : guess;
   }
 
   inCountryList(guess) {
@@ -411,7 +413,10 @@ ${
 
   render() {
     return (
-      <div className="flex justify-center flex-auto bg-cover bg-[#1d8543] min-h-screen">
+      <div
+        className="flex justify-center flex-auto bg-cover bg-[#1d8543] min-h-screen"
+        suppressHydrationWarning
+      >
         <div className="w-full max-w-lg flex flex-col">
           <header className="border-b-2 px-3 border-gray-200 flex">
             <button
@@ -493,24 +498,33 @@ ${
               )}
             </div>
           </div>
-          <footer className="flex items-center justify-center text-neutral-200 text-center text-lg xl:text-xl font-semibold p-2 bg-green-700 rounded-t-xl border-t-[2.5px] border-x-[2.5px] border-neutral-400 max-w-[90%] mx-auto">
-            <Twemoji text="❤️" className="footer mr-1" />
-            <span className="font-bold tracking-wide mr-1">
-              BORDER<span className="text-dle mr-[0.125rem]">DLE</span>?
-            </span>
-            <a
-              className="pl-1"
-              href="https://www.ko-fi.com/underscorelior"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <div className="w-max">
-                <Twemoji
-                  text="- Buy us a coffee! ☕"
-                  className="flex items-center justify-center gap-x-2"
-                />
-              </div>
-            </a>
+          <footer className="flex flex-col items-center justify-center text-neutral-200 text-center text-lg xl:text-xl font-semibold p-2 bg-green-700 rounded-t-xl border-t-[2.5px] border-x-[2.5px] border-neutral-400 max-w-[90%] mx-auto">
+            <div className="flex flex-row items-center justify-center">
+              <Twemoji text="❤️" className="footer mr-1" />
+              <span className="font-bold tracking-wide mr-2">
+                BORDER<span className="text-dle mr-[0.125rem]">DLE</span>?
+              </span>
+              Check out our stuff!
+            </div>
+            <div className="flex flex-row">
+              <a
+                className="underline"
+                href="https://underscore.wtf"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div className="w-max">underscore.wtf</div>
+              </a>
+              <span className="mx-2">•</span>
+              <a
+                className="underline"
+                href="https://lukeskyrock.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div className="w-max">lukeskyrock.com</div>
+              </a>{" "}
+            </div>
           </footer>
         </div>
       </div>
