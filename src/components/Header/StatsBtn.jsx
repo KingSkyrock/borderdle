@@ -114,7 +114,7 @@ export default class StatsBtn extends React.Component {
                 <ImCross />
               </button>
             </h1>
-            <div className="flex w-full flex-col mx-auto max-w-[75%] text-2xl font-medium modaltext pb-6">
+            <div className="flex w-full flex-col mx-auto max-w-[75%] text-xl modaltext pb-6">
               <h3>Games played: {this.state.gamesPlayed}</h3>
               <h3>Games won: {this.state.gamesWon}</h3>
               <h3>Average number of guesses: {this.state.avgGuesses}</h3>

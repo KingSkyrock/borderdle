@@ -94,9 +94,10 @@ export default class CountryInput extends React.Component {
         <div className="absolute left-0 top-full right-0 z-50 flex-col items-center justify-center max-h-48 w-full overflow-y-auto scroll-smooth divide-x-2 rounded ">
           {this.state.input &&
             this.state.showing &&
-            this.state.shown.map((a) => {
+            this.state.shown.map((a, index) => {
               return (
                 <div
+                  key={index}
                   onClick={() => {
                     this.setState({ input: a, showing: false });
                     this.handleChange(a);

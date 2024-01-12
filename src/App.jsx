@@ -41,14 +41,28 @@ export default class App extends Component {
       bearings: ["", "", "", "", "", "", ""],
       gameStatus: 0,
       shownGuesses: 0,
-      unit: "km",
+      unit: localStorage.getItem("unit") ? localStorage.getItem("unit") : "km",
+      rotate: localStorage.getItem("rotate") == "true" ? true : false,
+      rotateAngle: this.getRotateAngle(),
     };
   }
 
   componentDidMount() {
     this.getCountries();
-    this.getLocalStorage();
 
+    if (localStorage.getItem("unit")) {
+      this.state.unit = localStorage.getItem("unit");
+    } else {
+      localStorage.setItem("unit", this.state.unit);
+    }
+
+    if (localStorage.getItem("rotate")) {
+      this.state.rotate = localStorage.getItem("rotate") === "true";
+    } else {
+      localStorage.setItem("rotate", this.state.rotate === "true");
+    }
+
+    this.getLocalStorage();
     window.addEventListener(
       "focus",
       () => {
@@ -81,6 +95,21 @@ export default class App extends Component {
       });
   }
 
+  getRotateAngle() {
+    let data = JSON.parse(localStorage.getItem("data"));
+    if (data != null && data != "null" && data != undefined) {
+      const utc = DateTime.utc();
+      const dateStr = utc.year + "-" + utc.month + "-" + utc.day;
+      if (data[dateStr] != undefined) {
+        let difficulties = data[dateStr].difficulties;
+        if (difficulties != null && difficulties != "null") {
+          return difficulties.rotateAngle;
+        }
+      }
+    }
+    return 0;
+  }
+
   getLocalStorage() {
     const utc = DateTime.utc();
     const dateStr = utc.year + "-" + utc.month + "-" + utc.day;
@@ -92,6 +121,13 @@ export default class App extends Component {
       data[dateStr] != undefined
     ) {
       let gameStatus = data[dateStr].gameStatus;
+      let difficulties = data[dateStr].difficulties;
+      if (difficulties != null && difficulties != "null") {
+        this.setState({
+          rotate: difficulties.rotate,
+          rotateAngle: difficulties.rotateAngle,
+        });
+      }
       let storedGuesses = data[dateStr].guesses;
       if (gameStatus != null && gameStatus != "null") {
         this.setState({ gameStatus: gameStatus });
@@ -107,14 +143,34 @@ export default class App extends Component {
   setLocalStorage(input, progress, gameStatus) {
     const utc = DateTime.utc();
     const dateStr = utc.year + "-" + utc.month + "-" + utc.day;
-    let obj = { progress: progress, gameStatus: gameStatus, guesses: null };
+    let obj = {
+      progress: progress,
+      gameStatus: gameStatus,
+      guesses: null,
+      difficulties: null,
+    };
     let data = JSON.parse(localStorage.getItem("data"));
+    let difficulties = {
+      rotate: this.state.rotate,
+      rotateAngle: this.state.rotateAngle,
+    };
     if (data == null || data == "null") {
       data = {};
       data[dateStr] = {};
     } else if (data[dateStr] == undefined) {
       data[dateStr] = {};
     }
+
+    difficulties.rotateAngle =
+      difficulties.rotateAngle === 0
+        ? Math.random() * 360
+        : difficulties.rotateAngle;
+    this.setState({ rotateAngle: difficulties.rotateAngle });
+    this.country.current.updateRotateAngle(
+      difficulties.rotateAngle,
+      difficulties.rotate
+    );
+
     let storedGuesses = data[dateStr].guesses;
     let newGuesses = [];
     if (storedGuesses == undefined) {
@@ -124,6 +180,8 @@ export default class App extends Component {
       newGuesses = storedGuesses;
     }
     obj.guesses = newGuesses;
+    obj.difficulties = difficulties;
+
     data[dateStr] = obj;
     localStorage.setItem("data", JSON.stringify(data));
   }
@@ -206,7 +264,10 @@ export default class App extends Component {
   }
 
   handleShare() {
-    let text = `🌐 Borderdle #${data.num} - ${this.state.shownGuesses}/7 🌐
+    this.getLocalStorage();
+    let text = `🌐 Borderdle #${data.num} - ${this.state.shownGuesses}/7 ${
+      this.state.rotate ? "🔁" : ""
+    } 🌐
 ${
   this.state.shownGuesses > 0
     ? this.getSquares(this.state.percent[0]) +
@@ -306,13 +367,16 @@ ${
       !this.country.current.inProgress &&
       this.state.gameStatus == 0;
     const input = this.handleShorthand(this.state.input);
-    if (conditions && !this.inCountryList(input)) {
+    const inCountryList = this.inCountryList(input);
+
+    this.getLocalStorage();
+    if (conditions && !inCountryList) {
       toast("Not in country list", {
         duration: 1000,
         position: "top-center",
         style: {},
       });
-    } else if (conditions && this.inCountryList(input)) {
+    } else if (conditions && inCountryList) {
       const circ = 40075;
       const rawDistance = haversine(
         longlats[this.answer.toLowerCase()],
@@ -413,10 +477,7 @@ ${
 
   render() {
     return (
-      <div
-        className="flex justify-center flex-auto bg-cover bg-[#1d8543] min-h-screen"
-        suppressHydrationWarning
-      >
+      <div className="flex justify-center flex-auto bg-cover bg-[#1d8543] min-h-screen">
         <div className="w-full max-w-lg flex flex-col">
           <header className="border-b-2 px-3 border-gray-200 flex">
             <button
@@ -438,14 +499,21 @@ ${
             </h1>
             <StatsBtn />
             <SettingsBtn
-              onUnitChange={(unit) => {
-                this.setState({ unit: unit });
+              onUnitChange={(type, newVal) => {
+                if (type == 1) {
+                  this.setState({ unit: newVal });
+                  localStorage.setItem("unit", newVal);
+                } else if (type == 2) {
+                  this.setState({ rotate: newVal });
+                  localStorage.setItem("rotate", newVal);
+                }
               }}
+              gameProgress={this.state.shownGuesses}
             />
           </header>
           <Toaster />
           <div className="flex-grow flex flex-col mx-2 bg-[#1d8543]">
-            <Country ref={this.country} />
+            <Country ref={this.country} rotate={this.state.rotate} />
             <div
               ref={this.guesses}
               className="grid grid-cols-8 gap-[0.125rem] text-center"
@@ -486,15 +554,13 @@ ${
                 onEnter={() => this.handleGuess()}
               />
               {(this.state.gameStatus ? false : true) && (
-                <>
-                  <button
-                    onClick={() => this.handleGuess()}
-                    className="w-full text-neutral-200 rounded font-bold p-1 flex items-center justify-center border-2 uppercase my-0.5 bg-[#126130] hover:bg-[#0f5328] active:bg-[#147236] text-xl"
-                  >
-                    <FaGlobe className="flex items-center justify-center pr-2 text-blue-300 h-5 w-auto" />
-                    Enter answer
-                  </button>
-                </>
+                <button
+                  onClick={() => this.handleGuess()}
+                  className="w-full text-neutral-200 rounded font-bold p-1 flex items-center justify-center border-2 uppercase my-0.5 bg-[#126130] hover:bg-[#0f5328] active:bg-[#147236] text-xl"
+                >
+                  <FaGlobe className="flex items-center justify-center pr-2 text-blue-300 h-5 w-auto" />
+                  Enter answer
+                </button>
               )}
             </div>
           </div>
@@ -513,7 +579,7 @@ ${
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <div className="w-max">underscore.wtf</div>
+                underscore.wtf
               </a>
               <span className="mx-2">•</span>
               <a
@@ -522,8 +588,8 @@ ${
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <div className="w-max">lukeskyrock.com</div>
-              </a>{" "}
+                lukeskyrock.com
+              </a>
             </div>
           </footer>
         </div>

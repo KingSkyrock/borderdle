@@ -54,6 +54,8 @@ export default class Country extends React.Component {
     this.svg = React.createRef();
     this.state = {
       paths: "",
+      rotateAngle: 0,
+      rotate: false,
     };
   }
 
@@ -164,6 +166,12 @@ export default class Country extends React.Component {
           this.inProgress = false;
         });
       }
+      if (data[dateStr].difficulties != undefined) {
+        this.setState({
+          rotateAngle: data[dateStr].difficulties.rotateAngle,
+          rotate: data[dateStr].difficulties.rotate,
+        });
+      }
     }
   }
 
@@ -186,9 +194,24 @@ export default class Country extends React.Component {
     }
   }
 
+  updateRotateAngle(rotateAngle, rotate) {
+    this.setState({ rotateAngle: rotateAngle, rotate: rotate });
+  }
+
   render() {
     return (
-      <div className="flex flex-col items-center jsx-parser p-4">
+      <div
+        className="flex flex-col items-center jsx-parser p-4"
+        style={
+          !this.state.rotate
+            ? {
+                transform: "rotate(0deg)",
+              }
+            : {
+                transform: `rotate(${this.state.rotateAngle}deg)`,
+              }
+        }
+      >
         {parse(this.state.paths + "</g></svg>")}
       </div>
     );

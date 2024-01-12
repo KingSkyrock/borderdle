@@ -3,6 +3,7 @@ import ReactModal from "react-modal";
 import { IoMdSettings } from "react-icons/io/index";
 import { ImCross } from "react-icons/im/index";
 import PropTypes from "prop-types";
+import { toast } from "react-hot-toast";
 
 const modalSize = {
   content: {
@@ -31,26 +32,56 @@ export default class SettingsBtn extends React.Component {
     this.state = {
       showModal: false,
       unit: "km",
+      rotate: false,
     };
 
     this.handleOpenModal = this.handleOpenModal.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
   }
 
+  loadSettings() {
+    if (localStorage.getItem("unit")) {
+      this.state.unit = localStorage.getItem("unit");
+    } else {
+      localStorage.setItem("unit", this.state.unit);
+    }
+
+    if (localStorage.getItem("rotate")) {
+      this.state.rotate = localStorage.getItem("rotate") === "true";
+    } else {
+      localStorage.setItem("rotate", this.state.rotate === "true");
+    }
+  }
+
   handleOpenModal() {
     this.setState({ showModal: true });
+    this.loadSettings();
   }
 
   handleCloseModal() {
     this.setState({ showModal: false });
+    this.loadSettings();
   }
 
   handleUnitChange(evt) {
     evt.preventDefault();
     evt.stopPropagation();
     this.setState({ unit: evt.target.value }, () => {
-      this.props.onUnitChange(this.state.unit);
+      this.props.onUnitChange(1, this.state.unit);
     });
+    localStorage.setItem("unit", evt.target.value);
+  }
+
+  handleRotateChange(evt) {
+    if (this.props.gameProgress > 0) {
+      toast.error("You can't change this setting while playing, sorry!");
+      return;
+    }
+    const rotateValue = evt.target.checked;
+    this.setState({ rotate: rotateValue }, () => {
+      this.props.onUnitChange(2, this.state.rotate);
+    });
+    localStorage.setItem("rotate", rotateValue.toString());
   }
 
   render() {
@@ -99,12 +130,30 @@ export default class SettingsBtn extends React.Component {
               </div>
             </div>
             <div className="pt-[7.5%]">
-              <h3 className="text-2xl text-neutral-200 font-medium tracking-wide">
+              <h3 className="text-2xl text-neutral-200 font-medium tracking-wide pb-2">
                 Difficulty Settings{" "}
               </h3>
-              <span className="text-md text-neutral-50 italic">
-                Features coming soon!
-              </span>
+
+              <div className="flex justify-start flex-col items-start">
+                <div className="flex flex-row items-center modaltext text-neutral-100">
+                  <input
+                    type="checkbox"
+                    id="rotate"
+                    className="w-5 h-5"
+                    checked={this.state.rotate}
+                    onChange={(evt) => this.handleRotateChange(evt)}
+                  />
+                  <span className="pl-2 text-[1.05rem] leading-4 sm:text-lg">
+                    Border Rotation
+                  </span>
+                </div>
+                {/* <div className="flex flex-row items-center modaltext text-neutral-100">
+                  <input type="checkbox" id="no-dist" className="w-5 h-5" />
+                  <span className="pl-2 text-[1.05rem] leading-4 sm:text-lg">
+                    Disable Distances
+                  </span>
+                </div> */}
+              </div>
             </div>
           </div>
         </ReactModal>

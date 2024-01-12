@@ -36,7 +36,7 @@
   }
 
   .modalselectdiv {
-    @apply flex-row items-center modaltext flex text-neutral-300;
+    @apply flex-row items-center modaltext flex text-neutral-100;
   }
 
   .modalselecttext {

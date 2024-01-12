@@ -60,7 +60,7 @@ export default class InfoBtn extends React.Component {
           style={modalSize}
         >
           <div>
-            <h1 className="modalmaintext">
+            <header className="modalmaintext">
               <span className="ml-[1.25rem]">How to play</span>{" "}
               <button
                 className="closebutton"
@@ -69,7 +69,7 @@ export default class InfoBtn extends React.Component {
               >
                 <ImCross />
               </button>
-            </h1>
+            </header>
             <h3 className="modaltext pt-2">
               Welcome!{" "}
               <span className="tracking-wide font-bold">
