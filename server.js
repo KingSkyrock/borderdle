@@ -121,7 +121,8 @@ function randomCountry() {
     randomCountry == "Micronesia" ||
     randomCountry == "Tuvalu" ||
     randomCountry == "Palestine" ||
-    randomCountry == "Marshall Islands"
+    randomCountry == "Marshall Islands" ||
+    randomCountry == "Indonesia"
   ) {
     randomCountry =
       countries[Math.floor(Math.random() * (countries.length - 1))].name;
