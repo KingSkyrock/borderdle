@@ -18,7 +18,6 @@ import GuessContainer from "./components/Country/GuessContainer";
 
 import longlats from "../data/longlats.json";
 import countries from "../data/borders.json";
-import data from "../data/data.json";
 import shorthands from "../data/shorthands.json";
 
 export default class App extends Component {
@@ -31,6 +30,7 @@ export default class App extends Component {
     this.guesses = React.createRef();
     this.countries = [];
     this.answer = "";
+    this.num;
 
     this.state = {
       input: "",
@@ -63,6 +63,15 @@ export default class App extends Component {
     }
 
     this.getLocalStorage();
+    axios
+      .post("/getNum")
+      .then((res) => {
+        this.num = res.data.num;
+      })
+      .catch((error) => {
+        alert(error);
+      });
+
     window.addEventListener(
       "focus",
       () => {
@@ -265,7 +274,7 @@ export default class App extends Component {
 
   handleShare() {
     this.getLocalStorage();
-    let text = `🌐 Borderdle #${data.num} - ${this.state.shownGuesses}/7 ${
+    let text = `🌐 Borderdle #${this.num} - ${this.state.shownGuesses}/7 ${
       this.state.rotate ? "🔁" : ""
     } 🌐
 ${

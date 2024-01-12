@@ -65,6 +65,37 @@ app.post("/getAnswer", (req, res) => {
   res.end();
 });
 
+app.post("/getNum", (req, res) => {
+  if (true) {
+    fscb.readFile("./data/data.json", (err, data) => {
+      if (err) {
+        fs.writeFile("./data/data.json", `{"num":1}`);
+        res.send(
+          JSON.stringify({
+            num: 1
+          })
+        );
+        res.end();
+      } else {
+        data = JSON.parse(data);
+        res.send(
+          JSON.stringify({
+            num: data.num
+          })
+        );
+        res.end();
+      }
+    });
+  } else {
+    res.send(
+      JSON.stringify({
+        num: "DEV"
+      })
+    );
+    res.end();
+  }
+})
+
 app.use("*", async (req, res) => {
   try {
     if (isProduction) {
@@ -105,12 +136,15 @@ function newCountry() {
   } else {
     country = randomCountry();
   }
-  if (isProduction) {
+  if (true) {
     fscb.readFile("./data/data.json", (err, data) => {
-      if (err) throw err;
-      data = JSON.parse(data);
+      if (err) {
+        fs.writeFile("./data/data.json", `{"num":1}`);
+      } else {
+        data = JSON.parse(data);
       data.num += 1;
       fs.writeFile("./data/data.json", JSON.stringify(data));
+      }
     });
   }
 }
