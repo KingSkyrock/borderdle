@@ -55,7 +55,6 @@ export default class Country extends React.Component {
     this.state = {
       paths: "",
       rotateAngle: 0,
-      rotate: false,
     };
   }
 
@@ -64,10 +63,12 @@ export default class Country extends React.Component {
       .post("/getAnswer")
       .then((res) => {
         this.getSVG(res.data.country);
+        this.setState({rotateAngle: res.data.rotateAngle})
       })
       .catch((error) => {
         alert(error);
       });
+    
   }
 
   getSVG(country) {
@@ -166,13 +167,22 @@ export default class Country extends React.Component {
           this.inProgress = false;
         });
       }
-      if (data[dateStr].difficulties != undefined) {
-        this.setState({
-          rotateAngle: data[dateStr].difficulties.rotateAngle,
-          rotate: data[dateStr].difficulties.rotate,
-        });
-      }
     }
+  }
+
+  getRotate() {
+    let utc = DateTime.utc();
+    let dateStr = utc.year + "-" + utc.month + "-" + utc.day;
+    let data = JSON.parse(localStorage.getItem("data"));
+    if (
+      data != null &&
+      data != "null" &&
+      data != undefined &&
+      data[dateStr] != undefined
+    ) {
+      return data[dateStr].difficulty.rotate;
+    }
+    return true;
   }
 
   advance(multiplier, callback = (progress) => {}) {
@@ -194,22 +204,16 @@ export default class Country extends React.Component {
     }
   }
 
-  updateRotateAngle(rotateAngle, rotate) {
-    this.setState({ rotateAngle: rotateAngle, rotate: rotate });
-  }
-
   render() {
     return (
       <div
         className="flex flex-col items-center jsx-parser p-4"
         style={
-          !this.state.rotate
-            ? {
-                transform: "rotate(0deg)",
-              }
-            : {
-                transform: `rotate(${this.state.rotateAngle}deg)`,
-              }
+          localStorage.getItem("rotate") && localStorage.getItem("rotate") && this.getRotate() === "true" 
+          ? {
+              transform: `rotate(${this.state.rotateAngle}deg)`,
+            }
+          : {}
         }
       >
         {parse(this.state.paths + "</g></svg>")}

@@ -26,6 +26,8 @@ const modalSize = {
     backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
 };
+ReactModal.setAppElement('#root');
+
 export default class SettingsBtn extends React.Component {
   constructor() {
     super();
@@ -41,15 +43,15 @@ export default class SettingsBtn extends React.Component {
 
   loadSettings() {
     if (localStorage.getItem("unit")) {
-      this.state.unit = localStorage.getItem("unit");
+      this.setState({unit: localStorage.getItem("unit")});
     } else {
       localStorage.setItem("unit", this.state.unit);
     }
 
     if (localStorage.getItem("rotate")) {
-      this.state.rotate = localStorage.getItem("rotate") === "true";
+      this.setState({rotate: localStorage.getItem("rotate") === "true"});
     } else {
-      localStorage.setItem("rotate", this.state.rotate === "true");
+      localStorage.setItem("rotate", this.state.rotate.toString());
     }
   }
 
@@ -67,21 +69,20 @@ export default class SettingsBtn extends React.Component {
     evt.preventDefault();
     evt.stopPropagation();
     this.setState({ unit: evt.target.value }, () => {
-      this.props.onUnitChange(1, this.state.unit);
+      this.props.onUnitChange(evt.target.value);
     });
     localStorage.setItem("unit", evt.target.value);
   }
 
   handleRotateChange(evt) {
-    if (this.props.gameProgress > 0) {
-      toast.error("You can't change this setting while playing, sorry!");
+    if (this.props.gameStatus == 0) {
+      toast.error("You can't change this setting during a game!");
       return;
     }
-    const rotateValue = evt.target.checked;
-    this.setState({ rotate: rotateValue }, () => {
-      this.props.onUnitChange(2, this.state.rotate);
+    toast.success("Changes will take effect on your next game!");
+    this.setState({ rotate: !this.state.rotate }, () => {
+      localStorage.setItem("rotate", this.state.rotate.toString());
     });
-    localStorage.setItem("rotate", rotateValue.toString());
   }
 
   render() {
@@ -164,4 +165,5 @@ export default class SettingsBtn extends React.Component {
 
 SettingsBtn.propTypes = {
   onUnitChange: PropTypes.func.isRequired,
+  gameStatus: PropTypes.number.isRequired
 };

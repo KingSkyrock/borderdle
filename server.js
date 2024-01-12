@@ -16,6 +16,7 @@ const DIST_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), 'dis
 const app = express();
 
 let country = null;
+let rotateAngle = null;
 newCountry();
 
 let vite;
@@ -60,13 +61,14 @@ app.post("/getAnswer", (req, res) => {
   res.send(
     JSON.stringify({
       country: country,
+      rotateAngle: rotateAngle,
     })
   );
   res.end();
 });
 
 app.post("/getNum", (req, res) => {
-  if (true) {
+  if (isProduction) {
     fscb.readFile("./data/data.json", (err, data) => {
       if (err) {
         fs.writeFile("./data/data.json", `{"num":1}`);
@@ -136,6 +138,7 @@ function newCountry() {
   } else {
     country = randomCountry();
   }
+  rotateAngle = Math.max(30, Math.random() * 360)
   if (true) {
     fscb.readFile("./data/data.json", (err, data) => {
       if (err) {
