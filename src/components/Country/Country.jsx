@@ -178,7 +178,8 @@ export default class Country extends React.Component {
       data != null &&
       data != "null" &&
       data != undefined &&
-      data[dateStr] != undefined
+      data[dateStr] != undefined &&
+      data[dateStr].difficulty
     ) {
       return data[dateStr].difficulty.rotate;
     }
