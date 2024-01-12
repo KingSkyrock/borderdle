@@ -78,8 +78,11 @@ export default class SettingsBtn extends React.Component {
     if (this.props.gameStatus == 0) {
       toast.error("You can't change this setting during a game!");
       return;
+    } else if (!this.props.gameStatus) {
+      toast.success("Changes applied!");
+    } else {
+      toast.success("Changes will take effect on your next game!");
     }
-    toast.success("Changes will take effect on your next game!");
     this.setState({ rotate: !this.state.rotate }, () => {
       localStorage.setItem("rotate", this.state.rotate.toString());
     });

@@ -39,7 +39,7 @@ export default class App extends Component {
       percent: [0, 0, 0, 0, 0, 0, 0],
       arrows: ["", "", "", "", "", "", ""],
       bearings: ["", "", "", "", "", "", ""],
-      gameStatus: 0,
+      gameStatus: null,
       shownGuesses: 0,
       unit: "km",
     };
@@ -329,7 +329,7 @@ ${
     const conditions =
       this.country.current.progress < 7 &&
       !this.country.current.inProgress &&
-      this.state.gameStatus == 0;
+      !this.state.gameStatus;
     const input = this.handleShorthand(this.state.input);
     const inCountryList = this.inCountryList(input);
 
@@ -382,6 +382,7 @@ ${
             );
             this.handleLoss();
           } else {
+            this.setState({ gameStatus: this.state.gameStatus ? this.state.gameStatus : 0});
             this.setLocalStorage(
               input.toUpperCase() + " - " + info,
               progress,
