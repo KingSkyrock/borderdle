@@ -21,12 +21,14 @@ const modalSize = {
     maxWidth: "700px",
     minWidth: "350px",
     backgroundColor: "#1d8543",
+    zIndex: "100",
   },
   overlay: {
     backgroundColor: "rgba(0, 0, 0, 0.5)",
+    zIndex: "100",
   },
 };
-ReactModal.setAppElement('#root');
+ReactModal.setAppElement("#root");
 
 export default class SettingsBtn extends React.Component {
   constructor() {
@@ -43,13 +45,13 @@ export default class SettingsBtn extends React.Component {
 
   loadSettings() {
     if (localStorage.getItem("unit")) {
-      this.setState({unit: localStorage.getItem("unit")});
+      this.setState({ unit: localStorage.getItem("unit") });
     } else {
       localStorage.setItem("unit", this.state.unit);
     }
 
     if (localStorage.getItem("rotate")) {
-      this.setState({rotate: localStorage.getItem("rotate") === "true"});
+      this.setState({ rotate: localStorage.getItem("rotate") === "true" });
     } else {
       localStorage.setItem("rotate", this.state.rotate.toString());
     }
@@ -168,5 +170,5 @@ export default class SettingsBtn extends React.Component {
 
 SettingsBtn.propTypes = {
   onUnitChange: PropTypes.func.isRequired,
-  gameStatus: PropTypes.number.isRequired
+  gameStatus: PropTypes.number.isRequired,
 };

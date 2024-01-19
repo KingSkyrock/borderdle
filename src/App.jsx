@@ -446,9 +446,9 @@ ${
 
   render() {
     return (
-      <div className="flex justify-center flex-auto bg-cover bg-[#1d8543] min-h-screen">
+      <div className="flex justify-center flex-auto bg-cover bg-[#1d8543] min-h-screen overflow-hidden">
         <div className="w-full max-w-lg flex flex-col">
-          <header className="border-b-2 px-3 border-gray-200 flex">
+          <header className="border-b-2 px-3 border-gray-200 flex z-10">
             <button
               className="text-3xl text-neutral-200 mr-3"
               aria-label="Github Repository"

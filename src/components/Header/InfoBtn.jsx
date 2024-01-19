@@ -19,9 +19,11 @@ const modalSize = {
     maxWidth: "700px",
     minWidth: "350px",
     backgroundColor: "#1d8543",
+    zIndex: "100",
   },
   overlay: {
     backgroundColor: "rgba(0, 0, 0, 0.5)",
+    zIndex: "100",
   },
 };
 export default class InfoBtn extends React.Component {
