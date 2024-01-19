@@ -66,6 +66,7 @@ export default class CountryInput extends React.Component {
 
   clearInput() {
     this.setState({ input: "", shown: [] });
+    document.getElementById("countryInput").reset();
   }
 
   render() {
@@ -88,6 +89,7 @@ export default class CountryInput extends React.Component {
           maxLength="32"
           minLength="4"
           type="text"
+          id="countryInput"
           className="outline-none border-2 border-neutral-100 focus:border-neutral-300 h-8 bg-[#3fb66b] rounded text-neutral-100 text-lg text-center placeholder:text-center placeholder:text-green-100 placeholder:text-lg w-full"
           placeholder="Enter Country"
         ></input>
