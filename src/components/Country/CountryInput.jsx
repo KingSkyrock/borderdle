@@ -7,6 +7,7 @@ export default class CountryInput extends React.Component {
 
     this.container = React.createRef();
     this.input = React.createRef();
+    this.form = React.createRef();
 
     this.state = {
       input: "",
@@ -66,7 +67,7 @@ export default class CountryInput extends React.Component {
 
   clearInput() {
     this.setState({ input: "", shown: [] });
-    document.getElementById("countryInput").reset();
+    this.form.current.reset();
   }
 
   render() {
@@ -79,20 +80,22 @@ export default class CountryInput extends React.Component {
         ref={this.container}
         onFocus={() => this.setState({ showing: true })}
       >
-        <input
-          ref={this.input}
-          value={this.state.input}
-          onChange={(evt) => {
-            this.setState({ input: evt.target.value });
-            this.handleChange(evt.target.value);
-          }}
-          maxLength="32"
-          minLength="4"
-          type="text"
-          id="countryInput"
-          className="outline-none border-2 border-neutral-100 focus:border-neutral-300 h-8 bg-[#3fb66b] rounded text-neutral-100 text-lg text-center placeholder:text-center placeholder:text-green-100 placeholder:text-lg w-full"
-          placeholder="Enter Country"
-        ></input>
+        <form ref={this.form}>
+          <input
+            ref={this.input}
+            value={this.state.input}
+            onChange={(evt) => {
+              this.setState({ input: evt.target.value });
+              this.handleChange(evt.target.value);
+            }}
+            maxLength="32"
+            minLength="4"
+            type="text"
+            id="countryInput"
+            className="outline-none border-2 border-neutral-100 focus:border-neutral-300 h-8 bg-[#3fb66b] rounded text-neutral-100 text-lg text-center placeholder:text-center placeholder:text-green-100 placeholder:text-lg w-full"
+            placeholder="Enter Country"
+          ></input>
+        </form>
         <div className="absolute left-0 top-full right-0 z-50 flex-col items-center justify-center max-h-48 w-full overflow-y-auto scroll-smooth divide-x-2 rounded ">
           {this.state.input &&
             this.state.showing &&
