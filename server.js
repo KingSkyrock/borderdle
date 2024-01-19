@@ -4,14 +4,17 @@ import compression from "compression";
 import bodyParser from "body-parser";
 import schedule from "node-schedule";
 import fs from "node:fs/promises";
-import fscb from "fs"
+import fscb from "fs";
 import express from "express";
-import { fileURLToPath } from 'url';
+import { fileURLToPath } from "url";
 
 const isProduction = process.env.NODE_ENV === "production";
 const port = process.env.PORT || 5173;
 const base = process.env.BASE || "/";
-const DIST_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), 'dist');
+const DIST_DIR = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  "dist"
+);
 
 const app = express();
 
@@ -74,7 +77,7 @@ app.post("/getNum", (req, res) => {
         fs.writeFile("./data/data.json", `{"num":1}`);
         res.send(
           JSON.stringify({
-            num: 1
+            num: 1,
           })
         );
         res.end();
@@ -82,7 +85,7 @@ app.post("/getNum", (req, res) => {
         data = JSON.parse(data);
         res.send(
           JSON.stringify({
-            num: data.num
+            num: data.num,
           })
         );
         res.end();
@@ -91,21 +94,24 @@ app.post("/getNum", (req, res) => {
   } else {
     res.send(
       JSON.stringify({
-        num: "DEV"
+        num: "DEV",
       })
     );
     res.end();
   }
-})
+});
 
 app.use("*", async (req, res) => {
   try {
     if (isProduction) {
-      const html = await fs.readFile('./dist/index.html', 'utf-8');  
-      res.status(200).set({ 'Content-Type': 'text/html' }).end(html);
+      const html = await fs.readFile("./dist/index.html", "utf-8");
+      res.status(200).set({ "Content-Type": "text/html" }).end(html);
     } else {
-      const html = await vite.transformIndexHtml(req.originalUrl, await fs.readFile('index.html', 'utf-8'));
-      res.status(200).set({ 'Content-Type': 'text/html' }).end(html);
+      const html = await vite.transformIndexHtml(
+        req.originalUrl,
+        await fs.readFile("index.html", "utf-8")
+      );
+      res.status(200).set({ "Content-Type": "text/html" }).end(html);
     }
   } catch (e) {
     vite?.ssrFixStacktrace(e);
@@ -117,12 +123,14 @@ app.use("*", async (req, res) => {
 function randomCountry() {
   let randomCountry =
     countries[Math.floor(Math.random() * (countries.length - 1))].name;
-  while ( //broken countries
+  while (
+    //broken countries
     randomCountry == "Micronesia" ||
     randomCountry == "Tuvalu" ||
     randomCountry == "Palestine" ||
     randomCountry == "Marshall Islands" ||
-    randomCountry == "Indonesia"
+    randomCountry == "Indonesia" ||
+    randomCountry == "Malaysia"
   ) {
     randomCountry =
       countries[Math.floor(Math.random() * (countries.length - 1))].name;
@@ -139,15 +147,15 @@ function newCountry() {
   } else {
     country = randomCountry();
   }
-  rotateAngle = Math.max(30, Math.random() * 360)
+  rotateAngle = Math.max(30, Math.random() * 360);
   if (true) {
     fscb.readFile("./data/data.json", (err, data) => {
       if (err) {
         fs.writeFile("./data/data.json", `{"num":1}`);
       } else {
         data = JSON.parse(data);
-      data.num += 1;
-      fs.writeFile("./data/data.json", JSON.stringify(data));
+        data.num += 1;
+        fs.writeFile("./data/data.json", JSON.stringify(data));
       }
     });
   }
