@@ -91,7 +91,7 @@ export default class StatsBtn extends React.Component {
     return (
       <>
         <button
-          className="text-2xl text-neutral-200 mr-3"
+          className="text-2xl text-neutral-200 ml-3"
           aria-label="Statistics"
           onClick={this.handleOpenModal}
         >
