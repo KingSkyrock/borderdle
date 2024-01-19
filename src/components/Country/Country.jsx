@@ -63,12 +63,11 @@ export default class Country extends React.Component {
       .post("/getAnswer")
       .then((res) => {
         this.getSVG(res.data.country);
-        this.setState({rotateAngle: res.data.rotateAngle})
+        this.setState({ rotateAngle: res.data.rotateAngle });
       })
       .catch((error) => {
         alert(error);
       });
-    
   }
 
   getSVG(country) {
@@ -208,13 +207,13 @@ export default class Country extends React.Component {
   render() {
     return (
       <div
-        className="flex flex-col items-center jsx-parser p-4"
+        className="flex flex-col items-center jsx-parser p-8 m-8"
         style={
-          localStorage.getItem("rotate") && localStorage.getItem("rotate") && this.getRotate() === "true" 
-          ? {
-              transform: `rotate(${this.state.rotateAngle}deg)`,
-            }
-          : {}
+          localStorage.getItem("rotate") && this.getRotate() === "true"
+            ? {
+                transform: `rotate(${this.state.rotateAngle}deg)`,
+              }
+            : {}
         }
       >
         {parse(this.state.paths + "</g></svg>")}

@@ -112,7 +112,7 @@ export default class App extends Component {
       }
     }
     if (localStorage.getItem("unit")) {
-      this.setState({unit: localStorage.getItem("unit")});
+      this.setState({ unit: localStorage.getItem("unit") });
     } else {
       localStorage.setItem("unit", this.state.unit);
     }
@@ -126,8 +126,8 @@ export default class App extends Component {
       gameStatus: gameStatus,
       guesses: null,
       difficulty: {
-        rotate: localStorage.getItem("rotate") || false
-      }
+        rotate: localStorage.getItem("rotate") || false,
+      },
     };
     let data = JSON.parse(localStorage.getItem("data"));
     if (data == null || data == "null") {
@@ -230,7 +230,10 @@ export default class App extends Component {
 
   handleShare() {
     let text = `🌐 Borderdle #${this.num} - ${this.state.shownGuesses}/7 ${
-      (localStorage.getItem("rotate") && localStorage.getItem("rotate") === "true") ? "🔁" : ""
+      localStorage.getItem("rotate") &&
+      localStorage.getItem("rotate") === "true"
+        ? "🔁"
+        : ""
     } 🌐
 ${
   this.state.shownGuesses > 0
@@ -382,7 +385,9 @@ ${
             );
             this.handleLoss();
           } else {
-            this.setState({ gameStatus: this.state.gameStatus ? this.state.gameStatus : 0});
+            this.setState({
+              gameStatus: this.state.gameStatus ? this.state.gameStatus : 0,
+            });
             this.setLocalStorage(
               input.toUpperCase() + " - " + info,
               progress,
