@@ -147,7 +147,7 @@ function newCountry() {
   } else {
     country = randomCountry();
   }
-  rotateAngle = Math.max(30, Math.random() * 360);
+  rotateAngle = Math.max(30, Math.random() * 330);
   if (true) {
     fscb.readFile("./data/data.json", (err, data) => {
       if (err) {
