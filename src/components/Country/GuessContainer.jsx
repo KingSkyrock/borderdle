@@ -30,7 +30,7 @@ export default class GuessContainer extends React.Component {
             >
               <img
                 className="h-4 w-4 flex items-center justify-center m-0"
-                src={`http://twemoji.maxcdn.com/2/svg/${this.props.arrow}.svg`}
+                src={`https://cdnjs.cloudflare.com/ajax/libs/twemoji/12.0.4/2/72x72/${this.props.arrow}.png`}
                 alt={`${this.props.arrow}`}
               />
             </span>
