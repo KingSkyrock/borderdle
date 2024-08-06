@@ -23,6 +23,7 @@ export default class CountryInput extends React.Component {
     this.input.current.addEventListener("keydown", (evt) => {
       if (evt.key == "Enter") {
         this.props.onEnter();
+        evt.preventDefault();
       }
     });
   }
