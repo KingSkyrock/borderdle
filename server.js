@@ -1,5 +1,5 @@
 import path from "path";
-import countries from "./data/borders.json" assert { type: "json" };
+import countries from "./data/borders.json" with { type: "json" };
 import compression from "compression";
 import bodyParser from "body-parser";
 import schedule from "node-schedule";
